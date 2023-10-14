@@ -1,5 +1,81 @@
 # Tower of God - roguelike game
 
+# Ogólny zarys fabularny
+
+Gra jest oczywiście klasycznym roguelikiem. Cel gry polega na wejściu na szczyt tytułowej wieży, co pozwoli spełnić dowolne życzenie postaci gracza. Nie można zrobić jednak tego na samym początku gry, ponieważ aby do niej wejść należy zebrać fragmenty klucza z co najmniej 3 innych wież.
+
+# Start gry
+
+gracz na starcie wybiera jedynie rasę. Rasa określa jego dodatkowe umiejętności (aktywne/pasywne, negatywne/pozytywne) oraz startową walutę (Punkty Wieży). Im rasa ma lepsze bonusy startowe, tym mniej waluty na wyposażenie dostanie na start gry. Ma to w pewien sposób balansować rozgrywkę - niektóre rasy początek gry będą miały ułatwiony poprzez dostęp do dobrego ekwipunku, a niektóre poprzez bonusy za pośrednictwem umiejętności rasowych. 
+
+Gra zaczyna się w holu, w którym od sklepikarzy można kupić wyposażenie, które wraz z przechodzeniem kolejnych lokacji będzie się aktualizować. Początkowo można wejść tylko do jednej lokacji, reszta pozostaje niedostępna.
+
+# Rasy
+
+# Poruszanie się, czas
+
+Poruszanie w 8 kierunkach. Co do poruszania się diagonalnie - wydaje mi się że najlepszym rozwiązaniem jest liczenie czasu potrzebnego na przejście pola jako 1,41 zamiast 1. 
+
+Wszystkie akcje zajmują ileś czasu - szybsze bronie atakują w mniej jednostek czasu niż wolniejsze. Być może zdecyduję się również na to, że obciążenie wyposażenia będzie wpływać w jakimś stopniu na to, jak szybko wykonywane są akcje gracza (ktoś w zbroi płytowej będzie chodzić wolniej niż ktoś w skórzanym wyposażeniu). 
+
+Potwory spotykane przez gracza nie zawsze poruszają się z taką samą prędkością jak gracz. Mogą być lekko szybsze lub wolniejsze (co x ruchów przechodziłyby np. 2 pola zamiast 1)
+
+# Walka
+
+Atakowanie przeciwników poprzez "wchodzenie" w nich. Na początku skupię się głównie na walce wręcz, jeśli starczy czasu chciałbym również dodać walkę dystansową i magię.
+##### Rodzaje broni
+- miecze jednoręczne, umiarkowana szybkość i obrażenia, możliwość dual wieldingu/noszenia tarczy.
+- sztylety, wysoka szybkość, niskie obrażenia
+- kosy, niska szybkość, wysokie obrażenia, ataki trafiają więcej niż 1 przeciwnika na raz (atak wokół postaci bohatera)
+- ataki bez użycia broni, umiarkowana szybkość i bez dodatkowych bonusów praktycznie zerowe obrażenia
+-
+# Statystyki, rozwój postaci
+
+# Lokacje
+W grze bohater cały czas pnie się w górę wieży. Nie można cofać się na poprzednie piętro. Na każdym poziomie wieży trzeba zrobić konkretną rzecz aby przejść dalej. Jest to losowane przy wchodzeniu na konkretne piętro i gracz jest o tym informowany, jeśli jest to coś innego niż znalezienie przejścia na następne piętro.
+##### Opcje, które przewiduję na ten moment (wrażliwe na późniejsze zmiany)
+- pokonanie wszystkich przeciwników na mapie (przy pokonaniu przeciwnika jest informacja ilu przeciwników pozostało, w tym przypadku nowe potwory nie będą się pojawiać po wstępnym załadowaniu)
+- pokonanie silnego przeciwnika (będzie odróżnialny od normalnych przeciwników, być może będzie widoczny dla gracza poza field of view)
+- znalezienie przejścia na następne piętro
+
+Trzecia opcja będzie tą, która jest najczęstsza. Pozostałe będą miały mniejszą szansę na pojawienie się. Po opcji nr 1 i 2 przejście pojawia się w pobliżu gracza.
+
+Na ostatnim piętrze każdej wieży na gracza czeka boss encounter, po którym gracz otrzymuje fragment klucza i może wrócić do startowego holu, aby wyruszyć do kolejnych lokacji.
+
+# Inspiracja
+Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Getting started
