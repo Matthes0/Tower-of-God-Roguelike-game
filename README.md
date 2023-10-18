@@ -6,33 +6,66 @@ Gra jest oczywiście klasycznym roguelikiem. Cel gry polega na wejściu na szczy
 
 # Start gry
 
-gracz na starcie wybiera jedynie rasę. Rasa określa jego dodatkowe umiejętności (aktywne/pasywne, negatywne/pozytywne) oraz startową walutę (Punkty Wieży). Im rasa ma lepsze bonusy startowe, tym mniej waluty na wyposażenie dostanie na start gry. Ma to w pewien sposób balansować rozgrywkę - niektóre rasy początek gry będą miały ułatwiony poprzez dostęp do dobrego ekwipunku, a niektóre poprzez bonusy za pośrednictwem umiejętności rasowych. 
+gracz na starcie wybiera jedynie rasę. 
 
-Gra zaczyna się w holu, w którym od sklepikarzy można kupić wyposażenie, które wraz z przechodzeniem kolejnych lokacji będzie się aktualizować. Początkowo można wejść tylko do jednej lokacji, reszta pozostaje niedostępna.
+Gra zaczyna się bez jakiegokolwiek ekwipunku w holu, w którym od sklepikarzy można kupić wyposażenie. Asortyment sklepów aktualizuje się wraz z przechodzeniem kolejnych lokacji. Początkowo można wejść tylko do jednej lokacji, reszta pozostaje niedostępna.
 
 # Rasy
+Rasa określa dodatkowe umiejętności gracza (aktywne/pasywne, negatywne/pozytywne) oraz startową walutę (Punkty Wieży). Im rasa ma lepsze bonusy startowe, tym mniej waluty na wyposażenie dostanie na start gry. Ma to w pewien sposób balansować rozgrywkę - niektóre rasy początek gry będą miały ułatwiony poprzez dostęp do dobrego ekwipunku, a niektóre poprzez bonusy za pośrednictwem umiejętności rasowych. 
+Na początku chciałbym skupić się na 3 rasach, wraz z rozwojem gry i nowymi pomysłami prawdopodobnie pojawi się ich więcej:
+- człowiek - sporo złota, przeciętne statystyki, bonus rasowy to lekko zwiększone zdobywanie doświadczenia
+- olbrzym - mało złota, zaczyna z o wiele lepszymi statystykami od człowieka, nie może nosić broni jednoręcznych, bronie dwuręczne klasyfikowane są jako bronie jednoręczne, ograniczony dostęp do zakładania ekwipunku - większość rzeczy przystosowana jest pod normalny rozmiar, więc konieczne jest szukanie olbrzymich wersji wyposażenia.
+- pradawny - mało złota, co 3 poziomy dostaje wybór 1 losowego zaklęcia z 3 podanych, które są mocniejszymi wersjami tych zaklęć, ale nie może uczyć się zaklęć normalnie. Wybiera też 2 zaklęcia na samym początku gry.
 
 # Poruszanie się, czas
 
-Poruszanie w 8 kierunkach. Co do poruszania się diagonalnie - wydaje mi się że najlepszym rozwiązaniem jest liczenie czasu potrzebnego na przejście pola jako 1,41 zamiast 1. 
+Poruszanie w 8 kierunkach na touchpadzie. Co do poruszania się diagonalnie - wydaje mi się że najlepszym rozwiązaniem jest liczenie czasu potrzebnego na przejście pola jako 1,41 zamiast 1. 
 
-Wszystkie akcje zajmują ileś czasu - szybsze bronie atakują w mniej jednostek czasu niż wolniejsze. Być może zdecyduję się również na to, że obciążenie wyposażenia będzie wpływać w jakimś stopniu na to, jak szybko wykonywane są akcje gracza (ktoś w zbroi płytowej będzie chodzić wolniej niż ktoś w skórzanym wyposażeniu). 
+Wszystkie akcje zajmują jakiś okres czasu - szybsze bronie atakują w mniej jednostek czasu niż wolniejsze. Obciążenie wyposażenia będzie wpływać w jakimś stopniu na to, jak szybko wykonywane są akcje gracza (ktoś w zbroi płytowej będzie chodzić wolniej niż ktoś w skórzanym wyposażeniu). 
 
 Potwory spotykane przez gracza nie zawsze poruszają się z taką samą prędkością jak gracz. Mogą być lekko szybsze lub wolniejsze (co x ruchów przechodziłyby np. 2 pola zamiast 1)
 
 # Walka
 
-Atakowanie przeciwników poprzez "wchodzenie" w nich. Na początku skupię się głównie na walce wręcz, jeśli starczy czasu chciałbym również dodać walkę dystansową i magię.
-##### Rodzaje broni
+Podział na walkę wręcz, walkę dystansową i magię.
+
+##### Walka wręcz
+
+Atakowanie przeciwników poprzez "wchodzenie" w przeciwnika. Spora różnorodność typów broni, w planach każda broń (poza atakami bez broni) będzie miała 3 "tiery" wymagające lepszych statystyk do ich efektywnego noszenia. Przykładowe typy broni planowane na ten moment:
+
 - miecze jednoręczne, umiarkowana szybkość i obrażenia, możliwość dual wieldingu/noszenia tarczy.
-- sztylety, wysoka szybkość, niskie obrażenia
-- kosy, niska szybkość, wysokie obrażenia, ataki trafiają więcej niż 1 przeciwnika na raz (atak wokół postaci bohatera)
-- ataki bez użycia broni, umiarkowana szybkość i bez dodatkowych bonusów praktycznie zerowe obrażenia
--
+- sztylety, wysoka szybkość, niskie obrażenia, bonus do ciosów krytycznych
+- kosy, niska szybkość, wysokie obrażenia, ataki trafiają więcej niż 1 przeciwnika na raz (atak przeciwników wokół postaci bohatera)
+- ataki bez użycia broni, umiarkowana szybkość i bez dodatkowych bonusów niskie obrażenia
+- młoty dwuręczne, niska szybkość, wysokie obrażenia, możliwe do pewnego stopnia niszczenie terenu - nie umożliwiające wyjście poza mapę, ale pozwalające dostosowywać teren do walki z przeciwnikami
+- miecze dwuręczne, niska szybkość, wysokie obrażenia, okazjonalnie przeciwnik zostaje zjawiskowo pokonany (z dodatkowym opisem jako komunikat), co powoduje że inni przeciwnicy w okolicy zostają w jakiś sposób osłabieni (zmniejszenie ataku lub obrony, uciekanie z walki przez kilka tur)
+
+##### Walka dystansowa
+
+Atakowanie poprzez celowanie na pole. Zasięg zależny od broni. 
+
+- krótki łuk, większa szybkość ataku kosztem mniejszego zasięgu
+- długi łuk, większy zasięg kosztem mniejszej szybkości ataku, większe obrażenia od krótkiego łuku
+- bomby, przy ataku robią obszarowy atak o kształcie +/ 3x3 / 5x5 zależnie od tieru bomby. 
+- bronie rzucane, najmniejszy zasięg ze wszystkich i duże obrażenia
+
+##### Magia
+
+Postać może nauczyć się zaklęć z 
+
+
 # Statystyki, rozwój postaci
+zdrowie - punkty życia
+zasób magiczny - rzucanie zaklęć, zależna od inteligencji
+siła - obrażenia wręcz i z niektórych broni dystansowych (np bronie rzucane), zdrowie
+zręczność - szansa na unik, obrażenia dystansowe i z szybszych broni wręcz (np sztylety)
+inteligencja - 
+szczęście
+
 
 # Lokacje
-W grze bohater cały czas pnie się w górę wieży. Nie można cofać się na poprzednie piętro. Na każdym poziomie wieży trzeba zrobić konkretną rzecz aby przejść dalej. Jest to losowane przy wchodzeniu na konkretne piętro i gracz jest o tym informowany, jeśli jest to coś innego niż znalezienie przejścia na następne piętro.
+Zdecydowana większość gry dzieje się w wieżach. Każda wieża będzie różniła się designem, przeciwnikami i poziomami trudności. Na początku dostępny jest tylko pierwsza wieża. Kolejne odblokowują się po przejściu pierwszej wieży. Aby wejść do ostatniej wieży trzeba zebrać co najmniej 3 fragmenty, ale jest więcej wież możliwych do przejścia, które mają stanowić większe wyzwanie dla postaci niż samo przejście gry. Wstępnie planuję 1 wieżę startową, 3 stosunkowo proste wieże, 2 trudniejsze wieże i finałową wieżę, ale jeśli postęp gry będzie iść sprawnie może dodam więcej wież lub "alternatywne wieże" - przy generowaniu świata po raz pierwszy niektóre wieże mogą mieć kilka wariantów charakteryzujących się drobnymi zmianami.
+W grze bohater pnie się w górę wieży. Nie można cofać się na poprzednie piętro. Na każdym poziomie wieży trzeba zrobić konkretną rzecz, aby przejść dalej. Jest to losowane przy wchodzeniu na konkretne piętro i gracz jest o tym informowany, jeśli jest to coś innego niż po prostu znalezienie przejścia na następne piętro.
 ##### Opcje, które przewiduję na ten moment (wrażliwe na późniejsze zmiany)
 - pokonanie wszystkich przeciwników na mapie (przy pokonaniu przeciwnika jest informacja ilu przeciwników pozostało, w tym przypadku nowe potwory nie będą się pojawiać po wstępnym załadowaniu)
 - pokonanie silnego przeciwnika (będzie odróżnialny od normalnych przeciwników, być może będzie widoczny dla gracza poza field of view)
@@ -42,127 +75,7 @@ Trzecia opcja będzie tą, która jest najczęstsza. Pozostałe będą miały mn
 
 Na ostatnim piętrze każdej wieży na gracza czeka boss encounter, po którym gracz otrzymuje fragment klucza i może wrócić do startowego holu, aby wyruszyć do kolejnych lokacji.
 
+
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://umcs.schneiderp.ovh/mateusz.targonski/tower-of-god-roguelike-game.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://umcs.schneiderp.ovh/mateusz.targonski/tower-of-god-roguelike-game/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
