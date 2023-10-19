@@ -25,6 +25,8 @@ Wszystkie akcje zajmują jakiś okres czasu - szybsze bronie atakują w mniej je
 
 Potwory spotykane przez gracza nie zawsze poruszają się z taką samą prędkością jak gracz. Mogą być lekko szybsze lub wolniejsze (co x ruchów przechodziłyby np. 2 pola zamiast 1)
 
+chciałbym zaimplementować również algorytm autoodkrywania mapy i algorytm atakowania celu najbliżej postaci.
+
 # Walka
 
 Podział na walkę wręcz, walkę dystansową i magię.
