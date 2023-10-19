@@ -51,7 +51,16 @@ Atakowanie poprzez celowanie na pole. Zasięg zależny od broni.
 
 ##### Magia
 
-Postać może nauczyć się zaklęć z 
+Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i uczy postać zaklęcia do momentu jego oduczenia. Jest limit zaklęć posiadanych w danym momencie zależny od inteligencji. Wiele szkół magii:
+- święta Magia
+- nekromancja
+- ogień
+- woda
+- ziemia
+- trucizna
+- magia bitewna 
+- transformacja 
+
 
 
 # Statystyki, rozwój postaci
@@ -59,9 +68,9 @@ zdrowie - punkty życia
 zasób magiczny - rzucanie zaklęć, zależna od inteligencji
 siła - obrażenia wręcz i z niektórych broni dystansowych (np bronie rzucane), zdrowie
 zręczność - szansa na unik, obrażenia dystansowe i z szybszych broni wręcz (np sztylety)
-inteligencja - 
-szczęście
-
+inteligencja - ilość zaklęć, zasobu magicznego, siła zaklęć, dodatkowe obrażenia dla niektórych broni
+szczęście - szansa na drop przedmiotów z potworów, szansa na wygenerowanie lepszych przedmiotów, szansa na trafienie krytyczne, dodatkowe obrażenia dla niektórych broni
+Co level up zdrowie wzrasta i dodatkowo 3 punkty statystyk do rozdysponowania. 
 
 # Lokacje
 Zdecydowana większość gry dzieje się w wieżach. Każda wieża będzie różniła się designem, przeciwnikami i poziomami trudności. Na początku dostępny jest tylko pierwsza wieża. Kolejne odblokowują się po przejściu pierwszej wieży. Aby wejść do ostatniej wieży trzeba zebrać co najmniej 3 fragmenty, ale jest więcej wież możliwych do przejścia, które mają stanowić większe wyzwanie dla postaci niż samo przejście gry. Wstępnie planuję 1 wieżę startową, 3 stosunkowo proste wieże, 2 trudniejsze wieże i finałową wieżę, ale jeśli postęp gry będzie iść sprawnie może dodam więcej wież lub "alternatywne wieże" - przy generowaniu świata po raz pierwszy niektóre wieże mogą mieć kilka wariantów charakteryzujących się drobnymi zmianami.
@@ -75,6 +84,10 @@ Trzecia opcja będzie tą, która jest najczęstsza. Pozostałe będą miały mn
 
 Na ostatnim piętrze każdej wieży na gracza czeka boss encounter, po którym gracz otrzymuje fragment klucza i może wrócić do startowego holu, aby wyruszyć do kolejnych lokacji.
 
+#ekwipunek
+body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, rękawice, main hand, offhand(jeśli mainhand jest jednoręczny)
+
+każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia.
 
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
