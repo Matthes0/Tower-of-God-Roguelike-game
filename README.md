@@ -84,12 +84,12 @@ Trzecia opcja będzie tą, która jest najczęstsza. Pozostałe będą miały mn
 
 Na ostatnim piętrze każdej wieży na gracza czeka boss encounter, po którym gracz otrzymuje fragment klucza i może wrócić do startowego holu, aby wyruszyć do kolejnych lokacji.
 
-#ekwipunek
+# ekwipunek
 body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, rękawice, main hand, offhand(jeśli mainhand jest jednoręczny)
 
 każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia, np zbroja płytowa będzie wymagała jakąś ilość siły, aby móc ją nosić bez negatywnych efektów.
 
-#przeciwnicy
+# przeciwnicy
 
 Każdy przeciwnik ma te same statystyki co gracz. Jeśli jest humanoidem, to może również nosić te same przedmioty co gracz. 
 
