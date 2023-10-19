@@ -39,7 +39,7 @@ Atakowanie przeciwników poprzez "wchodzenie" w przeciwnika. Spora różnorodno�
 - ataki bez użycia broni, umiarkowana szybkość i bez dodatkowych bonusów niskie obrażenia
 - młoty dwuręczne, niska szybkość, wysokie obrażenia, możliwe do pewnego stopnia niszczenie terenu - nie umożliwiające wyjście poza mapę, ale pozwalające dostosowywać teren do walki z przeciwnikami
 - miecze dwuręczne, niska szybkość, wysokie obrażenia, okazjonalnie przeciwnik zostaje zjawiskowo pokonany (z dodatkowym opisem jako komunikat), co powoduje że inni przeciwnicy w okolicy zostają w jakiś sposób osłabieni (zmniejszenie ataku lub obrony, uciekanie z walki przez kilka tur)
-
+- różdżki/kostury (jedno lub dwuręczne), przystosowane pod rzucanie zaklęć 
 ##### Walka dystansowa
 
 Atakowanie poprzez celowanie na pole. Zasięg zależny od broni. 
@@ -51,17 +51,17 @@ Atakowanie poprzez celowanie na pole. Zasięg zależny od broni.
 
 ##### Magia
 
-Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i uczy postać zaklęcia do momentu jego oduczenia. Jest limit zaklęć posiadanych w danym momencie zależny od inteligencji. Wiele szkół magii:
-- święta Magia
-- nekromancja
-- ogień
-- woda
-- ziemia
-- trucizna
-- magia bitewna 
-- transformacja 
+Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i uczy postać zaklęcia do momentu jego oduczenia. Jest limit zaklęć posiadanych w danym momencie zależny od inteligencji. Obrażenia i efekty magii skalują się od inteligencji. Wiele szkół magii:
+- święta Magia (głównie buffy i leczenie)
+- nekromancja (przyzywanie jednostek, debuffy)
+- ogień (głównie obrażenia)
+- woda (ataki i buffy ochronne)
+- ziemia (buffy ochronne, modyfikowanie otoczenia)
+- trucizna (debuffy i obrażenia w czasie)
+- magia bitewna (close-ranged ataki i buffy do walki wręcz)
+- transformacja (buffy skupiające się głównie na walce bez użycia broni)
 
-
+kilka "tierów" zaklęć. Im wyższy tier, tym zaklęcia są silniejsze, ale i rzadziej dostępne.
 
 # Statystyki, rozwój postaci
 zdrowie - punkty życia
@@ -87,7 +87,11 @@ Na ostatnim piętrze każdej wieży na gracza czeka boss encounter, po którym g
 #ekwipunek
 body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, rękawice, main hand, offhand(jeśli mainhand jest jednoręczny)
 
-każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia.
+każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia, np zbroja płytowa będzie wymagała jakąś ilość siły, aby móc ją nosić bez negatywnych efektów.
+
+#przeciwnicy
+
+Każdy przeciwnik ma te same statystyki co gracz. Jeśli jest humanoidem, to może również nosić te same przedmioty co gracz. 
 
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
