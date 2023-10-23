@@ -91,9 +91,13 @@ body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, rękawice, main
 
 każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia, np zbroja płytowa będzie wymagała jakąś ilość siły, aby móc ją nosić bez negatywnych efektów.
 
+# przedmioty użytkowe (jednorazowe)
+- kamienie runiczne - nauka zaklęć, wymagają identyfikacji aby móc się ich nauczyć. Kolejna znaleziona instancja tego zaklęcia jest już zidentyfikowana. Mogą zostać użyte jako jednorazowe zaklęcie o mocniejszym efekcie niż nauczone permanentnie.
+- mikstury - efekty pozytywne lub negatywne, można ich użyć bez identyfikacji, po napiciu się mikstury jest ona zidentyfikowana do końca aktualnego podejścia. Przykładowe efekty to uleczenie, trucizna (na pijącym), buff do obrażeń na kilkanaście tur. Można nimi rzucić w przeciwnika. Ich efekt działania nie skaluje się od statystyk, zawsze działają podobnie.
+- zwoje - działają podobnie do mikstur. Efekty to np. identyfikacja przedmiotu, ulepszenie przedmiotu, teleportacja. Nie można nimi rzucić tak jak miksturami. Ich efekt działania skaluje się zależnie od inteligencji.
 # przeciwnicy
 
-Każdy przeciwnik ma te same statystyki co gracz. Jeśli jest humanoidem, to może również nosić te same przedmioty co gracz. 
+Każdy przeciwnik ma te same statystyki co gracz. Jeśli jest humanoidem, to może również używać tych samych przedmiotów co gracz. 
 
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
