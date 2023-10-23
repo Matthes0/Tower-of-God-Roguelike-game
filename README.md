@@ -19,17 +19,17 @@ Na początku chciałbym skupić się na 3 rasach, wraz z rozwojem gry i nowymi p
 
 # Poruszanie się, czas
 
-Poruszanie w 8 kierunkach na touchpadzie. Co do poruszania się diagonalnie - wydaje mi się że najlepszym rozwiązaniem jest liczenie czasu potrzebnego na przejście pola jako 1,41 zamiast 1. 
+Poruszanie w 8 kierunkach na touchpadzie. Co do poruszania się diagonalnie - liczone jest jako jeden ruch.
 
 Wszystkie akcje zajmują jakiś okres czasu - szybsze bronie atakują w mniej jednostek czasu niż wolniejsze. Obciążenie wyposażenia będzie wpływać w jakimś stopniu na to, jak szybko wykonywane są akcje gracza (ktoś w zbroi płytowej będzie chodzić wolniej niż ktoś w skórzanym wyposażeniu). 
 
 Potwory spotykane przez gracza nie zawsze poruszają się z taką samą prędkością jak gracz. Mogą być lekko szybsze lub wolniejsze (co x ruchów przechodziłyby np. 2 pola zamiast 1)
 
-chciałbym zaimplementować również algorytm autoodkrywania mapy i algorytm atakowania celu najbliżej postaci.
+Chciałbym zaimplementować również algorytm autoeksplorowania mapy i atakowanie najbliższego przeciwnika.
 
 # Walka
 
-Podział na walkę wręcz, walkę dystansową i magię.
+Podział na walkę wręcz, walkę dystansową i magię. Większość ataków musi najpierw trafić przeciwnika, dopiero wtedy obliczane są obrażenia.
 
 ##### Walka wręcz
 
@@ -97,8 +97,7 @@ każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia, n
 - zwoje - działają podobnie do mikstur. Efekty to np. identyfikacja przedmiotu, ulepszenie przedmiotu, teleportacja. Nie można nimi rzucić tak jak miksturami. Ich efekt działania skaluje się zależnie od inteligencji.
 # przeciwnicy
 
-Każdy przeciwnik ma te same statystyki co gracz. Jeśli jest humanoidem, to może również używać tych samych przedmiotów co gracz. 
-
+Każdy przeciwnik ma te same statystyki co gracz. Jeśli jest humanoidem, to może również używać tych samych przedmiotów co gracz.  
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
 
