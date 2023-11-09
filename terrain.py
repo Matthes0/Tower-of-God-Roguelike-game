@@ -23,20 +23,20 @@ class Terrain:
 class DestructibleWall(Terrain):
 
     def __init__(self, x, y):
-        Terrain.__init__(self, x, y, "Destructible Wall", "#", False)
+        super().__init__(x, y, "Destructible Wall", "#", False)
 
 
 class IndestructibleWall(Terrain):
     def __init__(self, x, y):
-        Terrain.__init__(self, x, y, "Indestructible Wall", "#", False)
+        super().__init__(x, y, "Indestructible Wall", "#", False)
 
 
 class Floor(Terrain):
     def __init__(self, x, y):
-        Terrain.__init__(self, x, y, "Floor", ".", True)
+        super().__init__(x, y, "Floor", ".", True)
 
 
 class Door(Terrain):
     def __init__(self, x, y, open):
-        Terrain.__init__(self, x, y, "Floor", ".", True)
+        super().__init__(x, y, "Floor", ".", True)
         self.open = False
