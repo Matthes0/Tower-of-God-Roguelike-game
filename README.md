@@ -65,14 +65,16 @@ Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i 
 kilka "tierów" zaklęć. Im wyższy tier, tym zaklęcia są silniejsze, ale i rzadziej dostępne.
 
 # Statystyki, rozwój postaci
-zdrowie - punkty życia
-zasób magiczny - rzucanie zaklęć, zależna od inteligencji
+- zdrowie - punkty życia
+- zasób magiczny - rzucanie zaklęć, zależna od inteligencji
+
 rozwijane statystyki przy lvl-upie:
-siła - obrażenia wręcz i z niektórych broni dystansowych (np bronie rzucane), zdrowie
-zręczność - szansa na unik, obrażenia dystansowe i z szybszych broni wręcz (np sztylety), prędkość ruchu
-inteligencja - ilość zaklęć i zasobu magicznego, siła zaklęć, dodatkowe obrażenia dla niektórych broni, lepsze efekty zwojów
-szczęście - więcej złota i większa szansa na otrzymanie lepszych przedmiotów z potwórow i podczas generowania mapy (efekt dopiero na kolejnym piętrze jeśli chodzi o generowanie mapy), szansa na trafienie krytyczne, dodatkowe obrażenia dla niektórych broni
-klątwa - dosyć unikatowy atrybut, bo w pewnym sensie osłabia bohatera. Zmniejsza maksymalne zdrowie bohatera i może powodować inne negatywne efekty, ale za to zwiększa potencjał ofensywny bohatera (w pewnym sensie statystyka ta jest pod tzw. glass cannon buildy). Statystyka klątwy na wysokim poziomie pozwalałaby przede wszystkim spotkać ukrytego ostatniego bossa gry.
+- siła - obrażenia wręcz i z niektórych broni dystansowych (np bronie rzucane), zdrowie
+- zręczność - szansa na unik, obrażenia dystansowe i z szybszych broni wręcz (np sztylety), prędkość ruchu
+- inteligencja - ilość zaklęć i zasobu magicznego, siła zaklęć, dodatkowe obrażenia dla niektórych broni, lepsze efekty zwojów
+- szczęście - więcej złota i większa szansa na otrzymanie lepszych przedmiotów z potwórow i podczas generowania mapy (efekt dopiero na kolejnym piętrze jeśli chodzi o generowanie mapy), szansa na trafienie krytyczne, dodatkowe obrażenia dla niektórych broni
+- klątwa - dosyć unikatowy atrybut, bo w pewnym sensie osłabia bohatera. Zmniejsza maksymalne zdrowie bohatera i może powodować inne negatywne efekty, ale za to zwiększa potencjał ofensywny bohatera (w pewnym sensie statystyka ta jest pod tzw. glass cannon buildy). Statystyka klątwy na wysokim poziomie pozwalałaby przede wszystkim spotkać ukrytego ostatniego bossa gry.
+
 Co level up wzrasta zdrowie i otrzymuje się 3 punkty statystyk do rozdysponowania pomiędzy 5 dostępnych statystyk.
 
 # Lokacje
