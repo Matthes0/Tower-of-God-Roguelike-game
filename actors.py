@@ -3,15 +3,16 @@ import screen
 
 class Actors:
 
-    def __init__(self, y, x, char):
+    def __init__(self, y, x, char, name):
         self.y = y
         self.x = x
         self.char = char
+        self.name = name
 
 
 class Playable(Actors):
-    def __init__(self, y, x, char, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
-        super().__init__(y, x, char)
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
+        super().__init__(y, x, char, name)
         self.max_hp = max_hp
         self.current_hp = max_hp
         self.max_mp = max_mp
@@ -25,23 +26,37 @@ class Playable(Actors):
 
 class Player(Playable):
 
-    def __init__(self, y, x, char, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
-        super().__init__(y, x, char, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
+        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
 
-    def move(self, win, y, x):
+    def move(self, y, x):
         import main
         if y == 0 and x == 0:
-            screen.update_chat(win, "You waited.")
-        elif main.terrain_map[self.y + y][self.x + x].passable:
+            screen.update_chat("You waited.")
+        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
             main.terrain_map[self.y][self.x].actor = None
             self.y += y
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
-            screen.update_terrain(win, main.terrain_map, main.map_height, main.map_width)
-            screen.update_chat(win, "You walked.")
-        else:
-            screen.update_chat(win, f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].name}.")
+            screen.update_terrain()
+            screen.update_chat("You walked.")
+        elif main.terrain_map[self.y + y][self.x + x].passable is False:
+            screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].name}.")
+        elif main.terrain_map[self.y + y][self.x + x].actor is not None:
+            screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].actor.name}.")
 
 
-class Hostile(Playable):
-    pass
+
+class Hostile(Actors):
+    def __init__(self, y, x, char, name):
+        super().__init__(y, x, char, name)
+
+
+class Human(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'H', 'Human')
+
+
+class Dog(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'd', 'dog')

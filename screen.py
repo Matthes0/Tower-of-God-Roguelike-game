@@ -1,20 +1,20 @@
-def update_chat(win, message):
+def update_chat(message):
     import main
-
     if len(main.message_log) == 10:
         main.message_log.pop()
     main.message_log.insert(0, message)
-    win.erase()
+    main.win.erase()
     for i in range(len(main.message_log)):
-        win.addstr(i, 31, main.message_log[i])
-    update_terrain(win, main.terrain_map, main.map_height, main.map_width)
+        main.win.addstr(i, 31, main.message_log[i])
+    update_terrain()
 
 
-def update_terrain(win, terrain_map, map_height, map_width):
-    for i in range(map_height):
-        for j in range(map_width):
-            if terrain_map[i][j].actor is not None:
-                win.addch(i, j, terrain_map[i][j].actor.char)
+def update_terrain():
+    import main
+    for i in range(main.map_height):
+        for j in range(main.map_width):
+            if main.terrain_map[i][j].actor is not None:
+                main.win.addch(i, j, main.terrain_map[i][j].actor.char)
             else:
-                win.addch(i, j, terrain_map[i][j].char)
-    win.refresh()
+                main.win.addch(i, j, main.terrain_map[i][j].char)
+    main.win.refresh()
