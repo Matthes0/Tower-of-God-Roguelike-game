@@ -4,49 +4,38 @@ def update_chat(message):
         pass
     else:
         if len(main.message_log) == 10:
-            main.message_log.pop()
-            main.tmp_message_log.pop()
-        main.message_log.insert(0, message)
-        main.tmp_message_log_end_index += 1
-        main.tmp_message_log.insert(0, message)
-        main.all_message_log.insert(0, message)
+            main.message_log.pop(0)
+        #main.message_log.insert(0, message)
+        main.message_log.append(message)
+        main.all_message_log.append(message)
     main.win.erase()
     for i in range(len(main.message_log)):
-        main.win.addstr(9-i, main.map_width + 1, main.message_log[i])
+        main.win.addstr(i, main.map_width + 1, main.message_log[i])
     update_terrain()
 
 
-def show_all_message_log(action):
+def show_all_message_log():
     import main
-    main.win.erase()
 
-    if action == 0:
-        for i in range(len(main.tmp_message_log)):
-            main.win.addstr(9-i, 0, main.tmp_message_log[i])
-    elif action == 1:
-        if len(main.all_message_log) <= 10:
-            for i in range(len(main.tmp_message_log)):
-                main.win.addstr(9-i, 0, main.tmp_message_log[i])
-        else:
-            if len(main.all_message_log) > main.tmp_message_log_end_index - 9:
-                main.tmp_message_log.pop(0)
-                main.tmp_message_log.append(main.all_message_log[main.tmp_message_log_end_index - 9])
-                main.tmp_message_log_end_index -= 1
-                for i in range(len(main.tmp_message_log)):
-                    main.win.addstr(9-i, 0, main.tmp_message_log[i])
-    elif action == 2:
-        if len(main.all_message_log) <= 10:
-            pass
-        else:
-            if main.tmp_message_log_end_index < len(main.all_message_log):
-                main.tmp_message_log.pop(0)
-                main.tmp_message_log.insert(9, main.all_message_log.index(main.tmp_message_log_end_index + 1))
-                for i in range(len(main.tmp_message_log)):
-                    main.win.addstr(9-i, 0, main.tmp_message_log[i])
-    main.win.refresh()
-    for i in range(len(main.tmp_message_log)):
-        main.tmp_message_log[i] = main.message_log[i]
-
+    start_idx = max(0, len(main.all_message_log) - 10)
+    end_idx = len(main.all_message_log)
+    while True:
+        main.win.erase()
+        for i in range(start_idx, end_idx):
+            main.win.addstr(i - start_idx, 0, main.all_message_log[i])
+        main.win.refresh()
+        key = main.win.getkey().lower()
+        if key == "x":
+            if end_idx < len(main.all_message_log):
+                start_idx = min(len(main.all_message_log) - 10, start_idx + 1)
+                end_idx = min(len(main.all_message_log), end_idx + 1)
+        elif key == "w":
+            if start_idx > 0:
+                start_idx = max(0, start_idx - 1)
+                end_idx = min(len(main.all_message_log), end_idx - 1)
+        elif key == "m":
+            update_chat("")
+            break
 
 def update_terrain():
     import main
