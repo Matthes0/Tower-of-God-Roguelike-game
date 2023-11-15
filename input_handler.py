@@ -1,4 +1,5 @@
 import actors
+import screen
 import terrain
 
 
@@ -50,3 +51,14 @@ def get_input(player):
                     terrain.delete_actor(100, 7)
             if key == "4":
                 pass
+        if key == "m":
+            screen.show_all_message_log(0)
+            key = ""
+            while key != "m":
+                key = main.win.getkey().lower()
+                if key == "w":
+                    screen.show_all_message_log(1)
+                elif key == "x":
+                    screen.show_all_message_log(2)
+            screen.update_chat("")
+

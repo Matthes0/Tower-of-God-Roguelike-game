@@ -4,7 +4,10 @@ map_height = 10
 map_width = 30
 chat_width = 100
 terrain_map = terrain.generate_terrain(map_height, map_width)
-message_log = []
+message_log = ["0","1","2","3","4","5","6","7","8","9"]
+all_message_log = ["0","1","2","3","4","5","6","7","8","9"]
+tmp_message_log = ["0","1","2","3","4","5","6","7","8","9"]
+tmp_message_log_end_index = 10
 statistics = []
 global win
 
