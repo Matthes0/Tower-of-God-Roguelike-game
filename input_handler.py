@@ -35,22 +35,36 @@ def get_input(player):
                 tests.can_place_actor(0, 0)
                 tests.can_place_actor(4, 20)
             if key == "2":
-                if tests.can_place_actor(1,4) == 1:
-                    human = actors.Human(1,4)
+                if tests.can_place_actor(1, 4) == 1:
+                    human = actors.Human(1, 4)
                     terrain.place_actor(human)
-                if tests.can_place_actor(100,100) == 1:
-                    human = actors.Human(100,100)
+                if tests.can_place_actor(100, 100) == 1:
+                    human = actors.Human(100, 100)
                     terrain.place_actor(human)
-                if tests.can_place_actor(2,7) == 1:
-                    dog = actors.Dog(2,7)
+                if tests.can_place_actor(2, 7) == 1:
+                    dog = actors.Dog(2, 7)
                     terrain.place_actor(dog)
             if key == "3":
-                if tests.can_place_actor(2,7) == 2:
+                if tests.can_place_actor(2, 7) == 2:
                     terrain.delete_actor(2, 7)
-                if tests.can_place_actor(100,7) == 2:
+                if tests.can_place_actor(100, 7) == 2:
                     terrain.delete_actor(100, 7)
             if key == "4":
-                pass
+                tests.can_place_item(5, 10)
+                tests.can_place_item(100, 100)
+            if key == "5":
+                if tests.can_place_item(5, 10) == 1:
+                    import item
+                    sword = item.Item(True, 5, 10, "Sword")
+                    terrain.place_item(sword)
+                # if tests.can_place_item(100,10) == 1:
+                #     import item
+                #     big_sword = item.Item(True,100,10,"Big Sword")
+                #     terrain.place_item(big_sword)
+            if key == "6":
+                if tests.can_place_item(5, 10) == 2:
+                    terrain.delete_item(5, 10)
+            if key == "7":
+                tests.print_actors_and_items()
         if key == "m":
             screen.show_all_message_log()
-

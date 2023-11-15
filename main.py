@@ -6,9 +6,6 @@ chat_width = 100
 terrain_map = terrain.generate_terrain(map_height, map_width)
 message_log = []
 all_message_log = []
-tmp_message_log = []
-tmp_message_log_end_index = 0
-statistics = []
 global win
 
 def main(stdscr):

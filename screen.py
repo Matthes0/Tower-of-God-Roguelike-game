@@ -44,5 +44,8 @@ def update_terrain():
             if main.terrain_map[i][j].actor is not None:
                 main.win.addch(i, j, main.terrain_map[i][j].actor.char)
             else:
-                main.win.addch(i, j, main.terrain_map[i][j].char)
+                if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
+                   main.win.addch(i, j, ",")
+                else:
+                    main.win.addch(i, j, main.terrain_map[i][j].char)
     main.win.refresh()

@@ -13,16 +13,30 @@ def place_actor(actor):
     import main, screen
     main.terrain_map[actor.y][actor.x].actor = actor
     screen.update_terrain()
+
+
 def delete_actor(y, x):
     import main, screen
     main.terrain_map[y][x].actor = None
     screen.update_terrain()
 
 
+def place_item(item):
+    import main, screen
+    main.terrain_map[item.y][item.x].items.append(item)
+    screen.update_terrain()
+
+
+def delete_item(y, x):
+    import main, screen
+    main.terrain_map[y][x].items.pop()
+    screen.update_terrain()
 
 
 class Terrain:
-    def __init__(self, x, y, name, char, passable, actor=None, items=list[0]):
+    def __init__(self, x, y, name, char, passable, actor=None, items=None):
+        if items is None:
+            items = list()
         self.x = x
         self.y = y
         self.name = name
@@ -30,7 +44,6 @@ class Terrain:
         self.passable = passable
         self.actor = actor
         self.items = items
-
 
 
 class DestructibleWall(Terrain):
