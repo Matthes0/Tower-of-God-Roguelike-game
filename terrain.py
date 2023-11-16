@@ -34,7 +34,7 @@ def delete_item(y, x):
 
 
 class Terrain:
-    def __init__(self, x, y, name, char, passable, actor=None, items=None):
+    def __init__(self, y, x, name, char, passable, actor=None, items=None):
         if items is None:
             items = list()
         self.x = x
@@ -48,21 +48,21 @@ class Terrain:
 
 class DestructibleWall(Terrain):
 
-    def __init__(self, x, y):
-        super().__init__(x, y, "Destructible Wall", "#", False)
+    def __init__(self, y, x):
+        super().__init__(y, x, "Destructible Wall", "#", False)
 
 
 class IndestructibleWall(Terrain):
-    def __init__(self, x, y):
-        super().__init__(x, y, "Indestructible Wall", "#", False)
+    def __init__(self, y, x):
+        super().__init__(y, x, "Indestructible Wall", "#", False)
 
 
 class Floor(Terrain):
-    def __init__(self, x, y):
-        super().__init__(x, y, "Floor", ".", True)
+    def __init__(self, y, x):
+        super().__init__(y, x, "Floor", ".", True)
 
 
 class Door(Terrain):
-    def __init__(self, x, y, open=False):
-        super().__init__(x, y, "Door", "D", True)
+    def __init__(self, y, x, open=False):
+        super().__init__(y, x, "Door", "D", True)
         self.open = open

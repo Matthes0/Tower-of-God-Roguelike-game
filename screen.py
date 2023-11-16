@@ -33,7 +33,7 @@ def show_all_message_log():
             if start_idx > 0:
                 start_idx = max(0, start_idx - 1)
                 end_idx = min(len(main.all_message_log), end_idx - 1)
-        elif key == "m":
+        else:
             update_chat("")
             break
 

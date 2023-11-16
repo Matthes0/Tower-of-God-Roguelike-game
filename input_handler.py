@@ -62,7 +62,7 @@ def get_input(player):
                 #     big_sword = item.Item(True,100,10,"Big Sword")
                 #     terrain.place_item(big_sword)
             if key == "6":
-                if tests.can_place_item(5, 10) == 2:
+                if hasattr(main.terrain_map[5][10], "items") and len(main.terrain_map[5][10].items) > 0:
                     terrain.delete_item(5, 10)
             if key == "7":
                 tests.print_actors_and_items()
