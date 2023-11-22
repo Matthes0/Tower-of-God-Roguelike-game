@@ -41,7 +41,9 @@ Cechy liczące się w walce:
 Przebieg walki:
 - trafienie: szansa na trafienie broni + zręczność atakującego + klątwa atakującego - szansa na unik broniącego - zręczność broniącego + klątwa broniącego. Szansa na trafienie zawsze wynosi co najmniej 5 (5% szans)
 rzut kością d100, sukces to liczba mniejsza lub równa "rzut na trafienie"
-jeśli rzut się udał, to następnie losowanie od 0.50 do 1.50. Zadane obrażenia to floor((obrażenia broni) * losowanie) + siła atakującego + klątwa atakującego + klątwa broniącego - redukcja obrażeń broniącego. Zawsze wynosi to co najmniej 1. Jeśli zdrowie będzie mniejsze lub równe 0, to aktor umiera.
+
+
+jeśli rzut się udał, to następuje losowanie od 0.50 do 1.50. Zadane obrażenia to floor((obrażenia broni) * losowanie) + siła atakującego + klątwa atakującego + klątwa broniącego - redukcja obrażeń broniącego. Zadane obrażenia zawsze wynoszą co najmniej 1. Jeśli zdrowie po otrzymaniu ataku będzie mniejsze lub równe 0, to broniący umiera.
 
 ##### Walka wręcz
 
