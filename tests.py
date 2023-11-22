@@ -1,55 +1,138 @@
-import main, screen
+import unittest
+import actors
+import item
 
 
-def can_place_item(y, x):
-    if x > main.map_width or y > main.map_height:
-        screen.update_chat(f"Can't place item at {y},{x} because it is out of bounds")
-    elif len(main.terrain_map[y][x].items) < 2 and main.terrain_map[y][x].passable is True:
-        screen.update_chat(f"Can place item at {y},{x}")
-        return 1
-    elif len(main.terrain_map[y][x].items) >= 2 and main.terrain_map[y][x].passable is True:
-        screen.update_chat(f"Can't place item at {y},{x} because there are too many items")
-        return 2
-    elif len(main.terrain_map[y][x].items) < 2 and main.terrain_map[y][x].passable is False:
-        screen.update_chat(f"Can't place item at {y},{x} because {main.terrain_map[y][x].name} is a terrain here")
-    elif len(main.terrain_map[y][x].items) >= 2 and main.terrain_map[y][x].passable is False:
-        screen.update_chat(f"Can't place item at {y},{x} because there are too many items and "
-                           f"{main.terrain_map[y][x].name} is a terrain here")
-        return 2
-    else:
-        screen.update_chat("Something went wrong during can_place_item")
-    return 0
-
-def can_place_actor(y, x):
-    if x > main.map_width-1 or y > main.map_height-1:
-        screen.update_chat(f"Can't place actor at {y},{x} because it is out of bounds")
-    elif main.terrain_map[y][x].actor is None and main.terrain_map[y][x].passable is True:
-        screen.update_chat(f"Can place actor at {y},{x}")
-        return 1
-    elif main.terrain_map[y][x].actor is not None and main.terrain_map[y][x].passable is True:
-        screen.update_chat(f"Can't place actor at {y},{x} because {main.terrain_map[y][x].actor.char} is here")
-        return 2
-    elif main.terrain_map[y][x].actor is None and main.terrain_map[y][x].passable is False:
-        screen.update_chat(f"Can't place actor at {y},{x} because {main.terrain_map[y][x].name} is a terrain here")
-    elif main.terrain_map[y][x].actor is not None and main.terrain_map[y][x].passable is False:
-        screen.update_chat(f"Can't place actor at {y},{x} because {main.terrain_map[y][x].actor.char} is here and "
-                           f"{main.terrain_map[y][x].name} is a terrain here")
-        return 2
-    else:
-        screen.update_chat("Something went wrong during can_place_actor")
-    return 0
-
-def print_actors_and_items():
-    import main
-    for i in range(main.map_height):
-        for j in range(main.map_width):
-            if main.terrain_map[i][j].actor is not None:
-                screen.update_chat(f"{main.terrain_map[i][j].actor.name}, y:{i},x:{j}")
+class TestCombat(unittest.TestCase):
+    def test_many_fights(self):
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.PlateArmor())
+        first.equip_weapon(item.Warhammer())
+        second = actors.Dog(-1, -2)
+        second.equip_armor(item.Hide())
+        second.equip_weapon(item.Claws())
+        first_wins = 0
+        second_wins = 0
+        for round in range(0, 10000):
+            first.current_hp = first.max_hp
+            second.current_hp = second.max_hp
+            while first.is_alive() and second.is_alive():
+                actors.melee_attack(first, second)
+                if second.is_alive():
+                    actors.melee_attack(second, first)
+                    if first.is_alive() is False:
+                        second_wins += 1
+                else:
+                    first_wins += 1
+        print(f"plate armor warhammer human wins: {first_wins}, dog wins: {second_wins}")
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.PlateArmor())
+        first.equip_weapon(item.Warhammer())
+        second = actors.Human(-1, -2)
+        second.equip_armor(item.LeatherArmor())
+        second.equip_weapon(item.LongSword())
+        first_wins = 0
+        second_wins = 0
+        for round in range(0, 10000):
+            first.current_hp = first.max_hp
+            second.current_hp = second.max_hp
+            while first.is_alive() and second.is_alive():
+                actors.melee_attack(first, second)
+                if second.is_alive():
+                    actors.melee_attack(second, first)
+                    if first.is_alive() is False:
+                        second_wins += 1
+                else:
+                    first_wins += 1
+        print(f"plate armor warhammer human wins: {first_wins}, leather armor long sword human wins: {second_wins}")
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.LeatherArmor())
+        first.equip_weapon(item.LongSword())
+        second = actors.Dog(-1, -2)
+        second.equip_armor(item.Hide())
+        second.equip_weapon(item.Claws())
+        first_wins = 0
+        second_wins = 0
+        for round in range(0, 10000):
+            first.current_hp = first.max_hp
+            second.current_hp = second.max_hp
+            while first.is_alive() and second.is_alive():
+                actors.melee_attack(first, second)
+                if second.is_alive():
+                    actors.melee_attack(second, first)
+                    if first.is_alive() is False:
+                        second_wins += 1
+                else:
+                    first_wins += 1
+        print(f"leather armor long sword human wins: {first_wins}, dog wins: {second_wins}")
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.LeatherArmor())
+        first.equip_weapon(item.LongSword())
+        second = actors.Oni(-1, -2)
+        second.equip_armor(item.Hide())
+        second.equip_weapon(item.Warhammer())
+        first_wins = 0
+        second_wins = 0
+        for round in range(0, 10000):
+            first.current_hp = first.max_hp
+            second.current_hp = second.max_hp
+            while first.is_alive() and second.is_alive():
+                actors.melee_attack(first, second)
+                if second.is_alive():
+                    actors.melee_attack(second, first)
+                    if first.is_alive() is False:
+                        second_wins += 1
+                else:
+                    first_wins += 1
+        print(f"leather armor long sword human wins: {first_wins}, oni wins: {second_wins}")
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.PlateArmor())
+        first.equip_weapon(item.Warhammer())
+        second = actors.Oni(-1, -2)
+        second.equip_armor(item.Hide())
+        second.equip_weapon(item.Warhammer())
+        first_wins = 0
+        second_wins = 0
+        for round in range(0, 10000):
+            first.current_hp = first.max_hp
+            second.current_hp = second.max_hp
+            while first.is_alive() and second.is_alive():
+                actors.melee_attack(first, second)
+                if second.is_alive():
+                    actors.melee_attack(second, first)
+                    if first.is_alive() is False:
+                        second_wins += 1
+                else:
+                    first_wins += 1
+        print(f"plate armor warhammer human wins: {first_wins}, oni wins: {second_wins}")
+    def test_continuous_fight(self):
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.PlateArmor())
+        first.equip_weapon(item.Warhammer())
+        second = actors.Dog(-1, -2)
+        second.equip_armor(item.Hide())
+        second.equip_weapon(item.Claws())
+        first_wins = 0
+        while first.is_alive():
+            actors.melee_attack(first, second)
+            if second.is_alive():
+                actors.melee_attack(second, first)
             else:
-                if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
-                    for item in main.terrain_map[i][j].items:
-                        screen.update_chat(f"{item.name}, y:{i},x:{j}")
+                first_wins += 1
+                second.heal(9999)
+        print(f"plate armor warhammer human dies from dog after {first_wins} won fights")
+
+    def test_is_dead(self):
+        human = actors.Human(-1, -1)
+        human.deal_damage(9999)
+        self.assertFalse(human.is_alive())
+
+    def test_is_healed_to_full_hp(self):
+        human = actors.Human(-1, -1)
+        human.current_hp = 1
+        human.heal(9999)
+        self.assertEquals(human.current_hp, human.max_hp)
 
 
-def player_coordinates():
-    pass
+if __name__ == '__main__':
+    unittest.main()

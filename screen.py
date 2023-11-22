@@ -5,14 +5,12 @@ def update_chat(message):
     else:
         if len(main.message_log) == 10:
             main.message_log.pop(0)
-        #main.message_log.insert(0, message)
         main.message_log.append(message)
         main.all_message_log.append(message)
     main.win.erase()
     for i in range(len(main.message_log)):
         main.win.addstr(i, main.map_width + 1, main.message_log[i])
     update_terrain()
-
 
 def show_all_message_log():
     import main
