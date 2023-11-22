@@ -28,7 +28,20 @@ Chciałbym zaimplementować również algorytm autoeksplorowania mapy i atakowan
 
 # Walka
 
-Podział na walkę wręcz, walkę dystansową i magię. Większość ataków musi najpierw trafić przeciwnika, aby zadać mu obrażenia.
+Podział na walkę wręcz, walkę dystansową i magię.
+
+Cechy liczące się w walce:
+- zdrowie
+- broń (szansa na trafienie i obrażenia)
+- zbroja (szansa na unik i redukcja obrażeń)
+- siła (obrażenia)
+- zręczność (szansa na trafienie i unik)
+- klątwa (zwiększa zadawane obrażenia i szansę na trafienie ale jednocześnie zwiększa otrzymywane obrażenia i zmniejsza szansę na unik)
+
+Przebieg walki:
+- trafienie: szansa na trafienie broni + zręczność atakującego + klątwa atakującego - szansa na unik broniącego - zręczność broniącego + klątwa broniącego. Szansa na trafienie zawsze wynosi co najmniej 5 (5% szans)
+rzut kością d100, sukces to liczba mniejsza lub równa "rzut na trafienie"
+jeśli rzut się udał, to następnie losowanie od 0.50 do 1.50. Zadane obrażenia to floor((obrażenia broni) * losowanie) + siła atakującego + klątwa atakującego + klątwa broniącego - redukcja obrażeń broniącego. Zawsze wynosi to co najmniej 1. Jeśli zdrowie będzie mniejsze lub równe 0, to aktor umiera.
 
 ##### Walka wręcz
 
