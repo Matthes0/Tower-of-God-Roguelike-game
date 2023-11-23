@@ -10,14 +10,31 @@ def melee_attack(attacker, defender):
     roll_damage = 0.0
     roll = random.randint(1,100)
     if roll <= hit_chance:
+
         roll_damage = random.uniform(0.50, 1.50)
         damage = math.floor(attacker.weapon.damage * roll_damage) + attacker.strength + attacker.curse + defender.curse - defender.armor.soak
         if damage > 0:
+            #print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals {damage} damage.", end="")
             defender.deal_damage(damage)
+            if defender.is_alive() is True:
+                #print(f" Now it's {defender.name} turn.")
+                pass
+            else:
+                #print(f" {defender.name} is dead.")
+                pass
         else:
+            #print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals only 1 damage.", end="")
             defender.deal_damage(1)
-    #print(f"hit chance {hit_chance}, hit roll {roll}, roll damage {roll_damage}, damage dealt {damage}")
-
+            if defender.is_alive() is True:
+                #print(f" Now it's {defender.name} turn.")
+                pass
+            else:
+                #print(f" {defender.name} is dead.")
+                pass
+    else:
+        #print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack missed. Now it's {defender.name} turn.")
+        pass
+#zakomentowac printy przy testowaniu wielokrotnych walk, odkomentowac przy szczegolowej walce
 
 class Actors:
     def __init__(self, y, x, char, name, max_hp, strength, dexterity, luck, curse):
