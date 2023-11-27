@@ -35,6 +35,24 @@ def show_all_message_log():
             update_chat("")
             break
 
+def show_equipment(player):
+    import main
+    while True:
+        main.win.erase()
+        main.win.addstr(0, 0, f"left hand: {player.left_hand}")
+        main.win.addstr(1, 0, f"right hand: {player.right_hand}")
+        main.win.addstr(2, 0, f"head: {player.head}")
+        main.win.addstr(3, 0, f"body: {player.body}")
+        main.win.addstr(4, 0, f"hands: {player.hands}")
+        main.win.addstr(5, 0, f"legs: {player.legs}")
+        main.win.addstr(6, 0, f"back: {player.back}")
+        main.win.addstr(7, 0, f"ring 1: {player.ring_1}")
+        main.win.addstr(8, 0, f"ring 2: {player.ring_2}")
+        main.win.addstr(9, 0, f"neck: {player.neck}")
+        key = main.win.getkey().lower()
+        if key:
+            update_chat("")
+            break
 def update_terrain():
     import main
     for i in range(main.map_height):

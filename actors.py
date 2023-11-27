@@ -38,8 +38,19 @@ def melee_attack(attacker, defender):
 
 class Actors:
     def __init__(self, y, x, char, name, max_hp, strength, dexterity, luck, curse):
-        self.weapon = None
+        self.left_hand = None
+        self.right_hand = None
         self.armor = None
+        self.head = None
+        self.body = None
+        self.hands = None
+        self.legs = None
+        self.back = None
+        self.ring_1 = None
+        self.ring_2 = None
+        self.neck = None
+        self.weapon = None
+        self.items = list()
         self.y = y
         self.x = x
         self.char = char
@@ -52,10 +63,20 @@ class Actors:
         self.curse = curse
 
     def equip_weapon(self, weapon):
+        self.left_hand = weapon
         self.weapon = weapon
 
     def equip_armor(self, armor):
+        self.body = armor
         self.armor = armor
+
+    def pick_item(self):
+        import main
+        if main.terrain_map[self.y][self.x].items is not None:
+            for item in main.terrain_map[self.y][self.x].items:
+                self.items.append(item)
+                screen.update_chat(f"You picked up {item.name}.")
+            main.terrain_map[self.y][self.x].items.clear()
 
     def is_alive(self):
         if self.current_hp > 0:
@@ -89,7 +110,15 @@ class Player(Actors):
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
             screen.update_terrain()
-            screen.update_chat("You walked.")
+
+            if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):
+                tmp = "You walked. There are items on this tile: "
+                for item in main.terrain_map[self.y][self.x].items:
+                    tmp = tmp + item.name + ", "
+                tmp = tmp[:len(tmp)-2]
+                screen.update_chat(tmp)
+            else:
+                screen.update_chat("You walked.")
         elif main.terrain_map[self.y + y][self.x + x].passable is False:
             screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].name}.")
         elif main.terrain_map[self.y + y][self.x + x].actor is not None:

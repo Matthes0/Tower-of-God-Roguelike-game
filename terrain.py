@@ -84,16 +84,14 @@ def delete_item(y, x):
 
 
 class Terrain:
-    def __init__(self, y, x, name, char, passable, actor=None, items=None):
-        if items is None:
-            items = list()
+    def __init__(self, y, x, name, char, passable, actor=None):
+        self.items = list()
         self.x = x
         self.y = y
         self.name = name
         self.char = char
         self.passable = passable
         self.actor = actor
-        self.items = items
 
 
 class DestructibleWall(Terrain):

@@ -18,7 +18,7 @@ def main(stdscr):
     global win
     win = curses.newwin(map_height + 1, map_width + chat_width + 1, 0, 0)
     win.keypad(True)
-    curses.curs_set(0)
+    curses.curs_set(1)
     player = actors.Player(5, 20, "@", 'Player', 10, 3, 3, 3, 0)
     terrain.place_actor(player)
 

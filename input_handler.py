@@ -1,3 +1,5 @@
+import curses
+
 import actors
 import screen
 import terrain
@@ -25,6 +27,8 @@ def get_input(player):
             player.move(1, 0)
         if key == 'c':
             player.move(1, 1)
+        if key == 'i':
+            screen.show_equipment(player)
         if key == "t":
             import tests
             key = main.win.getkey().lower()
@@ -64,3 +68,8 @@ def get_input(player):
                 terrain.print_actors_and_items()
         if key == "m":
             screen.show_all_message_log()
+        if key == ',':
+            player.pick_item()
+        if key == 'v':
+            import curses
+            (player.y, player.x)
