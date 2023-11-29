@@ -114,9 +114,9 @@ class TestCombat(unittest.TestCase):
         second.equip_weapon(item.Claws())
         first_wins = 0
         while first.is_alive():
-            actors.melee_attack(first, second)
+            actors.melee_attack(first, second, 1)
             if second.is_alive():
-                actors.melee_attack(second, first)
+                actors.melee_attack(second, first, 1)
             else:
                 first_wins += 1
                 second.heal(9999)

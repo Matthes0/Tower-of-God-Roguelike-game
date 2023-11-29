@@ -30,7 +30,6 @@ def get_input(player):
         if key == 'i':
             screen.show_equipment(player)
         if key == "t":
-            import tests
             key = main.win.getkey().lower()
             if key == "1":
                 terrain.can_place_actor(5, 20)
