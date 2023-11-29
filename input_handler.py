@@ -69,7 +69,50 @@ def get_input(player):
         if key == "m":
             screen.show_all_message_log()
         if key == ',':
-            player.pick_item()
+            player.pick_itema()
         if key == 'v':
-            import curses
-            (player.y, player.x)
+            import main
+            tmp_y = player.y
+            tmp_x = player.x
+            main.win.move(player.y, player.x)
+            while True:
+                key = main.win.getkey().lower()
+                if key == 'q':
+                    tmp_y -= 1
+                    tmp_x -= 1
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'w':
+                    tmp_y -= 1
+                    tmp_x -= 0
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'e':
+                    tmp_y -= 1
+                    tmp_x += 1
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'a':
+                    tmp_y -= 0
+                    tmp_x -= 1
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 's':
+                    tmp_y -= 0
+                    tmp_x -= 0
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'd':
+                    tmp_y -= 0
+                    tmp_x += 1
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'z':
+                    tmp_y += 1
+                    tmp_x -= 1
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'x':
+                    tmp_y += 1
+                    tmp_x -= 0
+                    main.win.move(tmp_y, tmp_x)
+                elif key == 'c':
+                    tmp_y += 1
+                    tmp_x += 1
+                    main.win.move(tmp_y, tmp_x)
+                else:
+                    screen.update_chat("")
+                    break
