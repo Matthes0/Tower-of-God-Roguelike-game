@@ -1,40 +1,43 @@
 import screen
 
-def melee_attack(attacker, defender):
+
+def melee_attack(attacker, defender, is_printing=0):
     import random
     import math
     hit_chance = attacker.weapon.hit_modifier + attacker.dexterity + attacker.curse - defender.armor.dodge - defender.dexterity + defender.curse
     if hit_chance < 5:
         hit_chance = 5
-    damage = 0
-    roll_damage = 0.0
-    roll = random.randint(1,100)
+    roll = random.randint(1, 100)
     if roll <= hit_chance:
 
         roll_damage = random.uniform(0.50, 1.50)
-        damage = math.floor(attacker.weapon.damage * roll_damage) + attacker.strength + attacker.curse + defender.curse - defender.armor.soak
+        damage = math.floor(
+            attacker.weapon.damage * roll_damage) + attacker.strength + attacker.curse + defender.curse - defender.armor.soak
         if damage > 0:
-            #print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals {damage} damage.", end="")
+            if is_printing == 1:
+                print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals {damage} damage.", end="")
             defender.deal_damage(damage)
             if defender.is_alive() is True:
-                #print(f" Now it's {defender.name} turn.")
-                pass
+                if is_printing == 1:
+                    print(f" Now it's {defender.name} turn.")
             else:
-                #print(f" {defender.name} is dead.")
-                pass
+                if is_printing == 1:
+                    print(f" {defender.name} is dead.")
         else:
-            #print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals only 1 damage.", end="")
+            if is_printing == 1:
+                print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals only 1 damage.", end="")
             defender.deal_damage(1)
             if defender.is_alive() is True:
-                #print(f" Now it's {defender.name} turn.")
-                pass
+                if is_printing == 1:
+                    print(f" Now it's {defender.name} turn.")
+
             else:
-                #print(f" {defender.name} is dead.")
-                pass
+                if is_printing == 1:
+                    print(f" {defender.name} is dead.")
     else:
-        #print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack missed. Now it's {defender.name} turn.")
-        pass
-#zakomentowac printy przy testowaniu wielokrotnych walk, odkomentowac przy szczegolowej walce
+        if is_printing == 1:
+            print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack missed. Now it's {defender.name} turn.")
+
 
 class Actors:
     def __init__(self, y, x, char, name, max_hp, strength, dexterity, luck, curse):
@@ -50,7 +53,8 @@ class Actors:
         self.ring_2 = None
         self.neck = None
         self.weapon = None
-        self.items = list()
+        self.backpack = []
+        self.equipment = []
         self.y = y
         self.x = x
         self.char = char
@@ -62,9 +66,60 @@ class Actors:
         self.luck = luck
         self.curse = curse
 
+    def get_name(self, attrib):
+        match attrib:
+            case "left_hand":
+                if self.left_hand is None:
+                    return "None"
+                return self.left_hand.name
+            case "right_hand":
+                if self.right_hand is None:
+                    return "None"
+                return self.right_hand.name
+            case "head":
+                if self.head is None:
+                    return "None"
+                return self.head.name
+            case "body_armor":
+                if self.body is None:
+                    return "None"
+                return self.body.name
+            case "hands":
+                if self.hands is None:
+                    return "None"
+                return self.hands.name
+            case "legs":
+                if self.legs is None:
+                    return "None"
+                return self.hands.name
+            case "back":
+                if self.back is None:
+                    return "None"
+                return self.back.name
+            case "ring_1":
+                if self.ring_1 is None:
+                    return "None"
+                return self.ring_1.name
+            case "ring_2":
+                if self.ring_2 is None:
+                    return "None"
+                return self.ring_2.name
+            case "neck":
+                if self.neck is None:
+                    return "None"
+                return self.neck.name
+
     def equip_weapon(self, weapon):
-        self.left_hand = weapon
+        if weapon.one_handed:
+            self.left_hand = weapon
+        else:
+            self.left_hand = weapon
+            self.right_hand = weapon
         self.weapon = weapon
+
+    def deequip_weapons(self):
+        self.left_hand = None
+        self.right_hand = None
 
     def equip_armor(self, armor):
         self.body = armor
@@ -74,7 +129,7 @@ class Actors:
         import main
         if main.terrain_map[self.y][self.x].items is not None:
             for item in main.terrain_map[self.y][self.x].items:
-                self.items.append(item)
+                self.backpack.append(item)
                 screen.update_chat(f"You picked up {item.name}.")
             main.terrain_map[self.y][self.x].items.clear()
 
@@ -104,18 +159,20 @@ class Player(Actors):
         import main
         if y == 0 and x == 0:
             screen.update_chat("You waited.")
-        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
+        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][
+            self.x + x].actor is None:
             main.terrain_map[self.y][self.x].actor = None
             self.y += y
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
+            screen.calculate_circle(self, 4.5)
             screen.update_terrain()
 
             if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):
                 tmp = "You walked. There are items on this tile: "
                 for item in main.terrain_map[self.y][self.x].items:
                     tmp = tmp + item.name + ", "
-                tmp = tmp[:len(tmp)-2]
+                tmp = tmp[:len(tmp) - 2]
                 screen.update_chat(tmp)
             else:
                 screen.update_chat("You walked.")
@@ -138,6 +195,7 @@ class Human(Hostile):
 class Dog(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'd', 'dog', 5, 1, 2, 3, 1)
+
 
 class Oni(Hostile):
     def __init__(self, y, x):
