@@ -53,7 +53,8 @@ class Actors:
         self.ring_2 = None
         self.neck = None
         self.weapon = None
-        self.items = list()
+        self.backpack = []
+        self.equipment = []
         self.y = y
         self.x = x
         self.char = char
@@ -65,9 +66,60 @@ class Actors:
         self.luck = luck
         self.curse = curse
 
+    def get_name(self, attrib):
+        match attrib:
+            case "left_hand":
+                if self.left_hand is None:
+                    return "None"
+                return self.left_hand.name
+            case "right_hand":
+                if self.right_hand is None:
+                    return "None"
+                return self.right_hand.name
+            case "head":
+                if self.head is None:
+                    return "None"
+                return self.head.name
+            case "body_armor":
+                if self.body is None:
+                    return "None"
+                return self.body.name
+            case "hands":
+                if self.hands is None:
+                    return "None"
+                return self.hands.name
+            case "legs":
+                if self.legs is None:
+                    return "None"
+                return self.hands.name
+            case "back":
+                if self.back is None:
+                    return "None"
+                return self.back.name
+            case "ring_1":
+                if self.ring_1 is None:
+                    return "None"
+                return self.ring_1.name
+            case "ring_2":
+                if self.ring_2 is None:
+                    return "None"
+                return self.ring_2.name
+            case "neck":
+                if self.neck is None:
+                    return "None"
+                return self.neck.name
+
     def equip_weapon(self, weapon):
-        self.left_hand = weapon
+        if weapon.one_handed:
+            self.left_hand = weapon
+        else:
+            self.left_hand = weapon
+            self.right_hand = weapon
         self.weapon = weapon
+
+    def deequip_weapons(self):
+        self.left_hand = None
+        self.right_hand = None
 
     def equip_armor(self, armor):
         self.body = armor
@@ -77,7 +129,7 @@ class Actors:
         import main
         if main.terrain_map[self.y][self.x].items is not None:
             for item in main.terrain_map[self.y][self.x].items:
-                self.items.append(item)
+                self.backpack.append(item)
                 screen.update_chat(f"You picked up {item.name}.")
             main.terrain_map[self.y][self.x].items.clear()
 
@@ -113,6 +165,7 @@ class Player(Actors):
             self.y += y
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
+            screen.calculate_circle(self, 4.5)
             screen.update_terrain()
 
             if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):

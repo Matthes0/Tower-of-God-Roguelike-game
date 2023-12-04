@@ -105,6 +105,27 @@ class TestCombat(unittest.TestCase):
                 else:
                     first_wins += 1
         print(f"plate armor warhammer human wins: {first_wins}, oni wins: {second_wins}")
+        first = actors.Human(-1, -1)
+        first.equip_armor(item.LeatherArmor())
+        first.equip_weapon(item.LongSword())
+        second = actors.Human(-1, -2)
+        second.equip_armor(item.LeatherArmor())
+        second.equip_weapon(item.LongSword())
+        first_wins = 0
+        second_wins = 0
+        for round in range(0, 10000):
+            first.current_hp = first.max_hp
+            second.current_hp = second.max_hp
+            while first.is_alive() and second.is_alive():
+                actors.melee_attack(first, second)
+                if second.is_alive():
+                    actors.melee_attack(second, first)
+                    if first.is_alive() is False:
+                        second_wins += 1
+                else:
+                    first_wins += 1
+        print(f"leather armor long sword human wins: {first_wins}, leather armor long sword human wins: {second_wins}")
+
     def test_continuous_fight(self):
         first = actors.Human(-1, -1)
         first.equip_armor(item.PlateArmor())
@@ -131,7 +152,7 @@ class TestCombat(unittest.TestCase):
         human = actors.Human(-1, -1)
         human.current_hp = 1
         human.heal(9999)
-        self.assertEquals(human.current_hp, human.max_hp)
+        self.assertEqual(human.current_hp, human.max_hp)
 
 
 if __name__ == '__main__':

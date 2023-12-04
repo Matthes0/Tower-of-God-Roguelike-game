@@ -1,3 +1,5 @@
+
+
 def update_chat(message):
     import main
     if message == "":
@@ -12,9 +14,30 @@ def update_chat(message):
         main.win.addstr(i, main.map_width + 1, main.message_log[i])
     update_terrain()
 
+def in_circle(actor, y, x, radius):
+    import math
+    dy = actor.y - y
+    dx = actor.x - x
+    dist = dx*dx + dy*dy
+    return dist <= radius * radius
+
+
+def calculate_circle(actor, radius):
+    import math, main
+    top = math.ceil(actor.y - radius)
+    bottom = math.floor(actor.y + radius)
+    left = math.ceil(actor.x - radius)
+    right = math.floor(actor.x + radius)
+    for i in range(0, main.map_height):
+        for j in range(0, main.map_width):
+            main.terrain_map[i][j].visible = False
+    for i in range(top, bottom+1):
+        for j in range(left, right+1):
+            if 0 <= i < main.map_height and 0 <= j < main.map_width and in_circle(actor, i, j, radius):
+                main.terrain_map[i][j].visible = True
+
 def show_all_message_log():
     import main
-
     start_idx = max(0, len(main.all_message_log) - 10)
     end_idx = len(main.all_message_log)
     while True:
@@ -34,34 +57,55 @@ def show_all_message_log():
         else:
             update_chat("")
             break
-
 def show_equipment(player):
-    import main
+    import main, string
+    start_idx = 0
+    end_idx = min(len(player.backpack), start_idx + 10)
+    alphabet = string.ascii_lowercase
     while True:
         main.win.erase()
-        main.win.addstr(0, 0, f"left hand: {player.left_hand}")
-        main.win.addstr(1, 0, f"right hand: {player.right_hand}")
-        main.win.addstr(2, 0, f"head: {player.head}")
-        main.win.addstr(3, 0, f"body: {player.body}")
-        main.win.addstr(4, 0, f"hands: {player.hands}")
-        main.win.addstr(5, 0, f"legs: {player.legs}")
-        main.win.addstr(6, 0, f"back: {player.back}")
-        main.win.addstr(7, 0, f"ring 1: {player.ring_1}")
-        main.win.addstr(8, 0, f"ring 2: {player.ring_2}")
-        main.win.addstr(9, 0, f"neck: {player.neck}")
+        for i in range(start_idx, end_idx):
+            letter = alphabet[i % 26]
+            main.win.addstr(i - start_idx, 0, f"({letter}) {player.backpack[i].name}")
+        main.win.addstr(0, 30, f"left hand: {player.get_name('left_hand')}")
+        main.win.addstr(1, 30, f"right hand: {player.get_name('right_hand')}")
+        main.win.addstr(2, 30, f"head: {player.get_name('head')}")
+        main.win.addstr(3, 30, f"body: {player.get_name('body')}")
+        main.win.addstr(4, 30, f"hands: {player.get_name('hands')}")
+        main.win.addstr(5, 30, f"legs: {player.get_name('legs')}")
+        main.win.addstr(6, 30, f"back: {player.get_name('back')}")
+        main.win.addstr(7, 30, f"ring 1: {player.get_name('ring_1')}")
+        main.win.addstr(8, 30, f"ring 2: {player.get_name('ring_2')}")
+        main.win.addstr(9, 30, f"neck: {player.get_name('neck')}")
+        main.win.refresh()
         key = main.win.getkey().lower()
-        if key:
+
+        if key == "x":
+            start_idx = min(start_idx + 1, len(player.backpack) - 10)
+            end_idx = min(len(player.backpack), start_idx + 10)
+        elif key == "w":
+            start_idx = max(start_idx - 1, 0)
+            end_idx = min(len(player.backpack), start_idx + 10)
+        else:
             update_chat("")
             break
+
+        # key = main.win.getkey().lower()
+        # if key:
+        #     update_chat("")
+        #     break
 def update_terrain():
     import main
     for i in range(main.map_height):
         for j in range(main.map_width):
-            if main.terrain_map[i][j].actor is not None:
-                main.win.addch(i, j, main.terrain_map[i][j].actor.char)
+            if main.terrain_map[i][j].visible is False:
+                main.win.addch(i, j, ' ')
             else:
-                if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
-                   main.win.addch(i, j, ",")
+                if main.terrain_map[i][j].actor is not None:
+                    main.win.addch(i, j, main.terrain_map[i][j].actor.char)
                 else:
-                    main.win.addch(i, j, main.terrain_map[i][j].char)
+                    if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
+                        main.win.addch(i, j, ",")
+                    else:
+                        main.win.addch(i, j, main.terrain_map[i][j].char)
     main.win.refresh()

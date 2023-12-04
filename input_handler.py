@@ -77,41 +77,46 @@ def get_input(player):
             while True:
                 key = main.win.getkey().lower()
                 if key == 'q':
-                    tmp_y -= 1
-                    tmp_x -= 1
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+                        tmp_y -= 1
+                        tmp_x -= 1
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 'w':
-                    tmp_y -= 1
-                    tmp_x -= 0
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width:
+                        tmp_y -= 1
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 'e':
-                    tmp_y -= 1
-                    tmp_x += 1
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+                        tmp_y -= 1
+                        tmp_x += 1
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 'a':
-                    tmp_y -= 0
-                    tmp_x -= 1
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+                        tmp_x -= 1
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 's':
                     tmp_y -= 0
                     tmp_x -= 0
                     main.win.move(tmp_y, tmp_x)
                 elif key == 'd':
-                    tmp_y -= 0
-                    tmp_x += 1
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+                        tmp_x += 1
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 'z':
-                    tmp_y += 1
-                    tmp_x -= 1
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+                        tmp_y += 1
+                        tmp_x -= 1
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 'x':
-                    tmp_y += 1
-                    tmp_x -= 0
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width:
+                        tmp_y += 1
+                        tmp_x -= 0
+                        main.win.move(tmp_y, tmp_x)
                 elif key == 'c':
-                    tmp_y += 1
-                    tmp_x += 1
-                    main.win.move(tmp_y, tmp_x)
+                    if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+                        tmp_y += 1
+                        tmp_x += 1
+                        main.win.move(tmp_y, tmp_x)
                 else:
                     screen.update_chat("")
                     break

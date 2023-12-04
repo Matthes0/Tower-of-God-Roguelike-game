@@ -92,18 +92,20 @@ class Terrain:
         self.char = char
         self.passable = passable
         self.actor = actor
-
+        self.visible = False
+        self.see_through = True
 
 class DestructibleWall(Terrain):
 
     def __init__(self, y, x):
         super().__init__(y, x, "Destructible Wall", "#", False)
+        self.see_through = False
 
 
 class IndestructibleWall(Terrain):
     def __init__(self, y, x):
         super().__init__(y, x, "Indestructible Wall", "#", False)
-
+        self.see_through = False
 
 class Floor(Terrain):
     def __init__(self, y, x):
@@ -114,3 +116,4 @@ class Door(Terrain):
     def __init__(self, y, x, open=False):
         super().__init__(y, x, "Door", "D", True)
         self.open = open
+        self.see_through = False
