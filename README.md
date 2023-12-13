@@ -119,6 +119,32 @@ Wstępnie wszystkie znalezione przedmioty są niezidentyfikowane, więc wymagaj�
 
 Przeciwnicy mają te same statystyki co gracz. Jeśli jest humanoidem, to może również używać tych samych przedmiotów, co gracz. Jeśli przeciwnik jest wyposażony w jakieś przedmioty, to ma szansę na ich upuszczenie po śmierci. Przeciwnicy mogą respawnować się na mapie, ale tylko na obszarze jeszcze niezeksplorowanym przez gracza.
 
+
+Przeciwnicy dodani na ten moment:
+
+Human with leather armor and longsword
+hp:
+siła:
+zręczność:
+szczęście:
+klątwa:
+broń:
+pancerz:
+Human with plate armor and warhammer
+
+Dog 
+
+Green Jelly
+
+Blue Jelly
+
+Oni 
+
+Tower Master
+
+
+
+
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
 
