@@ -1,3 +1,4 @@
+import item
 import screen
 
 
@@ -192,11 +193,49 @@ class Human(Hostile):
         super().__init__(y, x, 'H', 'human', 10, 5, 5, 5, 0)
 
 
+class Human_with_plate_armor_and_warhammer(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 5, 5, 5, 0)
+        self.equip_weapon(item.Warhammer())
+        self.equip_armor(item.PlateArmor())
+
+
+class Human_with_leather_armor_and_longsword(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'H', 'Human with leather armor and longsword', 10, 5, 5, 5, 0)
+        self.equip_weapon(item.LongSword())
+        self.equip_armor(item.LeatherArmor())
+
+
 class Dog(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'd', 'dog', 5, 1, 2, 3, 1)
+        self.equip_weapon(item.Claws())
+        self.equip_armor(item.Hide())
+
+
+class Green_Jelly(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'j', 'Green Jelly', 9, 2, 3, 5, 1)
+        self.equip_weapon(item.Tentacle())
+        self.equip_armor(item.Jelly_Body())
+
+
+class Blue_Jelly(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'j', 'Blue Jelly', 18, 3, 5, 5, 1)
+        self.equip_weapon(item.Tentacle())
+        self.equip_armor(item.Jelly_Body())
 
 
 class Oni(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'O', 'oni', 30, 9, 1, 2, 3)
+        super().__init__(y, x, 'O', 'oni', 60, 15, 3, 5, 3)
+        self.equip_weapon(item.Warhammer())
+        self.equip_armor(item.Hide())
+class Tower_Master(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'O', 'Tower Master', 250, 45, 45, 15, 15)
+        self.equip_weapon(item.Warhammer())
+        self.equip_armor(item.Hide())
+

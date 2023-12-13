@@ -6,7 +6,6 @@ class Item:
         self.name = name
 
 
-
 class Armor(Item):
     def __init__(self, on_map, y, x, name, dodge, soak):
         super().__init__(on_map, y, x, name)
@@ -24,7 +23,7 @@ class Weapon(Item):
 
 class PlateArmor(Armor):
     def __init__(self):
-        super().__init__(False, -1, -1, "Plate Armor", 0, 5)
+        super().__init__(False, -1, -1, "Plate Armor", 0, 7)
 
 
 class LeatherArmor(Armor):
@@ -35,7 +34,9 @@ class LeatherArmor(Armor):
 class Hide(Armor):
     def __init__(self):
         super().__init__(False, -1, -1, "Hide", 3, 1)
-
+class Jelly_Body(Armor):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Jelly body", 2, 4)
 
 class Claws(Weapon):
     def __init__(self):
@@ -44,9 +45,14 @@ class Claws(Weapon):
 
 class Warhammer(Weapon):
     def __init__(self):
-        super().__init__(False, -1, -1, "Warhammer", False, 10, 25)
+        super().__init__(False, -1, -1, "Warhammer", False, 12, 25)
 
 
 class LongSword(Weapon):
     def __init__(self):
-        super().__init__(False, -1, -1, "Long Sword", True, 4, 50)
+        super().__init__(False, -1, -1, "Long Sword", True, 6, 50)
+
+
+class Tentacle(Weapon):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Tentacle", True, 3, 75)
