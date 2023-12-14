@@ -160,8 +160,7 @@ class Player(Actors):
         import main
         if y == 0 and x == 0:
             screen.update_chat("You waited.")
-        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][
-            self.x + x].actor is None:
+        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
             main.terrain_map[self.y][self.x].actor = None
             self.y += y
             self.x += x
@@ -171,8 +170,8 @@ class Player(Actors):
 
             if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):
                 tmp = "You walked. There are items on this tile: "
-                for item in main.terrain_map[self.y][self.x].items:
-                    tmp = tmp + item.name + ", "
+                for thing in main.terrain_map[self.y][self.x].items:
+                    tmp = tmp + thing.name + ", "
                 tmp = tmp[:len(tmp) - 2]
                 screen.update_chat(tmp)
             else:
@@ -193,14 +192,14 @@ class Human(Hostile):
         super().__init__(y, x, 'H', 'human', 10, 5, 5, 5, 0)
 
 
-class Human_with_plate_armor_and_warhammer(Hostile):
+class HumanWithPlateArmorAndWarhammer(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 5, 5, 5, 0)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.PlateArmor())
 
 
-class Human_with_leather_armor_and_longsword(Hostile):
+class HumanWithLeatherArmorAndLongsword(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'H', 'Human with leather armor and longsword', 10, 5, 5, 5, 0)
         self.equip_weapon(item.LongSword())
@@ -214,14 +213,14 @@ class Dog(Hostile):
         self.equip_armor(item.Hide())
 
 
-class Green_Jelly(Hostile):
+class GreenJelly(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'j', 'Green Jelly', 9, 2, 3, 5, 1)
         self.equip_weapon(item.Tentacle())
         self.equip_armor(item.Jelly_Body())
 
 
-class Blue_Jelly(Hostile):
+class BlueJelly(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'j', 'Blue Jelly', 18, 3, 5, 5, 1)
         self.equip_weapon(item.Tentacle())
@@ -233,9 +232,10 @@ class Oni(Hostile):
         super().__init__(y, x, 'O', 'oni', 60, 15, 3, 5, 3)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.Hide())
-class Tower_Master(Hostile):
+
+
+class TowerMaster(Hostile):
     def __init__(self, y, x):
         super().__init__(y, x, 'O', 'Tower Master', 250, 45, 45, 15, 15)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.Hide())
-
