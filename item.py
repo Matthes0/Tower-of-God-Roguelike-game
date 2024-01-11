@@ -56,3 +56,77 @@ class LongSword(Weapon):
 class Tentacle(Weapon):
     def __init__(self):
         super().__init__(False, -1, -1, "Tentacle", True, 3, 75)
+
+# rings
+class Ring(Item):
+    def __init__(self, on_map, y, x, name):
+        super().__init__(on_map, y, x, name)
+
+
+class RingOfDexterity(Ring):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Ring of Dexterity")
+
+
+class RingOfStrength(Ring):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Ring of Strength")
+
+
+class RingOfIntelligence(Ring):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Ring of Intelligence")
+
+
+class RingOfLuck(Ring):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Ring of Luck")
+
+
+class RingOfCurse(Ring):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Ring of Curse")
+
+
+# amulets
+class Amulet(Item):
+    def __init__(self, on_map, y, x, name):
+        super().__init__(on_map, y, x, name)
+
+
+class AmuletOfProtection(Amulet):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Ring of Curse")
+
+
+class AmuletOfHealth(Amulet):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Amulet of Health")
+
+
+class AmuletOfRegeneration(Amulet):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Amulet of Regeneration")
+
+
+class AmuletOfMana(Amulet):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Amulet of Mana")
+
+
+class AmuletOfSeeingInvisible(Amulet):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Amulet of Seeing Invisible")
+
+
+# capes
+class Cape(Item):
+    def __init__(self, on_map, y, x, name, dodge, soak):
+        super().__init__(on_map, y, x, name)
+        self.dodge = dodge
+        self.soak = soak
+
+
+class CapeOfDodge(Cape):
+    def __init__(self):
+        super().__init__(False, -1, -1, "Cape of Dodge", 3, 0)

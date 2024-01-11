@@ -30,7 +30,6 @@ def get_input(player):
         if key == 'i':
             screen.show_equipment(player)
         if key == "t":
-            import tests
             key = main.win.getkey().lower()
             if key == "1":
                 terrain.can_place_actor(5, 20)
@@ -40,7 +39,7 @@ def get_input(player):
                 terrain.can_place_actor(4, 20)
             if key == "2":
                 if terrain.can_place_actor(1, 4) == 1:
-                    human = actors.Human(1, 4)
+                    human = actors.HumanWithLeatherArmorAndLongsword(1, 4)
                     terrain.place_actor(human)
                 if terrain.can_place_actor(100, 100) == 1:
                     human = actors.Human(100, 100)
@@ -71,53 +70,64 @@ def get_input(player):
         if key == ',':
             player.pick_item()
         if key == 'v':
-            import main
-            tmp_y = player.y
-            tmp_x = player.x
-            main.win.move(player.y, player.x)
-            while True:
-                key = main.win.getkey().lower()
-                if key == 'q':
-                    if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
-                        tmp_y -= 1
-                        tmp_x -= 1
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 'w':
-                    if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width:
-                        tmp_y -= 1
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 'e':
-                    if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
-                        tmp_y -= 1
-                        tmp_x += 1
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 'a':
-                    if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width:
-                        tmp_x -= 1
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 's':
-                    tmp_y -= 0
-                    tmp_x -= 0
-                    main.win.move(tmp_y, tmp_x)
-                elif key == 'd':
-                    if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width:
-                        tmp_x += 1
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 'z':
-                    if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
-                        tmp_y += 1
-                        tmp_x -= 1
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 'x':
-                    if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width:
-                        tmp_y += 1
-                        tmp_x -= 0
-                        main.win.move(tmp_y, tmp_x)
-                elif key == 'c':
-                    if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
-                        tmp_y += 1
-                        tmp_x += 1
-                        main.win.move(tmp_y, tmp_x)
-                else:
-                    screen.update_chat("")
-                    break
+            screen.show_spells(player)
+def targetting(player):
+    import main, screen
+    screen.update_chat("")
+    tmp_y = player.y
+    tmp_x = player.x
+    main.win.move(player.y, player.x)
+    while True:
+        key = main.win.getkey().lower()
+        if key == 'q':
+            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+                tmp_y -= 1
+                tmp_x -= 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == 'w':
+            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width:
+                tmp_y -= 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == 'e':
+            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+                tmp_y -= 1
+                tmp_x += 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == 'a':
+            if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+                tmp_x -= 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == 's':
+            tmp_y -= 0
+            tmp_x -= 0
+            main.win.move(tmp_y, tmp_x)
+        elif key == 'd':
+            if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+                tmp_x += 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == 'z':
+            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+                tmp_y += 1
+                tmp_x -= 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == 'x':
+            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width:
+                tmp_y += 1
+                tmp_x -= 0
+                main.win.move(tmp_y, tmp_x)
+        elif key == 'c':
+            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+                tmp_y += 1
+                tmp_x += 1
+                main.win.move(tmp_y, tmp_x)
+        elif key == '\n':
+            import magic
+            if main.terrain_map[tmp_y][tmp_x].actor is not None:
+                return main.terrain_map[tmp_y][tmp_x].actor
+            else:
+                screen.update_chat("You didn't target enemy.")
+            break
+        else:
+            #screen.update_chat(key)
+            screen.update_chat("")
+            break
