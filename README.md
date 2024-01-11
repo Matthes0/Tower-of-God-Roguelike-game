@@ -119,6 +119,75 @@ Wstępnie wszystkie znalezione przedmioty są niezidentyfikowane, więc wymagaj�
 
 Przeciwnicy mają te same statystyki co gracz. Jeśli jest humanoidem, to może również używać tych samych przedmiotów, co gracz. Jeśli przeciwnik jest wyposażony w jakieś przedmioty, to ma szansę na ich upuszczenie po śmierci. Przeciwnicy mogą respawnować się na mapie, ale tylko na obszarze jeszcze niezeksplorowanym przez gracza.
 
+
+Przeciwnicy dodani na ten moment:
+
+Human with leather armor and longsword
+hp: 10
+siła: 5
+zręczność: 5
+szczęście: 5
+klątwa: 0
+broń: Longsword
+pancerz: Leather armor
+
+Human with plate armor and warhammer
+hp: 10
+siła: 5
+zręczność: 5
+szczęście: 5
+klątwa: 0
+broń: Warhammer
+pancerz: Plate armor
+
+Dog 
+hp: 5
+siła: 1
+zręczność: 2
+szczęście: 3
+klątwa: 1
+broń: Claws
+pancerz: Hide
+
+Green Jelly
+hp: 9 
+siła: 2
+zręczność: 3
+szczęście: 5
+klątwa: 1
+broń: Tentacle
+pancerz: Jelly body
+
+Blue Jelly
+hp: 18
+siła: 3
+zręczność: 5
+szczęście: 5
+klątwa: 1
+broń: Tentacle
+pancerz: Jelly body 
+
+Oni 
+hp: 60
+siła: 15
+zręczność: 3
+szczęście: 5
+klątwa: 3
+broń: Warhammer 
+pancerz: Hide
+
+Tower Master
+hp: 250
+siła: 45
+zręczność: 45
+szczęście: 15
+klątwa: 15
+broń: Warhammer
+pancerz: Hide
+
+
+
+
 # Inspiracja
 Sam zarys fabularny jest nawiązaniem do południowokoreańskiego komiksu Tower of God, którego fabuła w skrócie opiera się o wspinanie się na tajemnicze wieże, po wejściu na które można spełnić swoje dowolne życzenie.
 
