@@ -1,3 +1,4 @@
+import item
 import screen
 
 
@@ -17,30 +18,36 @@ def melee_attack(attacker, defender, is_printing=0):
             if is_printing == 1:
                 print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals {damage} damage.", end="")
             defender.deal_damage(damage)
+            screen.update_chat(f"{attacker.name} hit {defender.name}. It deals {damage} damage.")
             if defender.is_alive() is True:
                 if is_printing == 1:
                     print(f" Now it's {defender.name} turn.")
             else:
+                # screen.update_chat(f"{defender.name} is dead.")
+                defender.die()
                 if is_printing == 1:
                     print(f" {defender.name} is dead.")
         else:
             if is_printing == 1:
                 print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals only 1 damage.", end="")
             defender.deal_damage(1)
+            screen.update_chat(f"{attacker.name} hit {defender.name}. It deals only 1 damage.")
             if defender.is_alive() is True:
                 if is_printing == 1:
                     print(f" Now it's {defender.name} turn.")
-
             else:
+                screen.update_chat(f"{defender.name} is dead.")
+                defender.die()
                 if is_printing == 1:
                     print(f" {defender.name} is dead.")
     else:
+        screen.update_chat(f"{attacker.name} attack missed {defender.name}.")
         if is_printing == 1:
             print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack missed. Now it's {defender.name} turn.")
 
 
 class Actors:
-    def __init__(self, y, x, char, name, max_hp, strength, dexterity, luck, curse):
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse):
         self.left_hand = None
         self.right_hand = None
         self.armor = None
@@ -61,6 +68,8 @@ class Actors:
         self.name = name
         self.max_hp = max_hp
         self.current_hp = max_hp
+        self.max_mp = max_mp
+        self.current_mp = max_mp
         self.strength = strength
         self.dexterity = dexterity
         self.luck = luck
@@ -139,21 +148,49 @@ class Actors:
         else:
             return False
 
+    def die(self):
+        import main
+        main.terrain_map[self.y][self.x].actor = None
+        screen.update_chat(f"{self.name} is dead.")
+        del self
+
+    def can_cast(self, cost):
+        if self.current_mp >= cost:
+            self.drain_mp(cost)
+            return True
+        return False
+
     def heal(self, amount):
         self.current_hp += amount
         if self.current_hp > self.max_hp:
             self.current_hp = self.max_hp
 
+    def restore_mp(self, amount):
+        self.current_mp += amount
+        if self.current_mp > self.max_hp:
+            self.current_hp = self.max_hp
+
+    def drain_mp(self, amount):
+        self.current_mp -= amount
+        if self.current_mp < 0:
+            self.current_mp = 0
+
     def deal_damage(self, amount):
         self.current_hp -= amount
         if self.is_alive() is False:
             self.current_hp = 0
+            self.die()
 
 
 class Player(Actors):
-
-    def __init__(self, y, x, char, name, max_hp, strength, dexterity, luck, curse):
-        super().__init__(y, x, char, name, max_hp, strength, dexterity, luck, curse)
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse):
+        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse)
+        self.known_spells = []
+        import magic
+        spell1 = magic.Smite()
+        self.known_spells.append(spell1)
+        spell2 = magic.Heal()
+        self.known_spells.append(spell2)
 
     def move(self, y, x):
         import main
@@ -170,8 +207,8 @@ class Player(Actors):
 
             if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):
                 tmp = "You walked. There are items on this tile: "
-                for item in main.terrain_map[self.y][self.x].items:
-                    tmp = tmp + item.name + ", "
+                for thing in main.terrain_map[self.y][self.x].items:
+                    tmp = tmp + thing.name + ", "
                 tmp = tmp[:len(tmp) - 2]
                 screen.update_chat(tmp)
             else:
@@ -179,24 +216,64 @@ class Player(Actors):
         elif main.terrain_map[self.y + y][self.x + x].passable is False:
             screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].name}.")
         elif main.terrain_map[self.y + y][self.x + x].actor is not None:
-            screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].actor.name}.")
+            # screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].actor.name}.")
+            melee_attack(self, main.terrain_map[self.y + y][self.x + x].actor)
 
 
 class Hostile(Actors):
-    def __init__(self, y, x, char, name, max_hp, strength, dexterity, luck, curse):
-        super().__init__(y, x, char, name, max_hp, strength, dexterity, luck, curse)
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse):
+        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse)
 
 
 class Human(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'human', 10, 5, 5, 5, 0)
+        super().__init__(y, x, 'H', 'human', 10, 10, 5, 5, 5, 0)
+
+
+class HumanWithPlateArmorAndWarhammer(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 10, 5, 5, 5, 0)
+        self.equip_weapon(item.Warhammer())
+        self.equip_armor(item.PlateArmor())
+
+
+class HumanWithLeatherArmorAndLongsword(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'H', 'Human with leather armor and longsword', 10, 10, 5, 5, 5, 0)
+        self.equip_weapon(item.LongSword())
+        self.equip_armor(item.LeatherArmor())
 
 
 class Dog(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'd', 'dog', 5, 1, 2, 3, 1)
+        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 3, 1)
+        self.equip_weapon(item.Claws())
+        self.equip_armor(item.Hide())
+
+
+class GreenJelly(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'j', 'Green Jelly', 9, 0, 2, 3, 5, 1)
+        self.equip_weapon(item.Tentacle())
+        self.equip_armor(item.Jelly_Body())
+
+
+class BlueJelly(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'j', 'Blue Jelly', 18, 0, 3, 5, 5, 1)
+        self.equip_weapon(item.Tentacle())
+        self.equip_armor(item.Jelly_Body())
 
 
 class Oni(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'O', 'oni', 30, 9, 1, 2, 3)
+        super().__init__(y, x, 'O', 'oni', 60, 0, 15, 3, 5, 3)
+        self.equip_weapon(item.Warhammer())
+        self.equip_armor(item.Hide())
+
+
+class TowerMaster(Hostile):
+    def __init__(self, y, x):
+        super().__init__(y, x, 'O', 'Tower Master', 250, 0, 45, 45, 15, 15)
+        self.equip_weapon(item.Warhammer())
+        self.equip_armor(item.Hide())

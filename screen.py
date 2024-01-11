@@ -90,10 +90,27 @@ def show_equipment(player):
             update_chat("")
             break
 
-        # key = main.win.getkey().lower()
-        # if key:
-        #     update_chat("")
-        #     break
+def show_spells(player):
+    import main, string
+    start_idx = 0
+    end_idx = min(len(player.known_spells), start_idx + 10)
+    alphabet = string.ascii_lowercase
+    while True:
+        main.win.erase()
+        for i in range(start_idx, end_idx):
+            letter = alphabet[i % 26]
+            main.win.addstr(i - start_idx, 0, f"({letter}) {player.known_spells[i].name}")
+        main.win.refresh()
+        key = main.win.getkey().lower()
+        if key == "a":
+            player.known_spells[0].cast(player)
+            break
+        elif key == "b":
+            player.known_spells[1].cast(player)
+            break
+        else:
+            update_chat("")
+            break
 def update_terrain():
     import main
     for i in range(main.map_height):
