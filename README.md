@@ -65,39 +65,28 @@ Atakowanie poprzez celowanie na pole. Zasięg zależny od broni.
 
 ##### Magia
 
-Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i uczy postać zaklęcia. Jest limit zaklęć posiadanych w danym momencie zależny od inteligencji. Obrażenia i efekty magii skalują się od inteligencji. Szkoły magii:
+Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i uczy postać zaklęcia. Jest limit zaklęć posiadanych w danym momencie zależny od inteligencji. Obrażenia i efekty magii skalują się zależnie od inteligencji (lub siły w przypadku magii bitewnej)
 - święta Magia
-
-
-- Heal
-- Smite
-- Holy Protection
-
-
-- nekromancja
-
-
-- Bone chill
-
-
-
+Heal, Smite, Holy Intervention
+- magia śmierci
+Drain life, Bone Chill, Raise Dead
 - ogień
+Spark, Fireball, Flame Wall
 - woda
+Create Mud, Suffocate, Arctic Armour
 - ziemia 
-
-- Raise Wall
-- Destroy Wall
-- Shatter
-
+Raise Terrain, Shatter, 
 - trucizna 
+Poison, Accelerate Circulation, Contagion 
 - magia bitewna
+Heroism, Blade Storm, Bloodlust
 - transformacja 
+Blade Hands, Native Form, Titan Form
 
 
 # Statystyki, rozwój postaci
 - zdrowie - punkty życia
-- zasób magiczny - rzucanie zaklęć, zależna od inteligencji
-
+- zasób magiczny - rzucanie zaklęć, zależny od inteligencji
 rozwijane statystyki przy lvl-upie:
 - siła - obrażenia wręcz i z niektórych broni dystansowych (np bronie rzucane), zdrowie
 - zręczność - szansa na unik, obrażenia dystansowe i z szybszych broni wręcz (np sztylety), prędkość ruchu
@@ -109,16 +98,7 @@ Co level up wzrasta zdrowie i otrzymuje się 3 punkty statystyk do rozdysponowan
 
 # Lokacje
 Zdecydowana większość gry dzieje się w wieżach. Każda wieża będzie różniła się designem, przeciwnikami i poziomami trudności. Na początku dostępny jest tylko pierwsza wieża. Aby wejść do trzeciej wieży trzeba zebrać 2 fragmenty z poprzednich wież. 
-W grze bohater pnie się w górę wieży. Można cofać się na poprzednie piętra, ale nie można wyjść z wieży przed jej ukończeniem. Warunkiem skończenia wieży jest pokonanie przeciwnika na samym szczycie wieży.
-##### Opcje, które przewiduję na ten moment
-- pokonanie wszystkich przeciwników na mapie (przy pokonaniu przeciwnika jest informacja ilu przeciwników pozostało, w tym przypadku nowe potwory nie będą się pojawiać po wstępnym załadowaniu)
-- pokonanie silnego przeciwnika (będzie odróżnialny od normalnych przeciwników, być może będzie widoczny dla gracza poza field of view)
-- znalezienie przejścia na następne piętro
-
-Trzecia opcja będzie tą, która jest najczęstsza. Pozostałe będą miały mniejszą szansę na pojawienie się. Po opcji nr 1 i 2 przejście pojawia się w pobliżu gracza.
-
-Na ostatnim piętrze każdej wieży na gracza czeka boss encounter, po którym gracz otrzymuje fragment klucza i może wrócić do startowego holu, aby wyruszyć do kolejnych lokacji.
-
+W grze bohater pnie się w górę wieży. Można cofać się na poprzednie piętra, ale nie można wyjść z wieży przed jej ukończeniem. Warunkiem skończenia wieży jest pokonanie przeciwnika na jej szczycie.
 # ekwipunek
 body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, rękawice, main hand, offhand(jeśli mainhand jest jednoręczny)
 Rzadkości przedmiotów - normalny, magiczny, epicki, legendarny, unikatowy. Unikatowe przedmioty są pregenerowanymi przedmiotami, reszta jest generowana losowo. Normalne przedmioty nie mają żadnych dodatkowych efektów. Im rzadkość przedmiotu jest wyższa, tym więcej dodatkowych efektów może posiadać. Przedmioty mogą mieć również negatywne statystyki, które balansują się z bonusami - na przykład unikatowy naszyjnik może nie pozwalać używać zwojów, ale wszystkie znajdowane przedmioty zostają automatycznie zidentyfikowane.
