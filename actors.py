@@ -158,6 +158,7 @@ class Actors:
         if self.current_mp >= cost:
             self.drain_mp(cost)
             return True
+        screen.update_chat("Not enough mana.")
         return False
 
     def heal(self, amount):
@@ -191,6 +192,8 @@ class Player(Actors):
         self.known_spells.append(spell1)
         spell2 = magic.Heal()
         self.known_spells.append(spell2)
+        spell3 = magic.Pyroblast()
+        self.known_spells.append(spell3)
 
     def move(self, y, x):
         import main

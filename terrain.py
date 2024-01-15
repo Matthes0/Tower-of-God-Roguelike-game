@@ -89,7 +89,7 @@ def delete_item(y, x):
 
 class Terrain:
     def __init__(self, y, x, name, char, passable, actor=None):
-        self.items = list()
+        self.items = []
         self.x = x
         self.y = y
         self.name = name
@@ -123,3 +123,8 @@ class Door(Terrain):
         super().__init__(y, x, "Door", "D", True)
         self.open = open
         self.see_through = False
+class FireWall(Terrain):
+    pass
+class Mud(Terrain):
+    def __init__(self, y, x):
+        super().__init__(y, x, "Mud", "~", True)
