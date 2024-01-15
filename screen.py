@@ -108,6 +108,9 @@ def show_spells(player):
         elif key == "b":
             player.known_spells[1].cast(player)
             break
+        elif key == "c":
+            player.known_spells[2].cast(player)
+            break
         else:
             update_chat("")
             break

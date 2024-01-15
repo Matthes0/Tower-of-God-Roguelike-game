@@ -71,7 +71,9 @@ def get_input(player):
             player.pick_item()
         if key == 'v':
             screen.show_spells(player)
-def targetting(player):
+
+
+def targetting(player, mode="single"):
     import main, screen
     screen.update_chat("")
     tmp_y = player.y
@@ -121,13 +123,23 @@ def targetting(player):
                 tmp_x += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == '\n':
-            import magic
-            if main.terrain_map[tmp_y][tmp_x].actor is not None:
-                return main.terrain_map[tmp_y][tmp_x].actor
-            else:
-                screen.update_chat("You didn't target enemy.")
-            break
+            match mode:
+                case "single":
+                    if main.terrain_map[tmp_y][tmp_x].actor is not None:
+                        return main.terrain_map[tmp_y][tmp_x].actor
+                    else:
+                        screen.update_chat("You didn't target enemy.")
+                        break
+                case "aoe":
+                    actors_list = []
+                    for i in range(tmp_y-1, tmp_y+1):
+                        for j in range(tmp_x-1, tmp_x+1):
+                            if 0 < tmp_y < main.map_height and 0 < tmp_x < main.map_width:
+                                if main.terrain_map[i][j].actor is not None:
+                                    actors_list.append(main.terrain_map[i][j].actor)
+                    return actors_list
+
         else:
-            #screen.update_chat(key)
+            # screen.update_chat(key)
             screen.update_chat("")
             break

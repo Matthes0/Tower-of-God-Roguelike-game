@@ -20,7 +20,7 @@ def main(stdscr):
     win = curses.newwin(map_height + 1, map_width + chat_width + 1, 0, 0)
     win.keypad(True)
     curses.curs_set(1)
-    player = actors.Player(5, 20, "@", 'Player', 10, 10,10, 10, 10, 10)
+    player = actors.Player(5, 20, "@", 'Player', 10, 20,10, 10, 10, 10)
     terrain.place_actor(player)
     screen.calculate_circle(player,4.5)
     warhammer = item.Warhammer()
