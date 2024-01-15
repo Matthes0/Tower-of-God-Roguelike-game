@@ -40,7 +40,7 @@ Przebieg walki:
 rzut kością d100, sukces to liczba mniejsza lub równa "rzut na trafienie"
 
 
-jeśli rzut się udał, to następuje losowanie od 0.50 do 1.50. Zadane obrażenia to floor((obrażenia broni) * losowanie) + siła atakującego + klątwa atakującego + klątwa broniącego - redukcja obrażeń broniącego. Zadane obrażenia zawsze wynoszą co najmniej 1. Jeśli zdrowie po otrzymaniu ataku będzie mniejsze lub równe 0, to broniący umiera.
+jeśli rzut się udał, to następuje losowanie od 0.50 do 1.50. Zadane obrażenia to floor((obrażenia broni) * losowanie) + siła atakującego + klątwa atakującego - redukcja obrażeń broniącego. Zadane obrażenia zawsze wynoszą co najmniej 1. Jeśli zdrowie po otrzymaniu ataku będzie mniejsze lub równe 0, to broniący umiera.
 
 ##### Walka wręcz
 
@@ -69,13 +69,13 @@ Postać może nauczyć się zaklęć z kamieni runicznych, niszczy to kamień i 
 - święta Magia
 Heal, Smite, Holy Intervention
 - magia śmierci
-Drain life, Bone Chill, Raise Dead
+Drain life, Blindness, Raise Dead
 - ogień
 Spark, Fireball, Flame Wall
 - woda
 Create Mud, Suffocate, Arctic Armour
 - ziemia 
-Raise Terrain, Shatter, 
+Raise Terrain, Shatter, Root
 - trucizna 
 Poison, Accelerate Circulation, Contagion 
 - magia bitewna
