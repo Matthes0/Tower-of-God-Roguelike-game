@@ -30,7 +30,7 @@ Podział na walkę wręcz, walkę dystansową i magię.
 Cechy liczące się w walce:
 - zdrowie
 - broń (szansa na trafienie i obrażenia)
-- zbroja (szansa na unik i redukcja obrażeń)
+- pancerz (szansa na unik i redukcja obrażeń)
 - siła (obrażenia)
 - zręczność (szansa na trafienie i unik)
 - klątwa (zwiększa zadawane obrażenia i szansę na trafienie ale jednocześnie zwiększa otrzymywane obrażenia i zmniejsza szansę na unik)
@@ -72,12 +72,10 @@ Heal, Smite, Holy Intervention
 Drain life, Blindness, Raise Dead
 - ogień
 Spark, Fireball, Flame Wall
-- woda
-Create Mud, Suffocate, Arctic Armour
-- ziemia 
-Raise Terrain, Shatter, Root
+- natura
+Create Mud, Raise Terrain, Shatter
 - trucizna 
-Poison, Accelerate Circulation, Contagion 
+Infect, Accelerate Circulation, Contagion 
 - magia bitewna
 Heroism, Blade Storm, Bloodlust
 - transformacja 
@@ -85,14 +83,15 @@ Blade Hands, Native Form, Titan Form
 
 
 # Statystyki, rozwój postaci
-- zdrowie - punkty życia
+- zdrowie - punkty życia, zależne od siły
 - zasób magiczny - rzucanie zaklęć, zależny od inteligencji
+
 rozwijane statystyki przy lvl-upie:
 - siła - obrażenia wręcz i z niektórych broni dystansowych (np bronie rzucane), zdrowie
-- zręczność - szansa na unik, obrażenia dystansowe i z szybszych broni wręcz (np sztylety), prędkość ruchu
+- zręczność - szansa na unik, obrażenia dystansowe, prędkość ruchu
 - inteligencja - ilość zaklęć i zasobu magicznego, siła zaklęć, dodatkowe obrażenia dla niektórych broni, lepsze efekty zwojów
 - szczęście - więcej złota i większa szansa na otrzymanie lepszych przedmiotów z potwórow i podczas generowania mapy (efekt dopiero na kolejnym piętrze jeśli chodzi o generowanie mapy), szansa na trafienie krytyczne, dodatkowe obrażenia dla niektórych broni
-- klątwa - dosyć unikatowy atrybut, bo w pewnym sensie osłabia bohatera. Zmniejsza maksymalne zdrowie bohatera i może powodować inne negatywne efekty, ale za to zwiększa potencjał ofensywny bohatera (w pewnym sensie statystyka ta jest pod tzw. glass cannon buildy). Statystyka klątwy na wysokim poziomie pozwalałaby przede wszystkim spotkać ukrytego ostatniego bossa gry.
+- klątwa - dosyć unikatowy atrybut, bo w pewnym sensie osłabia bohatera. zwiększa szansę na otrzymanie obrażeń, ale za to zwiększa potencjał ofensywny bohatera (w pewnym sensie statystyka ta jest pod tzw. glass cannon buildy). Statystyka klątwy na wysokim poziomie pozwalałaby przede wszystkim spotkać ukrytego ostatniego bossa gry.
 
 Co level up wzrasta zdrowie i otrzymuje się 3 punkty statystyk do rozdysponowania pomiędzy 5 dostępnych statystyk.
 
@@ -100,14 +99,11 @@ Co level up wzrasta zdrowie i otrzymuje się 3 punkty statystyk do rozdysponowan
 Zdecydowana większość gry dzieje się w wieżach. Każda wieża będzie różniła się designem, przeciwnikami i poziomami trudności. Na początku dostępny jest tylko pierwsza wieża. Aby wejść do trzeciej wieży trzeba zebrać 2 fragmenty z poprzednich wież. 
 W grze bohater pnie się w górę wieży. Można cofać się na poprzednie piętra, ale nie można wyjść z wieży przed jej ukończeniem. Warunkiem skończenia wieży jest pokonanie przeciwnika na jej szczycie.
 # ekwipunek
-body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, rękawice, main hand, offhand(jeśli mainhand jest jednoręczny)
-Rzadkości przedmiotów - normalny, magiczny, epicki, legendarny, unikatowy. Unikatowe przedmioty są pregenerowanymi przedmiotami, reszta jest generowana losowo. Normalne przedmioty nie mają żadnych dodatkowych efektów. Im rzadkość przedmiotu jest wyższa, tym więcej dodatkowych efektów może posiadać. Przedmioty mogą mieć również negatywne statystyki, które balansują się z bonusami - na przykład unikatowy naszyjnik może nie pozwalać używać zwojów, ale wszystkie znajdowane przedmioty zostają automatycznie zidentyfikowane.
-każdy element wyposażenia ma statystyki i wymagania do efektywnego noszenia, np. zbroja płytowa będzie wymagała jakąś ilość siły, aby móc ją nosić bez negatywnych efektów.
-
-Wstępnie wszystkie znalezione przedmioty są niezidentyfikowane, więc wymagają założenia lub użycia zwoju identyfikacji. Pierwsza opcja jest ryzykowna, gdyż przedmiot może być przeklęty - nie można go zdjąć bez wcześniejszego usunięcia klątwy.
+body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, main hand, offhand(jeśli mainhand jest jednoręczny)
+Rzadkości przedmiotów - normalny, magiczny, epicki, legendarny, unikatowy. Unikatowe przedmioty są pregenerowanymi przedmiotami, reszta jest generowana losowo. Normalne przedmioty nie mają żadnych dodatkowych efektów. Im rzadkość przedmiotu jest wyższa, tym więcej dodatkowych efektów może posiadać.
 
 # przedmioty użytkowe (jednorazowe)
-- kamienie runiczne - nauka zaklęć, wymagają identyfikacji aby móc się ich nauczyć. Kolejna znaleziona instancja tego zaklęcia jest już zidentyfikowana. Mogą zostać użyte jako jednorazowe zaklęcie o mocniejszym efekcie niż nauczone permanentnie.
+- kamienie runiczne - nauka zaklęć. Każdy kamień runiczny może pojawić się tylko raz. Od początku wiadomo, jakiego zaklęcia uczy dany kamień runiczny.
 - mikstury - efekty pozytywne lub negatywne, można ich użyć bez identyfikacji, po napiciu się mikstury jest ona zidentyfikowana do końca aktualnego podejścia. Przykładowe efekty to uleczenie, trucizna (na pijącym), buff do obrażeń na kilkanaście tur. Ich efekt działania nie skaluje się od statystyk, zawsze działają tak samo.
 - zwoje - mechanicznie działają podobnie do mikstur. Efekty to np. identyfikacja przedmiotu, ulepszenie przedmiotu, teleportacja. Ich efekt działania nie skaluje się od statystyk, zawsze działają tak samo.
 # przeciwnicy

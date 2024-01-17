@@ -23,8 +23,6 @@ def melee_attack(attacker, defender, is_printing=0):
                 if is_printing == 1:
                     print(f" Now it's {defender.name} turn.")
             else:
-                # screen.update_chat(f"{defender.name} is dead.")
-                defender.die()
                 if is_printing == 1:
                     print(f" {defender.name} is dead.")
         else:
@@ -36,8 +34,6 @@ def melee_attack(attacker, defender, is_printing=0):
                 if is_printing == 1:
                     print(f" Now it's {defender.name} turn.")
             else:
-                screen.update_chat(f"{defender.name} is dead.")
-                defender.die()
                 if is_printing == 1:
                     print(f" {defender.name} is dead.")
     else:
@@ -47,13 +43,12 @@ def melee_attack(attacker, defender, is_printing=0):
 
 
 class Actors:
-    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed=1.2):
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed=1.0):
         self.left_hand = None
         self.right_hand = None
         self.armor = None
         self.head = None
         self.body = None
-        self.hands = None
         self.legs = None
         self.back = None
         self.ring_1 = None
@@ -79,6 +74,14 @@ class Actors:
         self.speed = speed
         import main
         main.turn_list.append(self)
+        self.temp_effects = []
+
+    def tick_temp_effects(self):
+        for effect in self.temp_effects:
+            effect[0] -= 1
+            if effect[0] == 0:
+                effect[1].buff(self)
+
 
     def get_name(self, attrib):
         match attrib:
@@ -98,14 +101,10 @@ class Actors:
                 if self.body is None:
                     return "None"
                 return self.body.name
-            case "hands":
-                if self.hands is None:
-                    return "None"
-                return self.hands.name
             case "legs":
                 if self.legs is None:
                     return "None"
-                return self.hands.name
+                return self.legs.name
             case "back":
                 if self.back is None:
                     return "None"
@@ -159,7 +158,6 @@ class Actors:
         screen.update_chat(f"{self.name} is dead.")
         if self in main.turn_list:
             main.turn_list.remove(self)
-        del self
 
     def can_cast(self, cost):
         if self.current_mp >= cost:
@@ -188,8 +186,10 @@ class Actors:
         if self.is_alive() is False:
             self.current_hp = 0
             self.die()
-
-
+    def modify_stat(self, stat, amount):
+        match stat:
+            case "strength":
+                self.strength += amount
 class Player(Actors):
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
         super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
@@ -201,6 +201,8 @@ class Player(Actors):
         self.known_spells.append(spell2)
         spell3 = magic.Pyroblast()
         self.known_spells.append(spell3)
+        spell4 = magic.Heroism()
+        self.known_spells.append(spell4)
 
     def move(self, y, x):
         import main

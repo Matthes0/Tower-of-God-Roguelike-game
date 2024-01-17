@@ -67,7 +67,7 @@ def get_input(player):
             if key == "5":
                 if terrain.can_place_item(5, 10) == 1:
                     import item
-                    sword = item.Item(True, 5, 10, "Sword")
+                    sword = item.Item(5, 10, "Sword")
                     terrain.place_item(sword)
             if key == "6":
                 if hasattr(main.terrain_map[5][10], "items") and len(main.terrain_map[5][10].items) > 0:

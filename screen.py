@@ -70,7 +70,6 @@ def show_equipment(player):
         main.win.addstr(1, 30, f"right hand: {player.get_name('right_hand')}")
         main.win.addstr(2, 30, f"head: {player.get_name('head')}")
         main.win.addstr(3, 30, f"body: {player.get_name('body')}")
-        main.win.addstr(4, 30, f"hands: {player.get_name('hands')}")
         main.win.addstr(5, 30, f"legs: {player.get_name('legs')}")
         main.win.addstr(6, 30, f"back: {player.get_name('back')}")
         main.win.addstr(7, 30, f"ring 1: {player.get_name('ring_1')}")
@@ -110,6 +109,9 @@ def show_spells(player):
         elif key == "c":
             player.known_spells[2].cast(player)
             break
+        elif key == "d":
+            player.known_spells[3].cast(player)
+            break
         else:
             update_chat("")
             break
@@ -127,6 +129,6 @@ def update_terrain():
                         main.win.addch(i, j, ",")
                     else:
                         main.win.addch(i, j, main.terrain_map[i][j].char)
-    main.win.addstr(main.map_height, 0, f"LVL: XD HP: {main.player.current_hp}/{main.player.current_hp}, MP: {main.player.current_mp}/{main.player.max_mp} TURN: {main.turn_counter}")
+    main.win.addstr(main.map_height, 0, f"LVL: XD HP: {main.player.current_hp}/{main.player.max_hp}, MP: {main.player.current_mp}/{main.player.max_mp} TURN: {main.turn_counter}")
     main.win.addstr(main.map_height + 1, 0, f"STR: {main.player.strength} DEX: {main.player.dexterity} INT: {main.player.intelligence} LCK: {main.player.luck} CRS: {main.player.curse}")
     main.win.refresh()
