@@ -1,5 +1,4 @@
 
-
 def update_chat(message):
     import main
     if message == "":
@@ -18,7 +17,7 @@ def in_circle(actor, y, x, radius):
     import math
     dy = actor.y - y
     dx = actor.x - x
-    dist = dx*dx + dy*dy
+    dist = dx *dx + dy *dy
     return dist <= radius * radius
 
 
@@ -31,8 +30,8 @@ def calculate_circle(actor, radius):
     for i in range(0, main.map_height):
         for j in range(0, main.map_width):
             main.terrain_map[i][j].visible = False
-    for i in range(top, bottom+1):
-        for j in range(left, right+1):
+    for i in range(top, bottom +1):
+        for j in range(left, right +1):
             if 0 <= i < main.map_height and 0 <= j < main.map_width and in_circle(actor, i, j, radius):
                 main.terrain_map[i][j].visible = True
 
@@ -128,4 +127,6 @@ def update_terrain():
                         main.win.addch(i, j, ",")
                     else:
                         main.win.addch(i, j, main.terrain_map[i][j].char)
+    main.win.addstr(main.map_height, 0, f"LVL: XD HP: {main.player.current_hp}/{main.player.current_hp}, MP: {main.player.current_mp}/{main.player.max_mp} TURN: {main.turn_counter}")
+    main.win.addstr(main.map_height + 1, 0, f"STR: {main.player.strength} DEX: {main.player.dexterity} INT: {main.player.intelligence} LCK: {main.player.luck} CRS: {main.player.curse}")
     main.win.refresh()

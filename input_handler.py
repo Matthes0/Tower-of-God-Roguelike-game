@@ -11,22 +11,31 @@ def get_input(player):
         key = main.win.getkey().lower()
         if key == 'q':
             player.move(-1, -1)
+            break
         if key == 'w':
             player.move(-1, 0)
+            break
         if key == 'e':
             player.move(-1, 1)
+            break
         if key == 'a':
             player.move(0, -1)
+            break
         if key == 's':
             player.move(0, 0)
+            break
         if key == 'd':
             player.move(0, 1)
+            break
         if key == 'z':
             player.move(1, -1)
+            break
         if key == 'x':
             player.move(1, 0)
+            break
         if key == 'c':
             player.move(1, 1)
+            break
         if key == 'i':
             screen.show_equipment(player)
         if key == "t":
@@ -69,8 +78,10 @@ def get_input(player):
             screen.show_all_message_log()
         if key == ',':
             player.pick_item()
+            break
         if key == 'v':
             screen.show_spells(player)
+            break
 
 
 def targetting(player, mode="single"):

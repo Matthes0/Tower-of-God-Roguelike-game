@@ -13,7 +13,7 @@ def melee_attack(attacker, defender, is_printing=0):
 
         roll_damage = random.uniform(0.50, 1.50)
         damage = math.floor(
-            attacker.weapon.damage * roll_damage) + attacker.strength + attacker.curse + defender.curse - defender.armor.soak
+            attacker.weapon.damage * roll_damage) + attacker.strength + attacker.curse - defender.armor.soak
         if damage > 0:
             if is_printing == 1:
                 print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack hit. It deals {damage} damage.", end="")
@@ -47,7 +47,7 @@ def melee_attack(attacker, defender, is_printing=0):
 
 
 class Actors:
-    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse):
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed=1.2):
         self.left_hand = None
         self.right_hand = None
         self.armor = None
@@ -71,9 +71,14 @@ class Actors:
         self.max_mp = max_mp
         self.current_mp = max_mp
         self.strength = strength
+        self.intelligence = intelligence
         self.dexterity = dexterity
         self.luck = luck
         self.curse = curse
+        self.current_turn = speed
+        self.speed = speed
+        import main
+        main.turn_list.append(self)
 
     def get_name(self, attrib):
         match attrib:
@@ -152,6 +157,8 @@ class Actors:
         import main
         main.terrain_map[self.y][self.x].actor = None
         screen.update_chat(f"{self.name} is dead.")
+        if self in main.turn_list:
+            main.turn_list.remove(self)
         del self
 
     def can_cast(self, cost):
@@ -184,8 +191,8 @@ class Actors:
 
 
 class Player(Actors):
-    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse):
-        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse)
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
+        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
         self.known_spells = []
         import magic
         spell1 = magic.Smite()
@@ -199,8 +206,7 @@ class Player(Actors):
         import main
         if y == 0 and x == 0:
             screen.update_chat("You waited.")
-        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][
-            self.x + x].actor is None:
+        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
             main.terrain_map[self.y][self.x].actor = None
             self.y += y
             self.x += x
@@ -222,61 +228,73 @@ class Player(Actors):
             # screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].actor.name}.")
             melee_attack(self, main.terrain_map[self.y + y][self.x + x].actor)
 
-
 class Hostile(Actors):
-    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse):
-        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, luck, curse)
+    def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed):
+        super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed)
+    def move(self, y, x):
+        import main
+        if x == 0 and y == 0:
+            pass
+        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
+            main.terrain_map[self.y][self.x].actor = None
+            self.y += y
+            self.x += x
+            main.terrain_map[self.y][self.x].actor = self
+            screen.update_terrain()
+        elif main.terrain_map[self.y + y][self.x + x].actor is not None:
+            melee_attack(self, main.terrain_map[self.y + y][self.x + x].actor)
+
 
 
 class Human(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'human', 10, 10, 5, 5, 5, 0)
+        super().__init__(y, x, 'H', 'human', 10, 10, 5, 5,5, 5, 0)
 
 
 class HumanWithPlateArmorAndWarhammer(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 10, 5, 5, 5, 0)
+        super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 10, 5, 5, 5, 5, 0)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.PlateArmor())
 
 
 class HumanWithLeatherArmorAndLongsword(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'Human with leather armor and longsword', 10, 10, 5, 5, 5, 0)
+        super().__init__(y, x, 'H', 'Human with leather armor and longsword', 10, 10, 5, 5, 5, 5, 0, 1.0)
         self.equip_weapon(item.LongSword())
         self.equip_armor(item.LeatherArmor())
 
 
 class Dog(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 3, 1)
+        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 2,3, 1)
         self.equip_weapon(item.Claws())
         self.equip_armor(item.Hide())
 
 
 class GreenJelly(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'j', 'Green Jelly', 9, 0, 2, 3, 5, 1)
+        super().__init__(y, x, 'j', 'Green Jelly', 9, 0, 2, 2,3, 5, 1)
         self.equip_weapon(item.Tentacle())
         self.equip_armor(item.Jelly_Body())
 
 
 class BlueJelly(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'j', 'Blue Jelly', 18, 0, 3, 5, 5, 1)
+        super().__init__(y, x, 'j', 'Blue Jelly', 18, 0, 3, 5, 3, 5, 1)
         self.equip_weapon(item.Tentacle())
         self.equip_armor(item.Jelly_Body())
 
 
 class Oni(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'O', 'oni', 60, 0, 15, 3, 5, 3)
+        super().__init__(y, x, 'O', 'oni', 60, 0, 15, 3, 2, 5, 3)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.Hide())
 
 
 class TowerMaster(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'O', 'Tower Master', 250, 0, 45, 45, 15, 15)
+        super().__init__(y, x, 'O', 'Tower Master', 250, 0, 45, 45, 30, 15, 15)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.Hide())
