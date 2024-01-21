@@ -213,7 +213,7 @@ class Player(Actors):
             self.y += y
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
-            screen.calculate_circle(self, 4.5)
+            screen.calculate_circle(self, 100)
             screen.update_terrain()
 
             if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):

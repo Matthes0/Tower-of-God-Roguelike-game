@@ -4,7 +4,7 @@ def update_chat(message):
     if message == "":
         pass
     else:
-        if len(main.message_log) == 10:
+        if len(main.message_log) == main.map_height:
             main.message_log.pop(0)
         main.message_log.append(message)
         main.all_message_log.append(message)
@@ -117,18 +117,38 @@ def show_spells(player):
             break
 def update_terrain():
     import main
-    for i in range(main.map_height):
-        for j in range(main.map_width):
-            if main.terrain_map[i][j].visible is False:
-                main.win.addch(i, j, ' ')
+    if main.player.y - int(main.map_height/2) < 0:
+        start_y = 0
+    else:
+        start_y = main.player.y - int(main.map_height/2)
+    if main.player.x - int(main.map_width/2) < 0:
+        start_x = 0
+    else:
+        start_x = main.player.x - int(main.map_width/2)
+    if start_y + main.map_height > main.total_map_size_y:
+        end_y = main.total_map_size_y
+    else:
+        end_y = start_y + main.map_height
+    if start_x + main.map_width > main.total_map_size_x:
+        end_x = main.total_map_size_x
+    else:
+        end_x = start_x + main.map_width
+    tmp_y = -1
+    for i in range(start_y, end_y):
+        tmp_y += 1
+        tmp_x = 0
+        for j in range(start_x, end_x):
+            # if main.terrain_map[i][j].visible is False:
+            #     main.win.addch(tmp_y, tmp_x, ' ')
+            # else:
+            if main.terrain_map[i][j].actor is not None:
+                main.win.addch(tmp_y,tmp_x, main.terrain_map[i][j].actor.char)
             else:
-                if main.terrain_map[i][j].actor is not None:
-                    main.win.addch(i, j, main.terrain_map[i][j].actor.char)
+                if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
+                    main.win.addch(tmp_y,tmp_x, ",")
                 else:
-                    if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
-                        main.win.addch(i, j, ",")
-                    else:
-                        main.win.addch(i, j, main.terrain_map[i][j].char)
+                    main.win.addch(tmp_y,tmp_x, main.terrain_map[i][j].char)
+            tmp_x += 1
     main.win.addstr(main.map_height, 0, f"LVL: XD HP: {main.player.current_hp}/{main.player.max_hp}, MP: {main.player.current_mp}/{main.player.max_mp} TURN: {main.turn_counter}")
     main.win.addstr(main.map_height + 1, 0, f"STR: {main.player.strength} DEX: {main.player.dexterity} INT: {main.player.intelligence} LCK: {main.player.luck} CRS: {main.player.curse}")
     main.win.refresh()

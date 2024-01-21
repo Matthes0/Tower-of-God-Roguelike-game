@@ -1,11 +1,41 @@
-def generate_terrain(y, x):
+def generate_terrain(y, x, type_of_gen):
     map_list = [[0] * x for i in range(0, y)]
     for i in range(0, y):
         for j in range(0, x):
-            if i == 0 or i == y - 1 or j == 0 or j == x - 1:
-                map_list[i][j] = IndestructibleWall(i, j)
-            else:
-                map_list[i][j] = Floor(i, j)
+            map_list[i][j] = IndestructibleWall(i, j)
+    match type_of_gen:
+        case "lobby":
+            for i in range(12, 19):
+                for j in range(12, 19):
+                    map_list[i][j] = Floor(i, j)
+            for i in range(12, 19):
+                for j in range(22, 29):
+                    map_list[i][j] = Floor(i, j)
+            for i in range(12, 19):
+                for j in range(1, 8):
+                    map_list[i][j] = Floor(i, j)
+
+            for i in range(22, 29):
+                for j in range(12, 19):
+                    map_list[i][j] = Floor(i, j)
+            for i in range(1, 8):
+                for j in range(12, 19):
+                    map_list[i][j] = Floor(i, j)
+            for i in range(14, 17):
+                for j in range(1, 29):
+                    map_list[i][j] = Floor(i, j)
+            for i in range(1, 29):
+                for j in range(14, 17):
+                    map_list[i][j] = Floor(i, j)
+            map_list[15][4] = Stairs(15, 4)
+        case "1":
+            # for i in range(0, 7):
+            #     for j in range(0, 7):
+            #         map_list[i][j] = IndestructibleWall(i, j)
+            for i in range(1,10):
+                for j in range(1,10):
+                    map_list[i][j] = Floor(i, j)
+            map_list[1][1] = Stairs(1, 1)
     return map_list
 
 
@@ -123,8 +153,17 @@ class Door(Terrain):
         super().__init__(y, x, "Door", "D", True)
         self.open = open
         self.see_through = False
+
+
+class Stairs(Terrain):
+    def __init__(self, y, x):
+        super().__init__(y, x, "Stairs", "S", True)
+
+
 class FireWall(Terrain):
     pass
+
+
 class Mud(Terrain):
     def __init__(self, y, x):
         super().__init__(y, x, "Mud", "~", True)

@@ -7,11 +7,17 @@ import item
 import screen
 import terrain
 
-map_height = 10
-map_width = 30
+map_height = 13
+map_width = 26
 chat_width = 100
-terrain_map = terrain.generate_terrain(map_height, map_width)
-terrain_map[4][5] = terrain.IndestructibleWall(4, 5)
+total_map_size_y = 30
+total_map_size_x = 30
+lobby = terrain.generate_terrain(total_map_size_y, total_map_size_x, "lobby")
+terrain_map = lobby
+tower_of_beginning = []
+tower_of_nature = []
+tower_of_god = []
+# terrain_map[4][5] = terrain.IndestructibleWall(4, 5)
 message_log = []
 all_message_log = []
 global win, player
@@ -21,25 +27,25 @@ spell_list = []
 
 def main(stdscr):
     global win, player, turn_counter, turn_list
-    win = curses.newwin(map_height + 5, map_width + chat_width + 1, 0, 0)
+    win = curses.newwin(map_height + 2, map_width + chat_width + 1, 0, 0)
     win.keypad(True)
     curses.curs_set(1)
     # character select, there will be menu
     race = "Human"
     match race:
         case "Human":
-            player = actors.Player(5, 20, "@", 'Player', 500, 20, 10, 10, 10, 10, 10)
+            player = actors.Player(15, 3, "@", 'Player', 500, 20, 10, 10, 10, 10, 10)
             terrain.place_actor(player)
         case "Wraithraiser":
             pass
         case "Rashang":
             pass
 
-    dotestow = actors.HumanWithLeatherArmorAndLongsword(3, 19)
-    terrain.place_actor(dotestow)
+    # dotestow = actors.HumanWithLeatherArmorAndLongsword(3, 3)
+    # terrain.place_actor(dotestow)
     # dotestow = actors.HumanWithLeatherArmorAndLongsword(2, 15)
     # terrain.place_actor(dotestow)
-    screen.calculate_circle(player, 4.5)
+    screen.calculate_circle(player, 100)
     warhammer = item.Warhammer()
     player.equip_weapon(warhammer)
     armor = item.LeatherArmor()

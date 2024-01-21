@@ -38,6 +38,16 @@ def get_input(player):
             break
         if key == 'i':
             screen.show_equipment(player)
+        if key == 'l':
+            if main.terrain_map[player.y][player.x].name == "Stairs":
+                main.terrain_map[player.y][player.x].actor = None
+                main.tower_of_beginning.append(terrain.generate_terrain(50,50,"1"))
+                main.terrain_map = main.tower_of_beginning[0]
+                player.y = 1
+                player.x = 1
+                main.terrain_map[player.y][player.x].actor = player
+                screen.update_chat("")
+                break
         if key == "t":
             key = main.win.getkey().lower()
             if key == "1":
@@ -87,9 +97,9 @@ def get_input(player):
 def targetting(player, mode="single"):
     import main, screen
     screen.update_chat("")
-    tmp_y = player.y
-    tmp_x = player.x
-    main.win.move(player.y, player.x)
+    tmp_y = int(main.map_height/2)
+    tmp_x = int(main.map_width/2)
+    main.win.move(tmp_y, tmp_x)
     while True:
         key = main.win.getkey().lower()
         if key == 'q':
