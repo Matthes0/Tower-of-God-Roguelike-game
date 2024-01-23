@@ -1,3 +1,5 @@
+import curses
+
 
 def update_chat(message):
     import main
@@ -116,6 +118,7 @@ def show_spells(player):
             update_chat("")
             break
 def update_terrain():
+    curses.init_pair(1,curses.COLOR_MAGENTA,curses.COLOR_BLACK)
     import main
     if main.player.y - int(main.map_height/2) < 0:
         start_y = 0

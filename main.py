@@ -34,17 +34,15 @@ def main(stdscr):
     race = "Human"
     match race:
         case "Human":
-            player = actors.Player(15, 3, "@", 'Player', 500, 20, 10, 10, 10, 10, 10)
+            player = actors.Player(15, 15, "@", 'Player', 500, 20, 10, 10, 10, 10, 10)
             terrain.place_actor(player)
         case "Wraithraiser":
             pass
         case "Rashang":
             pass
 
-    # dotestow = actors.HumanWithLeatherArmorAndLongsword(3, 3)
-    # terrain.place_actor(dotestow)
-    # dotestow = actors.HumanWithLeatherArmorAndLongsword(2, 15)
-    # terrain.place_actor(dotestow)
+    dotestow = actors.HumanWithLeatherArmorAndLongsword(15, 5)
+    terrain.place_actor(dotestow)
     screen.calculate_circle(player, 100)
     warhammer = item.Warhammer()
     player.equip_weapon(warhammer)
@@ -64,8 +62,7 @@ def main(stdscr):
                     current.move(y, x)
             current.current_turn += current.speed
             current.tick_temp_effects()
-            if current == player:
-                turn_counter += 1
+        turn_counter += 1
 
 
 curses.wrapper(main)

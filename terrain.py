@@ -27,7 +27,7 @@ def generate_terrain(y, x, type_of_gen):
             for i in range(1, 29):
                 for j in range(14, 17):
                     map_list[i][j] = Floor(i, j)
-            map_list[15][4] = Stairs(15, 4)
+            map_list[15][4] = Upstairs(15, 4, 0)
         case "1":
             # for i in range(0, 7):
             #     for j in range(0, 7):
@@ -35,7 +35,7 @@ def generate_terrain(y, x, type_of_gen):
             for i in range(1,10):
                 for j in range(1,10):
                     map_list[i][j] = Floor(i, j)
-            map_list[1][1] = Stairs(1, 1)
+            map_list[1][1] = Downstairs(1, 1,1)
     return map_list
 
 
@@ -155,10 +155,14 @@ class Door(Terrain):
         self.see_through = False
 
 
-class Stairs(Terrain):
-    def __init__(self, y, x):
-        super().__init__(y, x, "Stairs", "S", True)
-
+class Upstairs(Terrain):
+    def __init__(self, y, x, level):
+        super().__init__(y, x, "Upstairs", ">", True)
+        self.level = level
+class Downstairs(Terrain):
+    def __init__(self, y, x, level):
+        super().__init__(y, x, "Downstairs", "<", True)
+        self.level = level
 
 class FireWall(Terrain):
     pass

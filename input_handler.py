@@ -39,12 +39,21 @@ def get_input(player):
         if key == 'i':
             screen.show_equipment(player)
         if key == 'l':
-            if main.terrain_map[player.y][player.x].name == "Stairs":
+            screen.update_chat(f"{player.y}, {player.x}")
+            if main.terrain_map[player.y][player.x].name == "Upstairs":
                 main.terrain_map[player.y][player.x].actor = None
                 main.tower_of_beginning.append(terrain.generate_terrain(50,50,"1"))
                 main.terrain_map = main.tower_of_beginning[0]
                 player.y = 1
                 player.x = 1
+                main.terrain_map[player.y][player.x].actor = player
+                screen.update_chat("")
+                break
+            if main.terrain_map[player.y][player.x].name == "Downstairs":
+                main.terrain_map[player.y][player.x].actor = None
+                main.terrain_map = main.lobby
+                player.y = 15
+                player.x = 15
                 main.terrain_map[player.y][player.x].actor = player
                 screen.update_chat("")
                 break
@@ -97,8 +106,17 @@ def get_input(player):
 def targetting(player, mode="single"):
     import main, screen
     screen.update_chat("")
-    tmp_y = int(main.map_height/2)
-    tmp_x = int(main.map_width/2)
+    tmp_y = player.y
+    tmp_x = player.x
+    real_y = player.y
+    real_x = player.x
+    if tmp_y > int(main.map_height/2):
+        offset = tmp_y - int(main.map_height/2)
+        tmp_y -= offset
+    if tmp_x > int(main.map_width/2):
+        offset = tmp_x - int(main.map_width/2)
+        tmp_x -= offset
+
     main.win.move(tmp_y, tmp_x)
     while True:
         key = main.win.getkey().lower()
@@ -106,19 +124,25 @@ def targetting(player, mode="single"):
             if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
                 tmp_y -= 1
                 tmp_x -= 1
+                real_y -= 1
+                real_x -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'w':
             if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width:
                 tmp_y -= 1
+                real_y -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'e':
             if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
                 tmp_y -= 1
                 tmp_x += 1
+                real_y -= 1
+                real_x += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'a':
             if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width:
                 tmp_x -= 1
+                real_x -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 's':
             tmp_y -= 0
@@ -127,35 +151,40 @@ def targetting(player, mode="single"):
         elif key == 'd':
             if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width:
                 tmp_x += 1
+                real_x += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'z':
             if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
                 tmp_y += 1
                 tmp_x -= 1
+                real_y += 1
+                real_x -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'x':
             if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width:
                 tmp_y += 1
-                tmp_x -= 0
+                real_y += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'c':
             if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
                 tmp_y += 1
                 tmp_x += 1
+                real_y += 1
+                real_x += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == '\n':
             match mode:
                 case "single":
-                    if main.terrain_map[tmp_y][tmp_x].actor is not None:
-                        return main.terrain_map[tmp_y][tmp_x].actor
+                    if main.terrain_map[real_y][real_x].actor is not None:
+                        return main.terrain_map[real_y][real_x].actor
                     else:
                         screen.update_chat("You didn't target enemy.")
                         break
                 case "aoe":
                     actors_list = []
-                    for i in range(tmp_y-1, tmp_y+1):
-                        for j in range(tmp_x-1, tmp_x+1):
-                            if 0 < tmp_y < main.map_height and 0 < tmp_x < main.map_width:
+                    for i in range(real_y-1, real_y+1):
+                        for j in range(real_x-1, real_x+1):
+                            if 0 < real_y < main.total_map_size_y and 0 < real_x < main.total_map_size_x:
                                 if main.terrain_map[i][j].actor is not None:
                                     actors_list.append(main.terrain_map[i][j].actor)
                     return actors_list

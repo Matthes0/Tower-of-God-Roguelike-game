@@ -70,7 +70,7 @@ class Actors:
         self.dexterity = dexterity
         self.luck = luck
         self.curse = curse
-        self.current_turn = speed
+        self.current_turn = 0
         self.speed = speed
         import main
         main.turn_list.append(self)
@@ -194,6 +194,7 @@ class Player(Actors):
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
         super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
         self.known_spells = []
+        self.speed = 1.5
         import magic
         spell1 = magic.Smite()
         self.known_spells.append(spell1)
