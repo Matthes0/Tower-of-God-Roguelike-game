@@ -10,7 +10,6 @@ def melee_attack(attacker, defender, is_printing=0):
         hit_chance = 5
     roll = random.randint(1, 100)
     if roll <= hit_chance:
-
         roll_damage = random.uniform(0.50, 1.50)
         damage = math.floor(
             attacker.weapon.damage * roll_damage) + attacker.strength + attacker.curse - defender.armor.soak
@@ -44,6 +43,28 @@ def melee_attack(attacker, defender, is_printing=0):
 
 class Actors:
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed=1.0):
+        # attributes
+        self.strength = strength
+        self.intelligence = intelligence
+        self.dexterity = dexterity
+        self.luck = luck
+        self.curse = curse
+        self.speed = speed
+
+        # stats depending on attributes
+        self.max_hp = self.strength * 2 + 10
+        self.current_hp = self.max_hp
+        self.max_mp = self.intelligence * 2
+        self.current_mp = self.max_mp
+
+        # others
+        self.y = y
+        self.x = x
+        self.char = char
+        self.name = name
+
+        self.backpack = []
+        self.equipment = {}
         self.left_hand = None
         self.right_hand = None
         self.armor = None
@@ -55,33 +76,19 @@ class Actors:
         self.ring_2 = None
         self.neck = None
         self.weapon = None
-        self.backpack = []
-        self.equipment = []
-        self.y = y
-        self.x = x
-        self.char = char
-        self.name = name
-        self.max_hp = max_hp
-        self.current_hp = max_hp
-        self.max_mp = max_mp
-        self.current_mp = max_mp
-        self.strength = strength
-        self.intelligence = intelligence
-        self.dexterity = dexterity
-        self.luck = luck
-        self.curse = curse
+
         self.current_turn = 0
-        self.speed = speed
+        self.temp_effects = []
+        self.const_effects = []
+
         import main
         main.turn_list.append(self)
-        self.temp_effects = []
 
     def tick_temp_effects(self):
         for effect in self.temp_effects:
             effect[0] -= 1
             if effect[0] == 0:
-                effect[1].buff(self)
-
+                effect[1].end_effect(self)
 
     def get_name(self, attrib):
         match attrib:
@@ -145,6 +152,10 @@ class Actors:
                 self.backpack.append(item)
                 screen.update_chat(f"You picked up {item.name}.")
             main.terrain_map[self.y][self.x].items.clear()
+            return True
+        else:
+            screen.update_chat("There is no item to pick up.")
+            return False
 
     def is_alive(self):
         if self.current_hp > 0:
@@ -186,24 +197,25 @@ class Actors:
         if self.is_alive() is False:
             self.current_hp = 0
             self.die()
+
     def modify_stat(self, stat, amount):
         match stat:
             case "strength":
                 self.strength += amount
+            case "dexterity":
+                self.strength += amount
+            case "intelligence":
+                self.strength += amount
+            case "luck":
+                self.luck += amount
+            case "curse":
+                self.curse += amount
+
 class Player(Actors):
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
         super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
         self.known_spells = []
         self.speed = 1.5
-        import magic
-        spell1 = magic.Smite()
-        self.known_spells.append(spell1)
-        spell2 = magic.Heal()
-        self.known_spells.append(spell2)
-        spell3 = magic.Pyroblast()
-        self.known_spells.append(spell3)
-        spell4 = magic.Heroism()
-        self.known_spells.append(spell4)
 
     def move(self, y, x):
         import main
@@ -214,34 +226,44 @@ class Player(Actors):
             self.y += y
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
-            screen.calculate_circle(self, 100)
+            # screen.calculate_circle(self, 100)
             screen.update_terrain()
 
             if main.terrain_map[self.y][self.x].items is not None and bool(main.terrain_map[self.y][self.x].items):
-                tmp = "You walked. There are items on this tile: "
+                tmp = "There are items on this tile: "
                 for thing in main.terrain_map[self.y][self.x].items:
                     tmp = tmp + thing.name + ", "
                 tmp = tmp[:len(tmp) - 2]
                 screen.update_chat(tmp)
-            else:
-                screen.update_chat("You walked.")
         elif main.terrain_map[self.y + y][self.x + x].name == "Door":
             main.terrain_map[self.y + y][self.x + x].passable = True
             main.terrain_map[self.y + y][self.x + x].char = 'o'
             screen.update_chat("You opened the door.")
+        elif main.terrain_map[self.y + y][self.x + x].name == "Gate to the Tower of God":
+            if main.tower_key > 0:
+                main.tower_key -= 1
+                main.terrain_map[self.y + y][self.x + x].passable = True
+                main.terrain_map[self.y + y][self.x + x].char = 'o'
+                screen.update_chat("You opened the gate.")
+            else:
+                screen.update_chat("You don't have a key. Complete other towers first.")
         elif main.terrain_map[self.y + y][self.x + x].passable is False:
             screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].name}.")
         elif main.terrain_map[self.y + y][self.x + x].actor is not None:
-            # screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].actor.name}.")
             melee_attack(self, main.terrain_map[self.y + y][self.x + x].actor)
+
 
 class Hostile(Actors):
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed):
         super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed)
+
     def move(self, y, x):
         import main
         if x == 0 and y == 0:
             pass
+        elif main.terrain_map[self.y + y][self.x + x].name == "Door":
+            main.terrain_map[self.y + y][self.x + x].passable = True
+            main.terrain_map[self.y + y][self.x + x].char = 'o'
         elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
             main.terrain_map[self.y][self.x].actor = None
             self.y += y
@@ -252,10 +274,9 @@ class Hostile(Actors):
             melee_attack(self, main.terrain_map[self.y + y][self.x + x].actor)
 
 
-
 class Human(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'human', 10, 10, 5, 5,5, 5, 0)
+        super().__init__(y, x, 'H', 'human', 10, 10, 5, 5, 5, 5, 0)
 
 
 class HumanWithPlateArmorAndWarhammer(Hostile):
@@ -274,14 +295,14 @@ class HumanWithLeatherArmorAndLongsword(Hostile):
 
 class Dog(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 2,3, 1)
+        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 2, 3, 1)
         self.equip_weapon(item.Claws())
         self.equip_armor(item.Hide())
 
 
 class GreenJelly(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'j', 'Green Jelly', 9, 0, 2, 2,3, 5, 1)
+        super().__init__(y, x, 'j', 'Green Jelly', 9, 0, 2, 2, 3, 5, 1)
         self.equip_weapon(item.Tentacle())
         self.equip_armor(item.Jelly_Body())
 

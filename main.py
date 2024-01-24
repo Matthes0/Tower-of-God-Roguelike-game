@@ -20,8 +20,9 @@ tower_of_god = []
 message_log = []
 current_level = 0
 all_message_log = []
+tower_key = 1
 global win, player
-turn_counter = 0
+turn_counter = -1
 turn_list = []
 spell_list = []
 
@@ -34,8 +35,21 @@ def main(stdscr):
     race = "Human"
     match race:
         case "Human":
-            player = actors.Player(15, 15, "@", 'Player', 500, 20, 10, 10, 10, 10, 10)
+            player = actors.Player(15, 15, "@", 'Player', 500, 20, 10, 10, 10, 5, 0)
             terrain.place_actor(player)
+            warhammer = item.Warhammer()
+            player.equip_weapon(warhammer)
+            armor = item.LeatherArmor()
+            player.equip_armor(armor)
+            import magic
+            spell1 = magic.Smite()
+            player.known_spells.append(spell1)
+            spell2 = magic.Heal()
+            player.known_spells.append(spell2)
+            spell3 = magic.Pyroblast()
+            player.known_spells.append(spell3)
+            spell4 = magic.Heroism()
+            player.known_spells.append(spell4)
         case "Wraithraiser":
             pass
         case "Rashang":
@@ -43,11 +57,7 @@ def main(stdscr):
 
     # dotestow = actors.HumanWithLeatherArmorAndLongsword(15, 5)
     # terrain.place_actor(dotestow)
-    screen.calculate_circle(player, 100)
-    warhammer = item.Warhammer()
-    player.equip_weapon(warhammer)
-    armor = item.LeatherArmor()
-    player.equip_armor(armor)
+    # screen.calculate_circle(player, 100)
     screen.update_terrain()
 
     while True:
@@ -63,6 +73,6 @@ def main(stdscr):
             current.current_turn += current.speed
             current.tick_temp_effects()
         turn_counter += 1
-
+        screen.update_chat("")
 
 curses.wrapper(main)

@@ -47,11 +47,11 @@ def show_all_message_log():
             main.win.addstr(i - start_idx, 0, main.all_message_log[i])
         main.win.refresh()
         key = main.win.getkey().lower()
-        if key == "x":
+        if key == "key_down":
             if end_idx < len(main.all_message_log):
                 start_idx = min(len(main.all_message_log) - 10, start_idx + 1)
                 end_idx = min(len(main.all_message_log), end_idx + 1)
-        elif key == "w":
+        elif key == "key_up":
             if start_idx > 0:
                 start_idx = max(0, start_idx - 1)
                 end_idx = min(len(main.all_message_log), end_idx - 1)
@@ -72,18 +72,20 @@ def show_equipment(player):
         main.win.addstr(1, 30, f"right hand: {player.get_name('right_hand')}")
         main.win.addstr(2, 30, f"head: {player.get_name('head')}")
         main.win.addstr(3, 30, f"body: {player.get_name('body')}")
-        main.win.addstr(5, 30, f"legs: {player.get_name('legs')}")
-        main.win.addstr(6, 30, f"back: {player.get_name('back')}")
-        main.win.addstr(7, 30, f"ring 1: {player.get_name('ring_1')}")
-        main.win.addstr(8, 30, f"ring 2: {player.get_name('ring_2')}")
-        main.win.addstr(9, 30, f"neck: {player.get_name('neck')}")
+        main.win.addstr(4, 30, f"legs: {player.get_name('legs')}")
+        main.win.addstr(5, 30, f"back: {player.get_name('back')}")
+        main.win.addstr(6, 30, f"ring 1: {player.get_name('ring_1')}")
+        main.win.addstr(7, 30, f"ring 2: {player.get_name('ring_2')}")
+        main.win.addstr(8, 30, f"neck: {player.get_name('neck')}")
         main.win.refresh()
         key = main.win.getkey().lower()
-
-        if key == "x":
+        if key in alphabet and alphabet.index(key) < len(player.backpack):
+            selected_item = player.backpack[start_idx + alphabet.index(key)]
+            update_chat(f"{selected_item.name}")
+        if key == "key_down":
             start_idx = min(start_idx + 1, len(player.backpack) - 10)
             end_idx = min(len(player.backpack), start_idx + 10)
-        elif key == "w":
+        elif key == "key_up":
             start_idx = max(start_idx - 1, 0)
             end_idx = min(len(player.backpack), start_idx + 10)
         else:
@@ -102,21 +104,15 @@ def show_spells(player):
             main.win.addstr(i - start_idx, 0, f"({letter}) {player.known_spells[i].name}")
         main.win.refresh()
         key = main.win.getkey().lower()
-        if key == "a":
-            player.known_spells[0].cast(player)
-            break
-        elif key == "b":
-            player.known_spells[1].cast(player)
-            break
-        elif key == "c":
-            player.known_spells[2].cast(player)
-            break
-        elif key == "d":
-            player.known_spells[3].cast(player)
-            break
+        if key in alphabet and alphabet.index(key) < len(player.known_spells):
+            if player.known_spells[start_idx + alphabet.index(key)].cast(player):
+                return True
+            else:
+                return False
         else:
             update_chat("")
-            break
+            return False
+
 def update_terrain():
     curses.init_pair(1,curses.COLOR_MAGENTA,curses.COLOR_BLACK)
     import main
