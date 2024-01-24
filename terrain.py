@@ -31,6 +31,7 @@ def generate_terrain(y, x, type_of_gen, level=0):
                 for j in range(14, 17):
                     map_list[i][j] = Floor()
             map_list[15][4] = Upstairs1(0)
+            map_list[15][25] = Upstairs2(0)
             map_list[11][16] = IndestructibleWall()
             map_list[11][14] = IndestructibleWall()
             map_list[8][16] = IndestructibleWall()
@@ -84,8 +85,7 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     prev_x = -1
                     door_placed = False
                     for x, y in corridor(middle_prev_y, middle_prev_x, middle_curr_y, middle_curr_x):
-                        if prev_y != -1 and prev_x != -1 and map_list[prev_y][prev_x].name == "Floor" and map_list[y][
-                            x].char == "#" and door_placed is False:
+                        if prev_y != -1 and prev_x != -1 and map_list[prev_y][prev_x].name == "Floor" and map_list[y][x].char == "#" and door_placed is False:
                             map_list[y][x] = Door()
                             door_placed = True
                         else:
@@ -105,6 +105,121 @@ def generate_terrain(y, x, type_of_gen, level=0):
                 if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Beginning":
                     map_list[y][x] = Upstairs1(level)
                     break
+            num_of_items = random.randint(3, 10)
+            for i in range(num_of_items):
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    item_rolled = random.randint(1, 5)
+                    if map_list[y][x].passable is False or map_list[y][x].name == "Downstairs to the Tower of Beginning" or map_list[y][x].name == "Upstairs to the Tower of Beginning":
+                        continue
+                    import item
+                    match item_rolled:
+                        case 1:
+                            place_item(item.RingOfStrength(), y, x, map_list)
+                        case 2:
+                            place_item(item.RingOfDexterity(), y, x, map_list)
+                        case 3:
+                            place_item(item.RingOfIntelligence(), y, x, map_list)
+                        case 4:
+                            place_item(item.RingOfLuck(), y, x, map_list)
+                        case 5:
+                            place_item(item.RingOfCurse(), y, x, map_list)
+                    break
+            num_of_enemies = random.randint(3, 10)
+            for i in range(num_of_enemies):
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    enemy_rolled = random.randint(1, 3)
+                    if map_list[y][x].passable is False or map_list[y][x].actor is not None:
+                        continue
+                    import actors
+                    match enemy_rolled:
+                        case 1:
+                            place_actor(actors.Dog(y,x))
+                        case 2:
+                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x))
+                        case 3:
+                            place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x))
+                    break
+        case "2":
+            for i in range(1, y - 1):
+                for j in range(1, x - 1):
+                    map_list[i][j] = DestructibleWall()
+
+            map_list[25][25] = Floor()
+            for mole in range(20):
+                found = 0
+                for i in range(1, y - 1):
+                    for j in range(1, x - 1):
+                        if map_list[i][j].name == "Floor":
+                            start_y = i
+                            start_x = j
+                            found = 1
+                    if found:
+                        break
+                for i in range(30):
+                    start_y += random.randint(-1, 1)
+                    start_x += random.randint(-1, 1)
+                    if map_list[start_y][start_x].name != "Indestructible Wall":
+                        map_list[start_y][start_x] = Floor()
+                    else:
+                        break
+            while True:
+                y = random.randint(1, 50 - 2)
+                x = random.randint(1, 50 - 2)
+                if map_list[y][x].passable is True:
+                    map_list[y][x] = Downstairs2(level)
+                    break
+            while True:
+                y = random.randint(1, 50 - 2)
+                x = random.randint(1, 50 - 2)
+                if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Trials":
+                    map_list[y][x] = Upstairs2(level)
+                    break
+            num_of_items = random.randint(3, 10)
+            for i in range(num_of_items):
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    item_rolled = random.randint(1, 5)
+                    if map_list[y][x].passable is False or map_list[y][x].name == "Downstairs to the Tower of Trials" or map_list[y][x].name == "Upstairs to the Tower of Trials":
+                        continue
+                    import item
+                    match item_rolled:
+                        case 1:
+                            place_item(item.RingOfStrength(), y, x, map_list)
+                        case 2:
+                            place_item(item.RingOfDexterity(), y, x, map_list)
+                        case 3:
+                            place_item(item.RingOfIntelligence(), y, x, map_list)
+                        case 4:
+                            place_item(item.RingOfLuck(), y, x, map_list)
+                        case 5:
+                            place_item(item.RingOfCurse(), y, x, map_list)
+                    break
+            num_of_enemies = random.randint(3, 10)
+            for i in range(num_of_enemies):
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    enemy_rolled = random.randint(1, 3)
+                    if map_list[y][x].passable is False or map_list[y][x].actor is not None:
+                        continue
+                    import actors
+                    match enemy_rolled:
+                        case 1:
+                            place_actor(actors.Dog(y,x))
+                        case 2:
+                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x))
+                        case 3:
+                            place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x))
+                    break
+
+
+
+
     return map_list
 
 
@@ -190,10 +305,13 @@ def print_actors_and_items():
                         screen.update_chat(f"{item.name}, y:{i},x:{j}")
 
 
-def place_actor(actor):
+def place_actor(actor, where = None):
     import main, screen
-    main.terrain_map[actor.y][actor.x].actor = actor
-    screen.update_terrain()
+    if where is None:
+        main.terrain_map[actor.y][actor.x].actor = actor
+        screen.update_terrain()
+    else:
+        where[actor.y][actor.x].actor = actor
 
 
 def delete_actor(y, x):
@@ -202,11 +320,14 @@ def delete_actor(y, x):
     screen.update_terrain()
 
 
-def place_item(item, y, x):
+def place_item(item, y, x, where=None):
     import main, screen
     if len(main.terrain_map[y][x].items) < 2:
-        main.terrain_map[y][x].items.append(item)
-        screen.update_terrain()
+        if where is None:
+            main.terrain_map[y][x].items.append(item)
+            screen.update_terrain()
+        else:
+            where[y][x].items.append(item)
 
 
 def delete_item(y, x):

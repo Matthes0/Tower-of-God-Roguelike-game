@@ -39,8 +39,12 @@ def get_input(player):
             break
         if key == 'i':
             screen.show_equipment(player)
+        if key == "t":
+            dotestow = actors.HumanWithLeatherArmorAndLongsword(player.y+1, player.x+1)
+            terrain.place_actor(dotestow)
         if key == 'l':
             if len(main.turn_list) > 1:
+                screen.update_chat(f"{player.y}, {player.x}")
                 break
             else:
                 screen.update_chat(f"{player.y}, {player.x}")
@@ -74,6 +78,37 @@ def get_input(player):
                     main.current_level = main.terrain_map[player.y][player.x].level
                     main.terrain_map[player.y][player.x].actor = player
                     screen.update_chat("")
+                if main.terrain_map[player.y][player.x].name == "Upstairs to the Tower of Trials":
+                    main.terrain_map[player.y][player.x].actor = None
+                    if main.terrain_map[player.y][player.x].level >= len(main.tower_of_trials):
+                        main.tower_of_trials.append(terrain.generate_terrain(50, 50, "2", main.terrain_map[player.y][player.x].level + 1))
+                    main.terrain_map = main.tower_of_trials[main.terrain_map[player.y][player.x].level]
+                    for i in range(0, main.total_map_size_y - 1):
+                        for j in range(0, main.total_map_size_x - 1):
+                            if main.terrain_map[i][j].name == "Downstairs to the Tower of Trials":
+                                player.y = i
+                                player.x = j
+                                break
+                    main.current_level = main.terrain_map[player.y][player.x].level
+                    main.terrain_map[player.y][player.x].actor = player
+                    screen.update_chat("")
+                    break
+                if main.terrain_map[player.y][player.x].name == "Downstairs to the Tower of Trials":
+                    main.terrain_map[player.y][player.x].actor = None
+                    if main.terrain_map[player.y][player.x].level == 1:
+                        main.terrain_map = main.lobby
+                    else:
+                        main.terrain_map = main.tower_of_trials[main.terrain_map[player.y][player.x].level - 2]
+                    for i in range(0, main.total_map_size_y - 1):
+                        for j in range(0, main.total_map_size_x - 1):
+                            if main.terrain_map[i][j].name == "Upstairs to the Tower of Trials":
+                                player.y = i
+                                player.x = j
+                                break
+                    main.current_level = main.terrain_map[player.y][player.x].level
+                    main.terrain_map[player.y][player.x].actor = player
+                    screen.update_chat("")
+
             break
         if key == "m":
             screen.show_all_message_log()

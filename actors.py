@@ -40,6 +40,72 @@ def melee_attack(attacker, defender, is_printing=0):
         if is_printing == 1:
             print(f"{attacker.name} rolled {roll} on {hit_chance}. Attack missed. Now it's {defender.name} turn.")
 
+def is_valid_move(x, y, rows, cols):
+    return 0 <= x < rows and 0 <= y < cols
+def dijkstra_pathfinding(start, end):
+    rows, cols = 50, 50
+    visited = [[False for _ in range(cols)] for _ in range(rows)]
+    distances = [[float('inf') for _ in range(cols)] for _ in range(rows)]
+
+    start_x, start_y = start
+    distances[start_x][start_y] = 0
+
+    priority_queue = [(0, start_x, start_y)]
+
+    def get_cost(x, y):
+        import main
+        cell = main.terrain_map[y][x]
+        if cell.name == 'Door' and cell.char != "o":
+            return 2
+        elif cell.char == "#":
+            return float('inf')
+        else:
+            return 1
+
+    while priority_queue:
+        import heapq
+        cost, x, y = heapq.heappop(priority_queue)
+
+        if visited[x][y]:
+            continue
+
+        visited[x][y] = True
+
+        if (x, y) == end:
+            break
+
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+
+        for dx, dy in directions:
+            new_x, new_y = x + dx, y + dy
+
+            if not is_valid_move(new_x, new_y, rows, cols) or visited[new_x][new_y]:
+                continue
+
+            new_cost = cost + get_cost(new_x, new_y)
+
+            if new_cost < distances[new_x][new_y]:
+                distances[new_x][new_y] = new_cost
+                heapq.heappush(priority_queue, (new_cost, new_x, new_y))
+
+    # Reconstruct the path
+    path = []
+    x, y = end
+
+    while (x, y) != start:
+        path.append((x, y))
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+
+        for dx, dy in directions:
+            new_x, new_y = x + dx, y + dy
+
+            if is_valid_move(new_x, new_y, rows, cols) and distances[x][y] == distances[new_x][new_y] + get_cost(x, y):
+                x, y = new_x, new_y
+                break
+
+    path.append(start)
+    return path[::-1]
+
 
 class Actors:
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed=1.0):
@@ -169,6 +235,7 @@ class Actors:
         screen.update_chat(f"{self.name} is dead.")
         if self in main.turn_list:
             main.turn_list.remove(self)
+        del self
 
     def can_cast(self, cost):
         if self.current_mp >= cost:
@@ -211,17 +278,19 @@ class Actors:
             case "curse":
                 self.curse += amount
 
+
 class Player(Actors):
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse):
         super().__init__(y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse)
         self.known_spells = []
-        self.speed = 1.5
+        self.speed = 1.2
 
     def move(self, y, x):
         import main
         if y == 0 and x == 0:
             screen.update_chat("You waited.")
-        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
+        elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][
+            self.x + x].actor is None:
             main.terrain_map[self.y][self.x].actor = None
             self.y += y
             self.x += x
@@ -261,7 +330,7 @@ class Hostile(Actors):
         import main
         if x == 0 and y == 0:
             pass
-        elif main.terrain_map[self.y + y][self.x + x].name == "Door":
+        elif main.terrain_map[self.y + y][self.x + x].name == "Door" and main.terrain_map[self.y + y][self.x + x].passable is False:
             main.terrain_map[self.y + y][self.x + x].passable = True
             main.terrain_map[self.y + y][self.x + x].char = 'o'
         elif main.terrain_map[self.y + y][self.x + x].passable and main.terrain_map[self.y + y][self.x + x].actor is None:
@@ -270,7 +339,7 @@ class Hostile(Actors):
             self.x += x
             main.terrain_map[self.y][self.x].actor = self
             screen.update_terrain()
-        elif main.terrain_map[self.y + y][self.x + x].actor is not None:
+        elif main.terrain_map[self.y + y][self.x + x].actor is not None and main.terrain_map[self.y + y][self.x + x].actor == main.player:
             melee_attack(self, main.terrain_map[self.y + y][self.x + x].actor)
 
 
@@ -281,7 +350,7 @@ class Human(Hostile):
 
 class HumanWithPlateArmorAndWarhammer(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 10, 5, 5, 5, 5, 0)
+        super().__init__(y, x, 'H', 'Human with plate armor and warhammer', 10, 10, 5, 5, 5, 5, 0, 0.8)
         self.equip_weapon(item.Warhammer())
         self.equip_armor(item.PlateArmor())
 
@@ -295,7 +364,7 @@ class HumanWithLeatherArmorAndLongsword(Hostile):
 
 class Dog(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 2, 3, 1)
+        super().__init__(y, x, 'd', 'Dog', 5, 0, 1, 2, 2, 3, 1, 1.5)
         self.equip_weapon(item.Claws())
         self.equip_armor(item.Hide())
 
