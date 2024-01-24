@@ -39,24 +39,41 @@ def get_input(player):
         if key == 'i':
             screen.show_equipment(player)
         if key == 'l':
-            screen.update_chat(f"{player.y}, {player.x}")
-            if main.terrain_map[player.y][player.x].name == "Upstairs":
-                main.terrain_map[player.y][player.x].actor = None
-                main.tower_of_beginning.append(terrain.generate_terrain(50,50,"1"))
-                main.terrain_map = main.tower_of_beginning[0]
-                player.y = 1
-                player.x = 1
-                main.terrain_map[player.y][player.x].actor = player
-                screen.update_chat("")
+            if len(main.turn_list) > 1:
                 break
-            if main.terrain_map[player.y][player.x].name == "Downstairs":
-                main.terrain_map[player.y][player.x].actor = None
-                main.terrain_map = main.lobby
-                player.y = 15
-                player.x = 15
-                main.terrain_map[player.y][player.x].actor = player
-                screen.update_chat("")
-                break
+            else:
+                screen.update_chat(f"{player.y}, {player.x}")
+                if main.terrain_map[player.y][player.x].name == "Upstairs":
+                    main.terrain_map[player.y][player.x].actor = None
+                    if main.terrain_map[player.y][player.x].level >= len(main.tower_of_beginning):
+                        main.tower_of_beginning.append(terrain.generate_terrain(50,50,"1",main.terrain_map[player.y][player.x].level+1))
+                    main.terrain_map = main.tower_of_beginning[main.terrain_map[player.y][player.x].level]
+                    for i in range(0,main.total_map_size_y-1):
+                        for j in range(0,main.total_map_size_x-1):
+                            if main.terrain_map[i][j].name == "Downstairs":
+                                player.y = i
+                                player.x = j
+                                break
+                    main.current_level = main.terrain_map[player.y][player.x].level
+                    main.terrain_map[player.y][player.x].actor = player
+                    screen.update_chat("")
+                    break
+                if main.terrain_map[player.y][player.x].name == "Downstairs":
+                    main.terrain_map[player.y][player.x].actor = None
+                    if main.terrain_map[player.y][player.x].level == 1:
+                        main.terrain_map = main.lobby
+                    else:
+                        main.terrain_map = main.tower_of_beginning[main.terrain_map[player.y][player.x].level-2]
+                    for i in range(0,main.total_map_size_y-1):
+                        for j in range(0,main.total_map_size_x-1):
+                            if main.terrain_map[i][j].name == "Upstairs":
+                                player.y = i
+                                player.x = j
+                                break
+                    main.current_level = main.terrain_map[player.y][player.x].level
+                    main.terrain_map[player.y][player.x].actor = player
+                    screen.update_chat("")
+            break
         if key == "t":
             key = main.win.getkey().lower()
             if key == "1":
@@ -121,26 +138,26 @@ def targetting(player, mode="single"):
     while True:
         key = main.win.getkey().lower()
         if key == 'q':
-            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width and 0 <= real_y - 1 < main.total_map_size_y and 0 <= real_x - 1 < main.total_map_size_x:
                 tmp_y -= 1
                 tmp_x -= 1
                 real_y -= 1
                 real_x -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'w':
-            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width:
+            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width and 0 <= real_y - 1 < main.total_map_size_y and 0 <= real_x < main.total_map_size_x:
                 tmp_y -= 1
                 real_y -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'e':
-            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+            if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width and 0 <= real_y - 1 < main.total_map_size_y and 0 <= real_x + 1 < main.total_map_size_x:
                 tmp_y -= 1
                 tmp_x += 1
                 real_y -= 1
                 real_x += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'a':
-            if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+            if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width and 0 <= real_y < main.total_map_size_y and 0 <= real_x - 1 < main.total_map_size_x:
                 tmp_x -= 1
                 real_x -= 1
                 main.win.move(tmp_y, tmp_x)
@@ -149,24 +166,24 @@ def targetting(player, mode="single"):
             tmp_x -= 0
             main.win.move(tmp_y, tmp_x)
         elif key == 'd':
-            if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+            if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width and 0 <= real_y < main.total_map_size_y and 0 <= real_x + 1 < main.total_map_size_x:
                 tmp_x += 1
                 real_x += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'z':
-            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width:
+            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width and 0 <= real_y + 1 < main.total_map_size_y and 0 <= real_x - 1 < main.total_map_size_x:
                 tmp_y += 1
                 tmp_x -= 1
                 real_y += 1
                 real_x -= 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'x':
-            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width:
+            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width and 0 <= real_y + 1 < main.total_map_size_y and 0 <= real_x < main.total_map_size_x:
                 tmp_y += 1
                 real_y += 1
                 main.win.move(tmp_y, tmp_x)
         elif key == 'c':
-            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width:
+            if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width and 0 <= real_y + 1 < main.total_map_size_y and 0 <= real_x + 1 < main.total_map_size_x:
                 tmp_y += 1
                 tmp_x += 1
                 real_y += 1

@@ -152,6 +152,6 @@ def update_terrain():
                 else:
                     main.win.addch(tmp_y,tmp_x, main.terrain_map[i][j].char)
             tmp_x += 1
-    main.win.addstr(main.map_height, 0, f"LVL: XD HP: {main.player.current_hp}/{main.player.max_hp}, MP: {main.player.current_mp}/{main.player.max_mp} TURN: {main.turn_counter}")
+    main.win.addstr(main.map_height, 0, f"LVL: {main.current_level} HP: {main.player.current_hp}/{main.player.max_hp}, MP: {main.player.current_mp}/{main.player.max_mp} TURN: {main.turn_counter}")
     main.win.addstr(main.map_height + 1, 0, f"STR: {main.player.strength} DEX: {main.player.dexterity} INT: {main.player.intelligence} LCK: {main.player.luck} CRS: {main.player.curse}")
     main.win.refresh()

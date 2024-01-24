@@ -10,15 +10,15 @@ import terrain
 map_height = 13
 map_width = 26
 chat_width = 100
-total_map_size_y = 30
-total_map_size_x = 30
+total_map_size_y = 50
+total_map_size_x = 50
 lobby = terrain.generate_terrain(total_map_size_y, total_map_size_x, "lobby")
 terrain_map = lobby
 tower_of_beginning = []
 tower_of_nature = []
 tower_of_god = []
-# terrain_map[4][5] = terrain.IndestructibleWall(4, 5)
 message_log = []
+current_level = 0
 all_message_log = []
 global win, player
 turn_counter = 0
@@ -41,8 +41,8 @@ def main(stdscr):
         case "Rashang":
             pass
 
-    dotestow = actors.HumanWithLeatherArmorAndLongsword(15, 5)
-    terrain.place_actor(dotestow)
+    # dotestow = actors.HumanWithLeatherArmorAndLongsword(15, 5)
+    # terrain.place_actor(dotestow)
     screen.calculate_circle(player, 100)
     warhammer = item.Warhammer()
     player.equip_weapon(warhammer)

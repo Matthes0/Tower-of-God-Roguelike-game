@@ -225,6 +225,10 @@ class Player(Actors):
                 screen.update_chat(tmp)
             else:
                 screen.update_chat("You walked.")
+        elif main.terrain_map[self.y + y][self.x + x].name == "Door":
+            main.terrain_map[self.y + y][self.x + x].passable = True
+            main.terrain_map[self.y + y][self.x + x].char = 'o'
+            screen.update_chat("You opened the door.")
         elif main.terrain_map[self.y + y][self.x + x].passable is False:
             screen.update_chat(f"You tried to walk into the {main.terrain_map[self.y + y][self.x + x].name}.")
         elif main.terrain_map[self.y + y][self.x + x].actor is not None:
