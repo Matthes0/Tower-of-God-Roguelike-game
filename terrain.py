@@ -137,11 +137,11 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     import actors
                     match enemy_rolled:
                         case 1:
-                            place_actor(actors.Dog(y,x))
+                            place_actor(actors.Dog(y,x),map_list)
                         case 2:
-                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x))
+                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x),map_list)
                         case 3:
-                            place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x))
+                            place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x),map_list)
                     break
         case "2":
             for i in range(1, y - 1):
@@ -149,17 +149,15 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     map_list[i][j] = DestructibleWall()
 
             map_list[25][25] = Floor()
-            for mole in range(20):
-                found = 0
-                for i in range(1, y - 1):
-                    for j in range(1, x - 1):
-                        if map_list[i][j].name == "Floor":
-                            start_y = i
-                            start_x = j
-                            found = 1
-                    if found:
+            for mole in range(25):
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    if map_list[y][x].name == "Floor":
+                        start_y = y
+                        start_x = x
                         break
-                for i in range(30):
+                for i in range(40):
                     start_y += random.randint(-1, 1)
                     start_x += random.randint(-1, 1)
                     if map_list[start_y][start_x].name != "Indestructible Wall":
@@ -210,16 +208,12 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     import actors
                     match enemy_rolled:
                         case 1:
-                            place_actor(actors.Dog(y,x))
+                            place_actor(actors.Dog(y,x),map_list)
                         case 2:
-                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x))
+                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x),map_list)
                         case 3:
-                            place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x))
+                            place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x),map_list)
                     break
-
-
-
-
     return map_list
 
 

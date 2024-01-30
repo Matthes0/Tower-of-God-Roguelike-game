@@ -55,7 +55,7 @@ def dijkstra_pathfinding(start, end):
     def get_cost(x, y):
         import main
         cell = main.terrain_map[y][x]
-        if cell.name == 'Door' and cell.char != "o":
+        if cell.name == 'Door' and cell.char != "o" or cell.actor is not None:
             return 2
         elif cell.char == "#":
             return float('inf')
@@ -122,7 +122,9 @@ class Actors:
         self.current_hp = self.max_hp
         self.max_mp = self.intelligence * 2
         self.current_mp = self.max_mp
-
+        self.total_damage = 0
+        self.total_dodge = 0
+        self.total_soak = 0
         # others
         self.y = y
         self.x = x

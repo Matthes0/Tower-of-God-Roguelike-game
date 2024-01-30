@@ -66,12 +66,14 @@ def main(stdscr):
                     input_handler.get_input(player)
                     screen.update_chat("")
                 else:
-                    # y = random.randint(-1, 1)
-                    # x = random.randint(-1, 1)
-                    # current.move(y, x)
                     result = actors.dijkstra_pathfinding((current.x, current.y), (player.x, player.y))
-                    current.move(result[1][1] - result[0][1], result[1][0] - result[0][0])
-                    screen.update_chat(f"{result[0][1]},{result[0][0]}, {result[1][1]} - {result[1][0]}")
+                    if len(result) < 10 and result is not None:
+                        current.move(result[1][1] - result[0][1], result[1][0] - result[0][0])
+                        screen.update_chat(f"{result[0][1]},{result[0][0]}, {result[1][1]} - {result[1][0]}")
+                    else:
+                        y = random.randint(-1, 1)
+                        x = random.randint(-1, 1)
+                        current.move(y, x)
             current.current_turn += current.speed
             current.tick_temp_effects()
         turn_counter += 1
