@@ -26,11 +26,11 @@ def show_all_message_log():
             main.win.addstr(i - start_idx, 0, main.all_message_log[i])
         main.win.refresh()
         key = main.win.getkey().lower()
-        if key == "key_down":
+        if key == "key_down" or key == "KEY_C2":
             if end_idx < len(main.all_message_log):
                 start_idx = min(len(main.all_message_log) - 10, start_idx + 1)
                 end_idx = min(len(main.all_message_log), end_idx + 1)
-        elif key == "key_up":
+        elif key == "key_up" or key == "KEY_C2":
             if start_idx > 0:
                 start_idx = max(0, start_idx - 1)
                 end_idx = min(len(main.all_message_log), end_idx - 1)
@@ -67,11 +67,11 @@ def show_equipment(player):
             if show_item_description(selected_item):
                 update_chat("")
                 break
-        if key == "KEY_DOWN":
+        if key == "KEY_DOWN" or key == "KEY_C2":
             if end_idx < len(player.backpack):
                 start_idx = min(start_idx + 1, len(player.backpack) - 10)
                 end_idx = min(len(player.backpack), start_idx + 10)
-        elif key == "KEY_UP":
+        elif key == "KEY_UP" or key == "KEY_A2":
             if start_idx > 0:
                 start_idx = max(start_idx - 1, 0)
                 end_idx = min(len(player.backpack), start_idx + 10)
@@ -79,7 +79,39 @@ def show_equipment(player):
             update_chat("")
             break
 
+def browse_shop(shop):
+    import main, string
+    start_idx = 0
+    end_idx = min(len(shop.item_list), start_idx + 10)
+    alphabet = string.ascii_letters
+    while True:
+        main.win.erase()
+        main.win.addstr(11, 0, f"You have {main.tower_points} Tower Points left.")
+        for i in range(start_idx, end_idx):
+            letter = alphabet[i % 52]
+            main.win.addstr(i - start_idx, 0, f"({letter}) {shop.item_list[i][0].name} [{shop.item_list[i][1]} gold]")
+        main.win.refresh()
+        key = main.win.getkey()
+        if key in alphabet and alphabet.index(key) < len(shop.item_list):
+            if main.tower_points >= shop.item_list[alphabet.index(key)][1]:
+                main.player.backpack.append(shop.item_list[alphabet.index(key)][0])
+                main.tower_points -= shop.item_list[alphabet.index(key)][1]
+                shop.item_list.pop(alphabet.index(key))
 
+            if len(shop.item_list) == 0:
+                break
+            end_idx = min(len(shop.item_list), start_idx + 10)
+        elif key == "KEY_DOWN" or key == "KEY_C2":
+            if end_idx < len(shop.item_list):
+                start_idx = min(start_idx + 1, len(shop.item_list) - 10)
+                end_idx = min(len(shop.item_list), start_idx + 10)
+        elif key == "KEY_UP" or key == "KEY_A2":
+            if start_idx > 0:
+                start_idx = max(start_idx - 1, 0)
+                end_idx = min(len(shop.item_list), start_idx + 10)
+        else:
+            update_chat("")
+            break
 def show_item_description(item):
     import main, terrain
     while True:
@@ -87,10 +119,12 @@ def show_item_description(item):
         main.win.addstr(0, 0, f"Type: {item.type} Name: {item.name}")
         if item.type == "weapon" or item.type == "ranged":
             main.win.addstr(1, 0, f"Base damage: {item.damage} Accuracy: {item.hit_modifier}")
-        if item.type == "armor":
+        elif item.type == "armor" or item.type == "head" or item.type == "legs":
             main.win.addstr(1, 0, f"Soak: {item.soak} Dodge: {item.dodge}")
         if item.type == "ring":
             main.win.addstr(5, 0, "(e) equip as ring 1, (f) equip as ring 2, (d) drop")
+        elif item.type == "consumable":
+            main.win.addstr(5, 0, "(e) drink, (d) drop")
         else:
             main.win.addstr(5, 0, "(e) equip, (d) drop")
         main.win.refresh()
@@ -104,11 +138,13 @@ def show_item_description(item):
                         main.player.deequip("ring_2")
                 else:
                     main.player.deequip(item.type)
-
             main.player.backpack.remove(item)
             terrain.place_item(item, main.player.y, main.player.x)
             return True
         elif key == "e":
+            if item.type == "consumable":
+                main.player.modify_stat(item.stat, item.amount)
+                update_chat(f"That potion was of {item.stat}. It modified that stat for {item.amount}.")
             main.player.equip(item)
             return True
         elif key == "f" and item.type == "ring":
@@ -134,11 +170,11 @@ def show_items_on_floor(player):
             if len(main.terrain_map[player.y][player.x].items) == 0:
                 break
             end_idx = min(len(main.terrain_map[player.y][player.x].items), start_idx + 10)
-        elif key == "KEY_DOWN":
+        elif key == "KEY_DOWN" or key == "KEY_C2":
             if end_idx < len(main.terrain_map[player.y][player.x].items):
                 start_idx = min(start_idx + 1, len(main.terrain_map[player.y][player.x].items) - 10)
                 end_idx = min(len(main.terrain_map[player.y][player.x].items), start_idx + 10)
-        elif key == "KEY_UP":
+        elif key == "KEY_UP" or key == "KEY_A2":
             if start_idx > 0:
                 start_idx = max(start_idx - 1, 0)
                 end_idx = min(len(main.terrain_map[player.y][player.x].items), start_idx + 10)
@@ -185,11 +221,11 @@ def show_spells():
                 return True
             else:
                 return False
-        elif key == "KEY_DOWN":
+        elif key == "KEY_DOWN" or key == "KEY_C2":
             if end_idx < len(main.player.known_spells):
                 start_idx = min(start_idx + 1, len(main.player.known_spells) - 10)
                 end_idx = min(len(main.player.known_spells), start_idx + 10)
-        elif key == "KEY_UP":
+        elif key == "KEY_UP" or key == "KEY_A2":
             if start_idx > 0:
                 start_idx = max(start_idx - 1, 0)
                 end_idx = min(len(main.player.known_spells), start_idx + 10)
@@ -203,6 +239,12 @@ def level_up():
         choices = 7
     else:
         choices = 5
+    if main.race == "Rashang" and main.player.player_level == 6:
+        import magic
+        main.player.known_spells.append(magic.Shatter)
+        main.player.known_spells.append(magic.DrainLife())
+        main.player.known_spells.append(magic.Heroism())
+
     while choices > 0:
         main.win.clear()
         main.win.addstr(0, 0, f"Distribute your points. {choices} left.")
@@ -230,7 +272,7 @@ def level_up():
             case "e":
                 main.player.modify_stat("curse", 1)
                 choices -= 1
-
+    main.player.player_level += 1
 
 
 def pick_race():
@@ -245,8 +287,7 @@ def pick_race():
             main.race = "Human"
             main.player = actors.Player(15, 15, "@", 'Player', 30, 5, 7, 7, 7, 0, 0)
             terrain.place_actor(main.player)
-            main.terrain_map[main.player.y][main.player.x].items.append(item.LongSword())
-            main.tower_points = 200
+            main.tower_points = 350
             main.player.known_spells.append(magic.Shoot())
             main.player.known_spells.append(magic.ThrowCrystal())
 
@@ -256,23 +297,20 @@ def pick_race():
             main.player = actors.Player(15, 15, "@", 'Player', 60, 30, 25, 25, 2, 0, 5)
             main.player.speed = 0.9
             terrain.place_actor(main.player)
-
-            spell1 = magic.Heroism()
-            main.player.known_spells.append(spell1)
+            main.player.known_spells.append(magic.Shoot())
+            main.player.known_spells.append(magic.Heroism())
             main.tower_points = 100
             break
         elif choice == 'c':
             main.race = "Rashang"
             main.player = actors.Player(15, 15, "@", 'Player', 10, 30, 5, 5, 10, 0, 0)
             terrain.place_actor(main.player)
-            main.tower_points = 100
+            main.tower_points = 150
             main.player.known_spells.append(magic.Shoot())
             main.player.known_spells.append(magic.ThrowCrystal())
             main.player.known_spells.append(magic.Smite())
             main.player.known_spells.append(magic.Heal())
 
-            # spell4 = magic.Heroism()
-            # main.player.known_spells.append(spell4)
             break
 def update_terrain():
     curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLACK)

@@ -81,16 +81,17 @@ class ThrowCrystal(Spell):
 
 
 class Shatter(Spell):
+    def __init__(self):
+        super().__init__("Shatter", 15)
     def cast(self, caster):
         import screen
         if caster.can_cast(self.cost) is True:
-            targets = input_handler.targetting(caster, "aoe")
-            screen.update_chat(f"You {self.name}. It deals {caster.intelligence * 2} damage to {len(targets)} targets.")
-            for target in targets:
-                target.deal_damage(caster.intelligence * 2)
+            target_y_x = input_handler.targetting(caster, "wall")
+            import main, terrain
+            main.terrain_map[target_y_x[0]][target_y_x[1]] = terrain.Floor()
+            screen.update_chat("You destroyed a wall.")
             return True
         return False
-
 
 class Heroism(Spell):
     def __init__(self):

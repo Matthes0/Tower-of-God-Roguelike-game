@@ -23,7 +23,6 @@ tower_points = 0
 global win, player, race, gain_level
 turn_counter = -1
 turn_list = []
-spell_list = []
 
 
 def main(stdscr):
@@ -50,7 +49,7 @@ def main(stdscr):
                     result = actors.dijkstra_pathfinding((current.x, current.y), (player.x, player.y))
                     if len(result) < 10 and result is not None:
                         current.move(result[1][1] - result[0][1], result[1][0] - result[0][0])
-                        screen.update_chat(f"{result[0][1]},{result[0][0]}, {result[1][1]} - {result[1][0]}")
+                        # screen.update_chat(f"{result[0][1]},{result[0][0]}, {result[1][1]} - {result[1][0]}")
                     else:
                         y = random.randint(-1, 1)
                         x = random.randint(-1, 1)

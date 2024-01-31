@@ -80,6 +80,24 @@ def random_item():
                     return MailHelmet()
                 case 3:
                     return PlateHelmet()
+        case 8:
+            item_rolled = random.randint(1, 7)
+            match item_rolled:
+                case 1:
+                    return HealingPotion()
+                case 2:
+                    return ManaPotion()
+                case 3:
+                    return StrengthPotion()
+                case 4:
+                    return DexterityPotion()
+                case 5:
+                    return IntelligencePotion()
+                case 6:
+                    return LuckPotion()
+                case 7:
+                    return CursePotion()
+
 
 
 class Weapon(Item):
@@ -207,6 +225,22 @@ def generate_increase(type):
             return 2
         else:
             return 3
+    if type == "potion":
+        rand = random.randint(0, 100)
+        rand_with_bonus = rand + main.player.luck + main.current_level * 5
+        if rand == 100:
+            return 15
+        elif rand == 1:
+            return -10
+        elif rand_with_bonus < 60:
+            return random.randint(-5, -1)
+        elif rand_with_bonus < 100:
+            return random.randint(1, 4)
+        elif rand_with_bonus < 110:
+            return random.randint(5, 7)
+        else:
+            return 10
+
 
 
 class Ring(Item):
@@ -256,25 +290,25 @@ class Amulet(Item):
 class AmuletOfHealth(Amulet):
     def __init__(self):
         increase = generate_increase("amulet")
-        super().__init__(f"+{increase}Amulet of Health", "max_hp", increase * 10)
+        super().__init__(f"+{increase} Amulet of Health", "max_hp", increase * 10)
 
 
 class AmuletOfMana(Amulet):
     def __init__(self):
         increase = generate_increase("amulet")
-        super().__init__(f"+{increase}Amulet of Mana", "max_mp", increase * 10)
+        super().__init__(f"+{increase} Amulet of Mana", "max_mp", increase * 10)
 
 
 class AmuletOfHpRegeneration(Amulet):
     def __init__(self):
         increase = generate_increase("amulet")
-        super().__init__(f"+{increase}Amulet of HP Regeneration", "hp_regen", increase)
+        super().__init__(f"+{increase} Amulet of HP Regeneration", "hp_regen", increase)
 
 
 class AmuletOfMpRegeneration(Amulet):
     def __init__(self):
         increase = generate_increase("amulet")
-        super().__init__(f"+{increase}Amulet of MP Regeneration", "mp_regen", increase)
+        super().__init__(f"+{increase} Amulet of MP Regeneration", "mp_regen", increase)
 
 
 # capes
@@ -288,49 +322,50 @@ class Cape(Item):
 class CapeOfDodge(Cape):
     def __init__(self):
         increase = generate_increase("amulet")
-        super().__init__(f"+{increase}Cape of Dodge", "dodge", increase)
+        super().__init__(f"+{increase} Cape of Dodge", "dodge", increase)
 
 class CapeOfProtection(Cape):
     def __init__(self):
         increase = generate_increase("amulet")
-        super().__init__(f"+{increase}+Amulet of Protection", "soak", increase)
+        super().__init__(f"+{increase} Cape of Protection", "soak", increase)
 
 
 class Consumable(Item):
-    def __init__(self, name):
+    def __init__(self, name, stat, increase):
         super().__init__("consumable", name)
-
+        self.stat = stat
+        self.increase = increase
 
 class HealingPotion(Consumable):
     def __init__(self):
-        super().__init__("Healing Potion")
+        super().__init__("Unidentified Potion", "max_hp", generate_increase("consumable"))
 
 
 class ManaPotion(Consumable):
     def __init__(self):
-        super().__init__("Mana Potion")
+        super().__init__("Unidentified Potion", "max_mp", generate_increase("consumable"))
 
 
 class StrengthPotion(Consumable):
     def __init__(self):
-        super().__init__("Strength Potion")
+        super().__init__("Unidentified Potion", "strength", generate_increase("consumable"))
 
 
 class DexterityPotion(Consumable):
     def __init__(self):
-        super().__init__("Dexterity Potion")
+        super().__init__("Unidentified Potion", "dexterity", generate_increase("consumable"))
 
 
-class Intelligence(Consumable):
+class IntelligencePotion(Consumable):
     def __init__(self):
-        super().__init__("Intelligence Potion")
+        super().__init__("Unidentified Potion", "intelligence", generate_increase("consumable"))
 
 
 class LuckPotion(Consumable):
     def __init__(self):
-        super().__init__("Luck Potion")
+        super().__init__("Unidentified Potion", "luck", generate_increase("consumable"))
 
 
 class CursePotion(Consumable):
     def __init__(self):
-        super().__init__("Curse Potion")
+        super().__init__("Unidentified Potion", "curse", generate_increase("consumable"))

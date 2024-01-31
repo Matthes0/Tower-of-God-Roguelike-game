@@ -7,7 +7,7 @@ Gra jest oczywiście klasycznym roguelikiem. Cel gry polega na wejściu na szczy
 
 Gracz na starcie wybiera jedną z 3 ras dla swojej postaci: Człowiek, Wraithraiser lub Rashang.
 
-Postać zaczyna bez ekwipunku w lokacji startowej (z wyjątkiem Rashanga, który zaczyna ze startowymi zaklęciami).
+Postać zaczyna bez ekwipunku w lokacji startowej 
 
 Na południu są sklepy, w których można kupić przedmioty za startową walutę. Na północy jest Wieża Boga odgrodzona 2 bramami, do otwarcia których potrzebne są klucze z innych wież. Na zachodzie znajduje się Wieża Początku, a na wschodzie Wieża Prób. Zalecane jest najpierw przejście Wieży Początku, aczkolwiek gracz może ukończyć je w dowolnej kolejności.
 # Rasy
@@ -27,7 +27,11 @@ Każdy aktor ma jakąś prędkość. Domyślnie będzie to 1.0. Jeśli aktor ma 
 
 - numpad (poruszanie się atakowanie, interakcja z otoczeniem. Numpad 8 i 2 służą również do przewijania różnych menu takich jak ekwipunek/przedmioty na podłodze/chat log/lista zaklęć. Ewentualnie można poruszać się strzałkami tracąc możliwość poruszania się na ukos)
 - i (otworzenie ekwipunku)
-- enter (ominięcie )
+- enter (ominięcie tury, zatwierdzenie wyboru pola)
+- d, f, e (obsługa ekwipunku)
+- , (podnoszenie przedmiotów z ziemi)
+- v (wybór zaklęć/walki dystansowej)
+- m (chat log)
 
 # Walka
 
@@ -68,7 +72,7 @@ Atakowanie poprzez celowanie na pole. Ataki bronią dystansową zużywają manę
 - Shoot (atak bronią za 2 many, wymaga założonego długiego łuku)
 - Explosive Crystal (x2 int obrażeń za 25 many. Wymaga założonego kryształu)
 - Heroism (10 siły na 5 tur za 10 many)
-- Shatter (stałe zniszczenie niszczalnej ściany za 20 many)
+- Shatter (stałe zniszczenie niszczalnej ściany za 15 many)
 
 
 
@@ -77,93 +81,24 @@ Atakowanie poprzez celowanie na pole. Ataki bronią dystansową zużywają manę
 - zasób magiczny - rzucanie zaklęć, zależny od inteligencji
 
 rozwijane statystyki przy lvl-upie:
-- siła - obrażenia wręcz i zdrowie
+- siła - obrażenia i zdrowie
 - zręczność - szansa na unik i trafienie
 - inteligencja - ilość zasobu magicznego (do zaklęć i walki dystansowej), siła zaklęć
 - szczęście - większa szansa na wygenerowanie lepszych przedmiotów podczas generowania mapy (efekt dopiero na kolejnym piętrze jeśli chodzi o generowanie mapy)
 - klątwa - dosyć unikatowy atrybut, bo w pewnym sensie osłabia bohatera. zwiększa szansę na otrzymanie obrażeń, ale za to zwiększa potencjał ofensywny bohatera (w pewnym sensie statystyka ta jest pod tzw. glass cannon buildy).
 
-Co level up wzrasta zdrowie i otrzymuje się 3 punkty statystyk do rozdysponowania pomiędzy 5 dostępnych statystyk.
+Co level up otrzymuje się 5 (7 jako Human) punktów statystyk do rozdysponowania pomiędzy 5 dostępnych statystyk.
 
 # Lokacje
-Zdecydowana większość gry dzieje się w wieżach. Każda wieża będzie różniła się designem, przeciwnikami i poziomami trudności. Na początku dostępny jest tylko pierwsza wieża. Aby wejść do trzeciej wieży trzeba zebrać 2 fragmenty z poprzednich wież. 
-W grze bohater pnie się w górę wieży. Można cofać się na poprzednie piętra, ale nie można wyjść z wieży przed jej ukończeniem. Warunkiem skończenia wieży jest pokonanie przeciwnika na jej szczycie.
+Zdecydowana większość gry dzieje się w wieżach. Każda wieża będzie różniła się designem, przeciwnikami i poziomami trudności. Na początku dostępne są tylko dwie wieże. Aby wejść do trzeciej wieży trzeba zebrać 2 klucze z poprzednich wież. 
+W grze bohater pnie się w górę wieży. Można cofać się na poprzednie piętra, ale nie można wyjść z piętra przed jego wyczyszczeniem z potworów. Warunkiem skończenia wieży jest pokonanie przeciwnika na jej szczycie. Ottrzymuje się wtedy jeden klucz do bramy do głównej wieży.
 # ekwipunek
 body armour, hełm, płaszcz, pierścienie (2), naszyjnik, buty, broń
 
 # przedmioty użytkowe (jednorazowe)
-- kamienie runiczne - nauka zaklęć. Każdy kamień runiczny może pojawić się tylko raz. Od początku wiadomo, jakiego zaklęcia uczy dany kamień runiczny.
-- mikstury - efekty pozytywne lub negatywne, można ich użyć bez identyfikacji, po napiciu się mikstury jest ona zidentyfikowana do końca aktualnego podejścia. Przykładowe efekty to uleczenie, trucizna (na pijącym), buff do obrażeń na kilkanaście tur. Ich efekt działania nie skaluje się od statystyk, zawsze działają tak samo.
-- zwoje - mechanicznie działają podobnie do mikstur. Efekty to np. identyfikacja przedmiotu, ulepszenie przedmiotu, teleportacja. Ich efekt działania nie skaluje się od statystyk, zawsze działają tak samo.
-# przeciwnicy
+- mikstury - losowe stałe efekty pozytywne lub negatywne modyfikujące główne statystyki (atrybuty + mp + hp)
+# przeciwnicy dodani do gry
 
-Przeciwnicy mają te same statystyki co gracz. Jeśli jest humanoidem, to może również używać tych samych przedmiotów, co gracz. Jeśli przeciwnik jest wyposażony w jakieś przedmioty, to ma szansę na ich upuszczenie po śmierci. Przeciwnicy mogą respawnować się na mapie, ale tylko na obszarze jeszcze niezeksplorowanym przez gracza.
-
-
-Przeciwnicy dodani na ten moment:
-
-Human with leather armor and longsword
-hp: 10
-siła: 5
-zręczność: 5
-szczęście: 5
-klątwa: 0
-broń: Longsword
-pancerz: Leather armor
-
-Human with plate armor and warhammer
-hp: 10
-siła: 5
-zręczność: 5
-szczęście: 5
-klątwa: 0
-broń: Warhammer
-pancerz: Plate armor
-
-Dog 
-hp: 5
-siła: 1
-zręczność: 2
-szczęście: 3
-klątwa: 1
-broń: Claws
-pancerz: Hide
-
-Green Jelly
-hp: 9 
-siła: 2
-zręczność: 3
-szczęście: 5
-klątwa: 1
-broń: Tentacle
-pancerz: Jelly body
-
-Blue Jelly
-hp: 18
-siła: 3
-zręczność: 5
-szczęście: 5
-klątwa: 1
-broń: Tentacle
-pancerz: Jelly body 
-
-Oni 
-hp: 60
-siła: 15
-zręczność: 3
-szczęście: 5
-klątwa: 3
-broń: Warhammer 
-pancerz: Hide
-
-Tower Master
-hp: 250
-siła: 45
-zręczność: 45
-szczęście: 15
-klątwa: 15
-broń: Warhammer
-pancerz: Hide
 
 ![img.png](img.png)
 ![img_1.png](img_1.png)

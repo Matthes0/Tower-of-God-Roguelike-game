@@ -31,6 +31,7 @@ def generate_terrain(y, x, type_of_gen, level=0):
                 for j in range(14, 17):
                     map_list[i][j] = Floor()
             map_list[15][4] = Upstairs1(0)
+            map_list[4][15] = Upstairs3(0)
             map_list[15][25] = Upstairs2(0)
             map_list[11][16] = IndestructibleWall()
             map_list[11][14] = IndestructibleWall()
@@ -54,6 +55,10 @@ def generate_terrain(y, x, type_of_gen, level=0):
             map_list[28][18] = IndestructibleWall()
             map_list[11][15] = LockedDoor()
             map_list[8][15] = LockedDoor()
+            map_list[25][12] = Shop()
+            map_list[25][18] = Shop()
+            map_list[28][15] = Shop()
+
         case "1":
             for i in range(1, y - 1):
                 for j in range(1, x - 1):
@@ -130,7 +135,7 @@ def generate_terrain(y, x, type_of_gen, level=0):
                         case 1:
                             place_actor(actors.Dog(y,x),map_list)
                         case 2:
-                            place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x),map_list)
+                            place_actor(actors.GreenJelly(y, x),map_list)
                         case 3:
                             place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x),map_list)
                     break
@@ -142,6 +147,7 @@ def generate_terrain(y, x, type_of_gen, level=0):
                         continue
                     import actors
                     place_actor(actors.TowerMaster1(y,x), map_list)
+                    break
 
         case "2":
             for i in range(1, y - 1):
@@ -199,17 +205,34 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     import actors
                     match enemy_rolled:
                         case 1:
-                            place_actor(actors.Dog(y,x),map_list)
+                            place_actor(actors.Oni(y,x),map_list)
                         case 2:
                             place_actor(actors.HumanWithPlateArmorAndWarhammer(y, x),map_list)
                         case 3:
                             place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x),map_list)
                     break
+            if level == 6:
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    if map_list[y][x].passable is False or map_list[y][x].actor is not None:
+                        continue
+                    import actors
+                    place_actor(actors.TowerMaster2(y,x), map_list)
+                    break
         case "3":
             for i in range(12, 19):
                 for j in range(12, 19):
                     map_list[i][j] = Floor()
-                    map_list[15][15] = Downstairs3(1)
+            map_list[15][15] = Downstairs3(1)
+            while True:
+                y = random.randint(12, 19)
+                x = random.randint(12, 19)
+                if map_list[y][x].passable is False or map_list[y][x].actor is not None:
+                    continue
+                import actors
+                place_actor(actors.TowerMaster3(y,x), map_list)
+                break
 
     return map_list
 
@@ -354,5 +377,11 @@ class Downstairs3(Terrain):
     def __init__(self, level):
         super().__init__("Downstairs to the Tower of God", ">", True)
         self.level = level
+class Shop(Terrain):
+    def __init__(self):
+        super().__init__("Shop", "$", False)
+        self.item_list = []
+        self.visited = False
+
 
 

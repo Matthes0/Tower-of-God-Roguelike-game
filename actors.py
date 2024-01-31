@@ -116,15 +116,12 @@ def dijkstra_pathfinding(start, end):
 
 class Actors:
     def __init__(self, y, x, char, name, max_hp, max_mp, strength, dexterity, intelligence, luck, curse, speed=1.0):
-        # attributes
         self.strength = strength
         self.intelligence = intelligence
         self.dexterity = dexterity
         self.luck = luck
         self.curse = curse
         self.speed = speed
-
-        # stats depending on attributes
         self.max_hp = max_hp
         self.current_hp = self.max_hp
         self.max_mp = max_mp
@@ -133,7 +130,6 @@ class Actors:
         self.total_hit_modifier = 0
         self.total_dodge = 0
         self.total_soak = 0
-        # others
         self.y = y
         self.x = x
         self.char = char
@@ -310,6 +306,10 @@ class Actors:
             screen.death_screen()
         else:
             main.tower_points += random.randint(1, 100)
+        if self.name == "Aspiring Master" or self.name == "Trial Master":
+            main.tower_key += 1
+        elif self.name == "Tower Master":
+            screen.win_screen()
         main.terrain_map[self.y][self.x].actor = None
         screen.update_chat(f"{self.name} is dead.")
         if self in main.turn_list:
@@ -405,7 +405,14 @@ class Player(Actors):
             else:
                 screen.update_chat("You don't have a key. Complete other towers first.")
         elif main.terrain_map[self.y + y][self.x + x].passable is False:
-            if main.terrain_map[self.y + y][self.x + x].name == "Door":
+            if main.terrain_map[self.y + y][self.x + x].name == "Shop":
+                if main.terrain_map[self.y + y][self.x + x].visited is False:
+                    import item, random
+                    for i in range(1, 11):
+                        main.terrain_map[self.y + y][self.x + x].item_list.append((item.random_item(),random.randint(50,300)))
+                    main.terrain_map[self.y + y][self.x + x].visited = True
+                screen.browse_shop(main.terrain_map[self.y + y][self.x + x])
+            elif main.terrain_map[self.y + y][self.x + x].name == "Door":
                 main.terrain_map[self.y + y][self.x + x].passable = True
                 main.terrain_map[self.y + y][self.x + x].char = 'o'
                 screen.update_chat("You opened the door.")
@@ -456,7 +463,7 @@ class HumanWithPlateArmorAndWarhammer(Hostile):
 
 class HumanWithLeatherArmorAndLongsword(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'H', 'Fast Human', 10, 10, 5, 5, 5, 5, 0, 1.0)
+        super().__init__(y, x, 'F', 'Fast Human', 10, 10, 5, 5, 5, 5, 0, 1.0)
         self.equip(item.LongSword())
         self.equip(item.LeatherArmor())
 
@@ -470,14 +477,14 @@ class Dog(Hostile):
 
 class GreenJelly(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'j', 'Green Jelly', 9, 0, 2, 2, 3, 5, 1)
+        super().__init__(y, x, 'g', 'Green Jelly', 9, 0, 2, 2, 3, 5, 1)
         self.equip(item.Tentacle())
         self.equip(item.Jelly_Body())
 
 
 class BlueJelly(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'j', 'Blue Jelly', 18, 0, 3, 5, 3, 5, 1)
+        super().__init__(y, x, 'b', 'Blue Jelly', 18, 0, 3, 5, 3, 5, 1)
         self.equip(item.Tentacle())
         self.equip(item.Jelly_Body())
 
@@ -498,13 +505,13 @@ class TowerMaster1(Hostile):
 
 class TowerMaster2(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'T', 'Trial Master', 100, 0, 25, 45, 30, 15, 15)
+        super().__init__(y, x, 'T', 'Trial Master', 75, 0, 25, 35, 30, 15, 15)
         self.equip(item.LongSword())
         self.equip(item.MailArmor())
 
 
 class TowerMaster3(Hostile):
     def __init__(self, y, x):
-        super().__init__(y, x, 'T', 'Tower Master', 150, 0, 35, 45, 30, 15, 15)
+        super().__init__(y, x, 'T', 'Tower Master', 100, 0, 35, 45, 30, 15, 15)
         self.equip(item.Warhammer())
         self.equip(item.PlateArmor())

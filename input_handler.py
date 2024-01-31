@@ -1,7 +1,5 @@
 import curses
 
-import actors
-import item
 import screen
 import terrain
 
@@ -10,31 +8,31 @@ def get_input(player):
     import main
     while True:
         key = main.win.getkey().lower()
-        if key == "key_home":
+        if key == "key_home" or key == "key_a1":
             player.move(-1, -1)
             break
-        if key == "key_up":
+        if key == "key_up" or key == "key_a2":
             player.move(-1, 0)
             break
-        if key == "key_ppage":
+        if key == "key_ppage" or key == "key_a3":
             player.move(-1, 1)
             break
-        if key == "key_left":
+        if key == "key_left" or key == "key_b1":
             player.move(0, -1)
             break
-        if key == "\n":
+        if key == "\n" or key == "key_b2":
             player.move(0, 0)
             break
-        if key == "key_right":
+        if key == "key_right" or key == "key_b3":
             player.move(0, 1)
             break
-        if key == "key_end":
+        if key == "key_end" or key == "key_c1":
             player.move(1, -1)
             break
-        if key == "key_down":
+        if key == "key_down" or key == "key_c2":
             player.move(1, 0)
             break
-        if key == "key_npage":
+        if key == "key_npage" or key == "key_c3":
             player.move(1, 1)
             break
         if key == 'i':
@@ -46,7 +44,7 @@ def get_input(player):
                 screen.update_chat(f"Clear monsters on the floor first.")
 
             else:
-                screen.update_chat(f"{player.y}, {player.x}")
+                # screen.update_chat(f"{player.y}, {player.x}")
                 if main.terrain_map[player.y][player.x].name == "Upstairs to the Tower of Beginning":
                     main.terrain_map[player.y][player.x].actor = None
                     if main.terrain_map[player.y][player.x].level >= len(main.tower_of_beginning):
@@ -109,12 +107,24 @@ def get_input(player):
                     main.current_level = main.terrain_map[player.y][player.x].level
                     main.terrain_map[player.y][player.x].actor = player
                     screen.update_chat("")
+                if main.terrain_map[player.y][player.x].name == "Upstairs to the Tower of God":
+                    main.tower_of_god.append(
+                        terrain.generate_terrain(50, 50, "3", main.terrain_map[player.y][player.x].level + 1))
+                    main.terrain_map = main.tower_of_god[main.terrain_map[player.y][player.x].level]
+                    for i in range(0, main.total_map_size_y - 1):
+                        for j in range(0, main.total_map_size_x - 1):
+                            if main.terrain_map[i][j].name == "Downstairs to the Tower of God":
+                                player.y = i
+                                player.x = j
+                                break
+                    main.current_level = main.terrain_map[player.y][player.x].level
+                    main.terrain_map[player.y][player.x].actor = player
+                    screen.update_chat("")
+                    break
 
                 break
         if key == "m":
             screen.show_all_message_log()
-        if key == "y":
-            terrain.place_item(item.RingOfDexterity(), player.y, player.x)
         if key == ',':
             if hasattr(main.terrain_map[player.y][player.x], "items") and len(main.terrain_map[player.y][player.x].items) > 0:
                 screen.show_items_on_floor(player)
@@ -144,55 +154,55 @@ def targetting(player, mode="single"):
     main.win.move(tmp_y, tmp_x)
     while True:
         key = main.win.getkey().lower()
-        if key == "key_home":
+        if key == "key_home" or key == "key_a1":
             if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width and 0 <= real_y - 1 < main.total_map_size_y and 0 <= real_x - 1 < main.total_map_size_x:
                 tmp_y -= 1
                 tmp_x -= 1
                 real_y -= 1
                 real_x -= 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_up":
+        elif key == "key_up" or key == "key_a2":
             if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x < main.map_width and 0 <= real_y - 1 < main.total_map_size_y and 0 <= real_x < main.total_map_size_x:
                 tmp_y -= 1
                 real_y -= 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_ppage":
+        elif key == "key_ppage" or key == "key_a3":
             if 0 <= tmp_y - 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width and 0 <= real_y - 1 < main.total_map_size_y and 0 <= real_x + 1 < main.total_map_size_x:
                 tmp_y -= 1
                 tmp_x += 1
                 real_y -= 1
                 real_x += 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_left":
+        elif key == "key_left" or key == "key_b1":
             if 0 <= tmp_y < main.map_height and 0 <= tmp_x - 1 < main.map_width and 0 <= real_y < main.total_map_size_y and 0 <= real_x - 1 < main.total_map_size_x:
                 tmp_x -= 1
                 real_x -= 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_right":
+        elif key == "key_right" or key == "key_b3":
             if 0 <= tmp_y < main.map_height and 0 <= tmp_x + 1 < main.map_width and 0 <= real_y < main.total_map_size_y and 0 <= real_x + 1 < main.total_map_size_x:
                 tmp_x += 1
                 real_x += 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_end":
+        elif key == "key_end" or key == "key_c1":
             if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x - 1 < main.map_width and 0 <= real_y + 1 < main.total_map_size_y and 0 <= real_x - 1 < main.total_map_size_x:
                 tmp_y += 1
                 tmp_x -= 1
                 real_y += 1
                 real_x -= 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_down":
+        elif key == "key_down" or key == "key_c2":
             if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x < main.map_width and 0 <= real_y + 1 < main.total_map_size_y and 0 <= real_x < main.total_map_size_x:
                 tmp_y += 1
                 real_y += 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == "key_npage":
+        elif key == "key_npage" or key == "key_c3":
             if 0 <= tmp_y + 1 < main.map_height and 0 <= tmp_x + 1 < main.map_width and 0 <= real_y + 1 < main.total_map_size_y and 0 <= real_x + 1 < main.total_map_size_x:
                 tmp_y += 1
                 tmp_x += 1
                 real_y += 1
                 real_x += 1
                 main.win.move(tmp_y, tmp_x)
-        elif key == '\n':
+        elif key == '\n' or key == "key_b2":
             match mode:
                 case "single":
                     if main.terrain_map[real_y][real_x].actor is not None:
@@ -208,6 +218,10 @@ def targetting(player, mode="single"):
                                 if main.terrain_map[i][j].actor is not None:
                                     actors_list.append(main.terrain_map[i][j].actor)
                     return actors_list
+                case "wall":
+                    if main.terrain_map[real_y][real_x].destructible is True:
+                        return real_y, real_x
+
 
         else:
             screen.update_chat("")
