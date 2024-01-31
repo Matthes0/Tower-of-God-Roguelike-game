@@ -6,8 +6,10 @@ class Item:
         self.type = type
         self.name = name
         self.is_worn = is_worn
+
+
 def random_item():
-    kind = random.randint(1,8)
+    kind = random.randint(1, 8)
     match kind:
         case 1:
             item_rolled = random.randint(1, 3)
@@ -32,7 +34,7 @@ def random_item():
                 case 5:
                     return Longbow()
         case 3:
-            item_rolled = random.randint(1,5)
+            item_rolled = random.randint(1, 5)
             match item_rolled:
                 case 1:
                     return RingOfStrength()
@@ -99,7 +101,6 @@ def random_item():
                     return CursePotion()
 
 
-
 class Weapon(Item):
     def __init__(self, name, damage, hit_modifier):
         super().__init__("weapon", name)
@@ -118,9 +119,11 @@ class LeatherArmor(Body):
     def __init__(self):
         super().__init__("Leather Armor", 10, 2)
 
+
 class MailArmor(Body):
     def __init__(self):
         super().__init__("Mail Armor", 0, 4)
+
 
 class PlateArmor(Body):
     def __init__(self):
@@ -139,24 +142,27 @@ class Jelly_Body(Body):
 
 class Claws(Weapon):
     def __init__(self):
-        super().__init__("Claws",  2, 75)
+        super().__init__("Claws", 2, 75)
 
 
 class Warhammer(Weapon):
     def __init__(self):
-        super().__init__("Warhammer",  12, 25)
+        super().__init__("Warhammer", 12, 25)
 
 
 class LongSword(Weapon):
     def __init__(self):
-        super().__init__("Long Sword",  6, 50)
+        super().__init__("Long Sword", 6, 50)
+
 
 class Dagger(Weapon):
     def __init__(self):
         super().__init__("Long Sword", 2, 80)
+
+
 class Tentacle(Weapon):
     def __init__(self):
-        super().__init__("Tentacle",  3, 75)
+        super().__init__("Tentacle", 3, 75)
 
 
 class Ranged(Item):
@@ -164,40 +170,61 @@ class Ranged(Item):
         super().__init__("ranged", name)
         self.damage = damage
         self.hit_modifier = hit_modifier
+
+
 class Longbow(Ranged):
     def __init__(self):
-        super().__init__("Longbow",  2, 60)
+        super().__init__("Longbow", 2, 60)
+
+
 class ExplosiveCrystal(Ranged):
     def __init__(self):
-        super().__init__("Explosive Crystal",  0,1)
+        super().__init__("Explosive Crystal", 0, 1)
+
+
 class Helmet(Item):
     def __init__(self, name, dodge, soak):
         super().__init__("head", name)
         self.dodge = dodge
         self.soak = soak
+
+
 class LeatherHelmet(Helmet):
     def __init__(self):
         super().__init__("Leather Helmet", 5, 0)
+
+
 class MailHelmet(Helmet):
     def __init__(self):
         super().__init__("Mail Helmet", 0, 1)
+
+
 class PlateHelmet(Helmet):
     def __init__(self):
         super().__init__("Plate Helmet", -7, 3)
+
+
 class Legs(Item):
     def __init__(self, name, dodge, soak):
         super().__init__("legs", name)
         self.dodge = dodge
         self.soak = soak
+
+
 class LeatherLegs(Legs):
     def __init__(self):
         super().__init__("Leather Helmet", 5, 0)
+
+
 class MailLegs(Helmet):
     def __init__(self):
         super().__init__("Mail Helmet", 0, 1)
+
+
 class PlateLegs(Helmet):
     def __init__(self):
         super().__init__("Plate Helmet", -7, 3)
+
 
 def generate_increase(type):
     import main
@@ -225,7 +252,7 @@ def generate_increase(type):
             return 2
         else:
             return 3
-    if type == "potion":
+    if type == "consumable":
         rand = random.randint(0, 100)
         rand_with_bonus = rand + main.player.luck + main.current_level * 5
         if rand == 100:
@@ -240,7 +267,6 @@ def generate_increase(type):
             return random.randint(5, 7)
         else:
             return 10
-
 
 
 class Ring(Item):
@@ -287,6 +313,7 @@ class Amulet(Item):
         self.stat = stat
         self.increase = increase
 
+
 class AmuletOfHealth(Amulet):
     def __init__(self):
         increase = generate_increase("amulet")
@@ -324,6 +351,7 @@ class CapeOfDodge(Cape):
         increase = generate_increase("amulet")
         super().__init__(f"+{increase} Cape of Dodge", "dodge", increase)
 
+
 class CapeOfProtection(Cape):
     def __init__(self):
         increase = generate_increase("amulet")
@@ -335,6 +363,7 @@ class Consumable(Item):
         super().__init__("consumable", name)
         self.stat = stat
         self.increase = increase
+
 
 class HealingPotion(Consumable):
     def __init__(self):

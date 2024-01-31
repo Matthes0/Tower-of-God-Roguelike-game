@@ -143,8 +143,9 @@ def show_item_description(item):
             return True
         elif key == "e":
             if item.type == "consumable":
-                main.player.modify_stat(item.stat, item.amount)
-                update_chat(f"That potion was of {item.stat}. It modified that stat for {item.amount}.")
+                main.player.modify_stat(item.stat, item.increase)
+                update_chat(f"That potion was of {item.stat}. It modified that stat for {item.increase}.")
+                main.player.backpack.remove(item)
             main.player.equip(item)
             return True
         elif key == "f" and item.type == "ring":
