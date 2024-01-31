@@ -99,32 +99,23 @@ def generate_terrain(y, x, type_of_gen, level=0):
                 if map_list[y][x].passable is True:
                     map_list[y][x] = Downstairs1(level)
                     break
-            while True:
-                y = random.randint(1, 50 - 2)
-                x = random.randint(1, 50 - 2)
-                if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Beginning":
-                    map_list[y][x] = Upstairs1(level)
-                    break
+            if level != 6:
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Beginning":
+                        map_list[y][x] = Upstairs1(level)
+                        break
             num_of_items = random.randint(3, 10)
             for i in range(num_of_items):
                 while True:
                     y = random.randint(1, 50 - 2)
                     x = random.randint(1, 50 - 2)
-                    item_rolled = random.randint(1, 5)
                     if map_list[y][x].passable is False or map_list[y][x].name == "Downstairs to the Tower of Beginning" or map_list[y][x].name == "Upstairs to the Tower of Beginning":
                         continue
                     import item
-                    match item_rolled:
-                        case 1:
-                            place_item(item.RingOfStrength(), y, x, map_list)
-                        case 2:
-                            place_item(item.RingOfDexterity(), y, x, map_list)
-                        case 3:
-                            place_item(item.RingOfIntelligence(), y, x, map_list)
-                        case 4:
-                            place_item(item.RingOfLuck(), y, x, map_list)
-                        case 5:
-                            place_item(item.RingOfCurse(), y, x, map_list)
+                    item_rolled = item.random_item()
+                    place_item(item_rolled, y, x, map_list)
                     break
             num_of_enemies = random.randint(3, 10)
             for i in range(num_of_enemies):
@@ -143,6 +134,15 @@ def generate_terrain(y, x, type_of_gen, level=0):
                         case 3:
                             place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x),map_list)
                     break
+            if level == 6:
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    if map_list[y][x].passable is False or map_list[y][x].actor is not None:
+                        continue
+                    import actors
+                    place_actor(actors.TowerMaster1(y,x), map_list)
+
         case "2":
             for i in range(1, y - 1):
                 for j in range(1, x - 1):
@@ -170,32 +170,23 @@ def generate_terrain(y, x, type_of_gen, level=0):
                 if map_list[y][x].passable is True:
                     map_list[y][x] = Downstairs2(level)
                     break
-            while True:
-                y = random.randint(1, 50 - 2)
-                x = random.randint(1, 50 - 2)
-                if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Trials":
-                    map_list[y][x] = Upstairs2(level)
-                    break
+            if level != 6:
+                while True:
+                    y = random.randint(1, 50 - 2)
+                    x = random.randint(1, 50 - 2)
+                    if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Trials":
+                        map_list[y][x] = Upstairs2(level)
+                        break
             num_of_items = random.randint(3, 10)
             for i in range(num_of_items):
                 while True:
                     y = random.randint(1, 50 - 2)
                     x = random.randint(1, 50 - 2)
-                    item_rolled = random.randint(1, 5)
                     if map_list[y][x].passable is False or map_list[y][x].name == "Downstairs to the Tower of Trials" or map_list[y][x].name == "Upstairs to the Tower of Trials":
                         continue
                     import item
-                    match item_rolled:
-                        case 1:
-                            place_item(item.RingOfStrength(), y, x, map_list)
-                        case 2:
-                            place_item(item.RingOfDexterity(), y, x, map_list)
-                        case 3:
-                            place_item(item.RingOfIntelligence(), y, x, map_list)
-                        case 4:
-                            place_item(item.RingOfLuck(), y, x, map_list)
-                        case 5:
-                            place_item(item.RingOfCurse(), y, x, map_list)
+                    item_rolled = item.random_item()
+                    place_item(item_rolled, y, x, map_list)
                     break
             num_of_enemies = random.randint(3, 10)
             for i in range(num_of_enemies):
@@ -214,6 +205,12 @@ def generate_terrain(y, x, type_of_gen, level=0):
                         case 3:
                             place_actor(actors.HumanWithLeatherArmorAndLongsword(y, x),map_list)
                     break
+        case "3":
+            for i in range(12, 19):
+                for j in range(12, 19):
+                    map_list[i][j] = Floor()
+                    map_list[15][15] = Downstairs3(1)
+
     return map_list
 
 
@@ -266,39 +263,6 @@ class Room:
         )
 
 
-def can_place_item(y, x):
-    import main, screen
-    if x > main.map_width or y > main.map_height:
-        screen.update_chat(f"Can't place item at {y},{x} because it is out of bounds")
-    elif len(main.terrain_map[y][x].items) < 2 and main.terrain_map[y][x].passable is True:
-        screen.update_chat(f"Can place item at {y},{x}")
-        return 1
-    elif len(main.terrain_map[y][x].items) >= 2 and main.terrain_map[y][x].passable is True:
-        screen.update_chat(f"Can't place item at {y},{x} because there are too many items")
-        return 2.
-    elif len(main.terrain_map[y][x].items) < 2 and main.terrain_map[y][x].passable is False:
-        screen.update_chat(f"Can't place item at {y},{x} because {main.terrain_map[y][x].name} is a terrain here")
-    elif len(main.terrain_map[y][x].items) >= 2 and main.terrain_map[y][x].passable is False:
-        screen.update_chat(
-            f"Can't place item at {y},{x} because there are too many items and {main.terrain_map[y][x].name} is a terrain here")
-        return 2
-    else:
-        screen.update_chat("Something went wrong during can_place_item")
-    return 0
-
-
-def print_actors_and_items():
-    import main, screen
-    for i in range(main.map_height):
-        for j in range(main.map_width):
-            if main.terrain_map[i][j].actor is not None:
-                screen.update_chat(f"{main.terrain_map[i][j].actor.name}, y:{i},x:{j}")
-            else:
-                if hasattr(main.terrain_map[i][j], "items") and len(main.terrain_map[i][j].items) > 0:
-                    for item in main.terrain_map[i][j].items:
-                        screen.update_chat(f"{item.name}, y:{i},x:{j}")
-
-
 def place_actor(actor, where = None):
     import main, screen
     if where is None:
@@ -308,26 +272,14 @@ def place_actor(actor, where = None):
         where[actor.y][actor.x].actor = actor
 
 
-def delete_actor(y, x):
-    import main, screen
-    main.terrain_map[y][x].actor = None
-    screen.update_terrain()
-
-
 def place_item(item, y, x, where=None):
     import main, screen
-    if len(main.terrain_map[y][x].items) < 2:
+    if len(main.terrain_map[y][x].items) < 52:
         if where is None:
             main.terrain_map[y][x].items.append(item)
             screen.update_terrain()
         else:
             where[y][x].items.append(item)
-
-
-def delete_item(y, x):
-    import main, screen
-    main.terrain_map[y][x].items.pop()
-    screen.update_terrain()
 
 
 class Terrain:
@@ -337,21 +289,18 @@ class Terrain:
         self.char = char
         self.passable = passable
         self.actor = actor
-        self.visible = False
-        self.see_through = True
-
+        self.destructible = False
 
 class DestructibleWall(Terrain):
 
     def __init__(self):
         super().__init__("Destructible Wall", "#", False)
-        self.see_through = False
+        self.destructible = True
 
 
 class IndestructibleWall(Terrain):
     def __init__(self):
         super().__init__("Indestructible Wall", "#", False)
-        self.see_through = False
 
 
 class Floor(Terrain):
@@ -363,14 +312,12 @@ class Door(Terrain):
     def __init__(self, open=False):
         super().__init__("Door", "D", False)
         self.open = open
-        self.see_through = False
 
 
 class LockedDoor(Terrain):
     def __init__(self, open=False):
         super().__init__("Gate to the Tower of God", "W", False)
         self.open = open
-        self.see_through = False
 
 
 class Upstairs1(Terrain):
@@ -409,10 +356,3 @@ class Downstairs3(Terrain):
         self.level = level
 
 
-class FireWall(Terrain):
-    pass
-
-
-class Mud(Terrain):
-    def __init__(self):
-        super().__init__("Mud", "~", True)

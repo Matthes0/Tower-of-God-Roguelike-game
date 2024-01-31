@@ -39,18 +39,18 @@ def get_input(player):
             break
         if key == 'i':
             screen.show_equipment(player)
-        if key == "t":
-            dotestow = actors.HumanWithLeatherArmorAndLongsword(player.y+1, player.x+1)
-            terrain.place_actor(dotestow)
         if key == 'l':
-            if len(main.turn_list) > 1:
-                screen.update_chat(f"{player.y}, {player.x}")
-                break
+            if main.terrain_map[player.y][player.x].char != "<" and main.terrain_map[player.y][player.x].char != ">":
+                screen.update_chat(f"You are not standing on stairs.")
+            elif len(main.turn_list) > 1:
+                screen.update_chat(f"Clear monsters on the floor first.")
+
             else:
                 screen.update_chat(f"{player.y}, {player.x}")
                 if main.terrain_map[player.y][player.x].name == "Upstairs to the Tower of Beginning":
                     main.terrain_map[player.y][player.x].actor = None
                     if main.terrain_map[player.y][player.x].level >= len(main.tower_of_beginning):
+                        main.gain_level = True
                         main.tower_of_beginning.append(terrain.generate_terrain(50, 50, "1", main.terrain_map[player.y][player.x].level + 1))
                     main.terrain_map = main.tower_of_beginning[main.terrain_map[player.y][player.x].level]
                     for i in range(0, main.total_map_size_y - 1):
@@ -81,6 +81,7 @@ def get_input(player):
                 if main.terrain_map[player.y][player.x].name == "Upstairs to the Tower of Trials":
                     main.terrain_map[player.y][player.x].actor = None
                     if main.terrain_map[player.y][player.x].level >= len(main.tower_of_trials):
+                        main.gain_level = True
                         main.tower_of_trials.append(terrain.generate_terrain(50, 50, "2", main.terrain_map[player.y][player.x].level + 1))
                     main.terrain_map = main.tower_of_trials[main.terrain_map[player.y][player.x].level]
                     for i in range(0, main.total_map_size_y - 1):
@@ -109,16 +110,20 @@ def get_input(player):
                     main.terrain_map[player.y][player.x].actor = player
                     screen.update_chat("")
 
-            break
+                break
         if key == "m":
             screen.show_all_message_log()
         if key == "y":
             terrain.place_item(item.RingOfDexterity(), player.y, player.x)
         if key == ',':
-            if player.pick_item():
+            if hasattr(main.terrain_map[player.y][player.x], "items") and len(main.terrain_map[player.y][player.x].items) > 0:
+                screen.show_items_on_floor(player)
                 break
+            else:
+                screen.update_chat("There are no items here.")
+
         if key == 'v':
-            if screen.show_spells(player):
+            if screen.show_spells():
                 break
 
 

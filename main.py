@@ -1,9 +1,7 @@
 import curses
 import random
-
 import input_handler
 import actors
-import item
 import screen
 import terrain
 
@@ -20,44 +18,22 @@ tower_of_god = []
 message_log = []
 current_level = 0
 all_message_log = []
-tower_key = 1
-global win, player
+tower_key = 0
+tower_points = 0
+global win, player, race, gain_level
 turn_counter = -1
 turn_list = []
 spell_list = []
 
 
 def main(stdscr):
-    global win, player, turn_counter, turn_list
-    win = curses.newwin(map_height + 2, map_width + chat_width + 1, 0, 0)
+    global win, player, turn_counter, turn_list, race, gain_level
+    win = curses.newwin(map_height + 3, map_width + chat_width + 1, 0, 0)
     win.keypad(True)
     curses.curs_set(1)
-    # character select, there will be menu
-    race = "Human"
-    match race:
-        case "Human":
-            player = actors.Player(15, 15, "@", 'Player', 500, 20, 500, 10, 10, 5, 0)
-            terrain.place_actor(player)
-            warhammer = item.Warhammer()
-            player.equip_weapon(warhammer)
-            armor = item.LeatherArmor()
-            player.equip_armor(armor)
-            import magic
-            spell1 = magic.Smite()
-            player.known_spells.append(spell1)
-            spell2 = magic.Heal()
-            player.known_spells.append(spell2)
-            spell3 = magic.Pyroblast()
-            player.known_spells.append(spell3)
-            spell4 = magic.Heroism()
-            player.known_spells.append(spell4)
-        case "Wraithraiser":
-            pass
-        case "Rashang":
-            pass
-
-    screen.update_terrain()
-
+    screen.pick_race()
+    gain_level = False
+    screen.update_chat("")
     while True:
         for current in turn_list:
             while current.current_turn >= 1.0:
@@ -65,6 +41,11 @@ def main(stdscr):
                 if current == player:
                     input_handler.get_input(player)
                     screen.update_chat("")
+                    if gain_level:
+                        if len(turn_list) == 1:
+                            screen.level_up()
+                            gain_level = False
+                            screen.update_chat("")
                 else:
                     result = actors.dijkstra_pathfinding((current.x, current.y), (player.x, player.y))
                     if len(result) < 10 and result is not None:
