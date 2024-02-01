@@ -26,11 +26,11 @@ def show_all_message_log():
             main.win.addstr(i - start_idx, 0, main.all_message_log[i])
         main.win.refresh()
         key = main.win.getkey().lower()
-        if key == "key_down" or key == "KEY_C2":
+        if key == "key_down" or key == "key_c2":
             if end_idx < len(main.all_message_log):
                 start_idx = min(len(main.all_message_log) - 10, start_idx + 1)
                 end_idx = min(len(main.all_message_log), end_idx + 1)
-        elif key == "key_up" or key == "KEY_C2":
+        elif key == "key_up" or key == "key_c2":
             if start_idx > 0:
                 start_idx = max(0, start_idx - 1)
                 end_idx = min(len(main.all_message_log), end_idx - 1)
@@ -89,7 +89,7 @@ def browse_shop(shop):
         main.win.addstr(11, 0, f"You have {main.tower_points} Tower Points left.")
         for i in range(start_idx, end_idx):
             letter = alphabet[i % 52]
-            main.win.addstr(i - start_idx, 0, f"({letter}) {shop.item_list[i][0].name} [{shop.item_list[i][1]} gold]")
+            main.win.addstr(i - start_idx, 0, f"({letter}) {shop.item_list[i][0].name} [{shop.item_list[i][1]} TP]")
         main.win.refresh()
         key = main.win.getkey()
         if key in alphabet and alphabet.index(key) < len(shop.item_list):

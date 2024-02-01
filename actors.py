@@ -198,7 +198,7 @@ class Actors:
                 return self.amulet.name
 
     def equip(self, item, ring=0):
-        if item.type == "weapon":
+        if item.type == "weapon" or item.type == "ranged":
             self.deequip("weapon")
             self.weapon = item
             self.total_damage += self.weapon.damage
@@ -249,7 +249,7 @@ class Actors:
             item.is_worn = True
 
     def deequip(self, type):
-        if type == "weapon":
+        if type == "weapon" or type == "ranged":
             if self.weapon is not None:
                 self.total_damage -= self.weapon.damage
                 self.total_hit_modifier -= self.weapon.hit_modifier

@@ -55,10 +55,12 @@ class Shoot(Spell):
     def __init__(self):
         super().__init__("Shoot", 2)
     def cast(self, caster):
-        if caster.weapon.name == "Longbow":
+        if caster.weapon is not None and caster.weapon.name == "Longbow":
             if caster.can_cast(self.cost) is True:
                 target = input_handler.targetting(caster)
-                target.melee_attack(caster,target)
+                import actors
+                if target is not None:
+                    actors.melee_attack(caster,target)
                 return True
             return False
         screen.update_chat("Equip ranged weapon first.")
@@ -70,13 +72,14 @@ class ThrowCrystal(Spell):
 
     def cast(self, caster):
         import screen
-        if caster.can_cast(self.cost) is True:
-            targets = input_handler.targetting(caster, "aoe")
-            screen.update_chat(f"You {self.name}. It deals {caster.intelligence * 2} damage to {len(targets)} targets.")
-            for target in targets:
-                target.deal_damage(caster.intelligence * 2)
-            return True
-        return False
+        if caster.weapon is not None and caster.weapon.name == "Explosive Crystal":
+            if caster.can_cast(self.cost) is True:
+                targets = input_handler.targetting(caster, "aoe")
+                screen.update_chat(f"You {self.name}. It deals {caster.intelligence * 2} damage to {len(targets)} targets.")
+                for target in targets:
+                    target.deal_damage(caster.intelligence * 2)
+                return True
+            return False
 
 
 
