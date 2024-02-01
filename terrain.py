@@ -1,10 +1,10 @@
 import random
 
 
-def generate_terrain(y, x, type_of_gen, level=0):
-    map_list = [[0] * x for i in range(0, y)]
-    for i in range(0, y):
-        for j in range(0, x):
+def generate_terrain(org_y, org_x, type_of_gen, level=0):
+    map_list = [[0] * org_x for i in range(0, org_y)]
+    for i in range(0, org_y):
+        for j in range(0, org_x):
             map_list[i][j] = IndestructibleWall()
     match type_of_gen:
         case "lobby":
@@ -60,8 +60,8 @@ def generate_terrain(y, x, type_of_gen, level=0):
             map_list[28][15] = Shop()
 
         case "1":
-            for i in range(1, y - 1):
-                for j in range(1, x - 1):
+            for i in range(1, org_y - 1):
+                for j in range(1, org_x - 1):
                     map_list[i][j] = DestructibleWall()
             min_size = 4
             max_size = 15
@@ -71,9 +71,9 @@ def generate_terrain(y, x, type_of_gen, level=0):
                 placed = 0
                 while placed == 0:
                     tmp_height = random.randint(min_size, max_size)
-                    y = random.randint(1, 50 - 2 - tmp_height)
+                    y = random.randint(1, org_y - 2 - tmp_height)
                     tmp_width = random.randint(min_size, max_size)
-                    x = random.randint(1, 50 - 2 - tmp_width)
+                    x = random.randint(1, org_x - 2 - tmp_width)
                     tmp_room = Room(y, x, tmp_height, tmp_width)
                     if any(tmp_room.intersects(other_room) for other_room in rooms):
                         continue
@@ -99,23 +99,23 @@ def generate_terrain(y, x, type_of_gen, level=0):
                         prev_x = x
                 rooms.append(tmp_room)
             while True:
-                y = random.randint(1, 50 - 2)
-                x = random.randint(1, 50 - 2)
+                y = random.randint(1, org_y - 2)
+                x = random.randint(1, org_x - 2)
                 if map_list[y][x].passable is True:
                     map_list[y][x] = Downstairs1(level)
                     break
             if level != 6:
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Beginning":
                         map_list[y][x] = Upstairs1(level)
                         break
             num_of_items = random.randint(3, 10)
             for i in range(num_of_items):
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].passable is False or map_list[y][x].name == "Downstairs to the Tower of Beginning" or map_list[y][x].name == "Upstairs to the Tower of Beginning":
                         continue
                     import item
@@ -125,8 +125,8 @@ def generate_terrain(y, x, type_of_gen, level=0):
             num_of_enemies = random.randint(3, 10)
             for i in range(num_of_enemies):
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     enemy_rolled = random.randint(1, 3)
                     if map_list[y][x].passable is False or map_list[y][x].actor is not None:
                         continue
@@ -141,8 +141,8 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     break
             if level == 6:
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].passable is False or map_list[y][x].actor is not None:
                         continue
                     import actors
@@ -150,15 +150,15 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     break
 
         case "2":
-            for i in range(1, y - 1):
-                for j in range(1, x - 1):
+            for i in range(1, org_y - 1):
+                for j in range(1, org_x - 1):
                     map_list[i][j] = DestructibleWall()
 
             map_list[25][25] = Floor()
             for mole in range(25):
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].name == "Floor":
                         start_y = y
                         start_x = x
@@ -171,23 +171,23 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     else:
                         break
             while True:
-                y = random.randint(1, 50 - 2)
-                x = random.randint(1, 50 - 2)
+                y = random.randint(1, org_y - 2)
+                x = random.randint(1, org_x - 2)
                 if map_list[y][x].passable is True:
                     map_list[y][x] = Downstairs2(level)
                     break
             if level != 6:
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].passable is True and map_list[y][x].name != "Downstairs to the Tower of Trials":
                         map_list[y][x] = Upstairs2(level)
                         break
             num_of_items = random.randint(3, 10)
             for i in range(num_of_items):
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].passable is False or map_list[y][x].name == "Downstairs to the Tower of Trials" or map_list[y][x].name == "Upstairs to the Tower of Trials":
                         continue
                     import item
@@ -197,8 +197,8 @@ def generate_terrain(y, x, type_of_gen, level=0):
             num_of_enemies = random.randint(3, 10)
             for i in range(num_of_enemies):
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     enemy_rolled = random.randint(1, 3)
                     if map_list[y][x].passable is False or map_list[y][x].actor is not None:
                         continue
@@ -213,8 +213,8 @@ def generate_terrain(y, x, type_of_gen, level=0):
                     break
             if level == 6:
                 while True:
-                    y = random.randint(1, 50 - 2)
-                    x = random.randint(1, 50 - 2)
+                    y = random.randint(1, org_y - 2)
+                    x = random.randint(1, org_x - 2)
                     if map_list[y][x].passable is False or map_list[y][x].actor is not None:
                         continue
                     import actors

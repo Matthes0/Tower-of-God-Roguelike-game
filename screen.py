@@ -30,7 +30,7 @@ def show_all_message_log():
             if end_idx < len(main.all_message_log):
                 start_idx = min(len(main.all_message_log) - 10, start_idx + 1)
                 end_idx = min(len(main.all_message_log), end_idx + 1)
-        elif key == "key_up" or key == "key_c2":
+        elif key == "key_up" or key == "key_a2":
             if start_idx > 0:
                 start_idx = max(0, start_idx - 1)
                 end_idx = min(len(main.all_message_log), end_idx - 1)
