@@ -1,5 +1,5 @@
 # Tower of God - roguelike game
-
+That is a game that I made for my university optional subject "programming roguelike games". That project was made solely by me in Python with only rough guidelines about what features my game should implement from course teacher. Below there is GDD written in polish (as it was one of the requirements of the course).
 # Ogólny zarys fabularny
 
 Gra jest oczywiście klasycznym roguelikiem. Cel gry polega na wejściu na szczyt tytułowej wieży, co pozwoli spełnić dowolne życzenie postaci gracza. Nie można zrobić jednak tego na samym początku gry, ponieważ aby do niej wejść należy zebrać klucze z 2 innych wież.
